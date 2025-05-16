@@ -9,9 +9,10 @@ interface ProjectPageProps {
   params: {
     slug: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const ProjectSlugPage = async ({ params }: ProjectPageProps) => {
+const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
     if (!params?.slug) {
         notFound();
     }

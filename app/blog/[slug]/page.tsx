@@ -9,14 +9,14 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
 
-
 interface BlogPageProps {
   params: {
     slug: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const PostSlugPage = async ({ params }: BlogPageProps) => {
+const PostSlugPage = async ({ params, searchParams }: BlogPageProps) => {
     if (!params?.slug) {
         notFound();
     }
@@ -84,14 +84,15 @@ const PostSlugPage = async ({ params }: BlogPageProps) => {
                     <div key={block.id} className="mb-6">
                         {block.__component === 'shared.rich-text' && (
                             <ReactMarkdown
-                            children={block.body}
-                            remarkPlugins={[remarkGfm]}
-                            rehypePlugins={[rehypeRaw, rehypeHighlight]}
-                          />
+                                remarkPlugins={[remarkGfm]}
+                                rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                            >
+                                {block.body}
+                            </ReactMarkdown>
                         )}
-                        </div>
-                ))}
                     </div>
+                ))}
+            </div>
             </div>
             </article>
         </div>
