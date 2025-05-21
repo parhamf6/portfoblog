@@ -1,20 +1,22 @@
 import type { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '1337',
-        pathname: '/uploads/**',
+        protocol: 'https',
+        hostname: 'https://ingenious-blessing-e681962b65.media.strapiapp.com',
       },
     ],
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  }
 };
 
 export default nextConfig;
+

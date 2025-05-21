@@ -1,21 +1,31 @@
 import { Project } from './types';
+import { STRAPI_API_URL } from '@/config/link_storage';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+const API_URL = STRAPI_API_URL;
 
 export async function getPostBySlug(slug: string): Promise<Project | null> {
   try {
-    const response = await fetch(
-      `${API_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`,
-      {
-        next: { revalidate: 60 },
-      }
-    );
+    console.log('Fetching post with slug:', slug);
+    const url = `${API_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`;
+    console.log('Fetching from URL:', url);
+    
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+    });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch project');
+      console.error('Response not OK:', response.status, response.statusText);
+      throw new Error(`Failed to fetch project: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('Received data:', JSON.stringify(data, null, 2));
+    
+    if (!data.data || data.data.length === 0) {
+      console.log('No data found for slug:', slug);
+      return null;
+    }
+    
     return data.data[0] || null;
   } catch (error) {
     console.error('Error fetching project:', error);

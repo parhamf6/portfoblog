@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { ProjectPosts } from '@/types/projects';
+import { STRAPI_MEDIA_URL } from '@/config/link_storage';
 
 // import { AnimatedBorder } from './animated-border';
 
@@ -11,7 +12,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ post }: ProjectCardProps) {
   // Construct the full image URL
   const imageUrl = post.cover?.formats?.thumbnail?.url 
-    ? `http://localhost:1337${post.cover.formats.thumbnail.url}`
+    ? `${post.cover.formats.thumbnail.url.startsWith('http') ? post.cover.formats.thumbnail.url : `${STRAPI_MEDIA_URL}${post.cover.formats.thumbnail.url}`}`
     : 'images/blog-placeholder.jpg';
 
   return (

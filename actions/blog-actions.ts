@@ -1,13 +1,16 @@
 // app/blog-posts/action/getBlogPosts.ts
 'use server'
 import { BlogPost } from "@/types/blog";
+import { STRAPI_API_URL } from '@/config/link_storage';
 
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
     try {
         console.log('Fetching blog posts...');
+        const url = `${STRAPI_API_URL}/api/Articles?populate=*`;
+        console.log('Fetching from URL:', url);
         
-        const res = await fetch("http://localhost:1337/api/Articles?populate=*", {
+        const res = await fetch(`${STRAPI_API_URL}/api/Articles?populate=*`, {
             next: { revalidate: 60 }, // optional: revalidate after 60s (ISR)
         });
     

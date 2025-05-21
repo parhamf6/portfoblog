@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getProjectBySlug } from '@/fuatures/Projects/project-page/project-actions';
 import { formatDate } from '@/lib/utils';
 import Navbar from '@/app/components/ui/global/navbar';
+import { STRAPI_API_URL } from '@/config/link_storage';
 
 
 interface ProjectPageProps {
@@ -10,6 +11,15 @@ interface ProjectPageProps {
     slug: string;
   };
   searchParams: { [key: string]: string | string[] | undefined };
+}
+
+// Helper to get correct image URL
+function getImageUrl(cover: any) {
+    if (!cover) return '/images/blog-placeholder.jpg';
+    const url = cover.url || cover.formats?.large?.url || cover.formats?.medium?.url || cover.formats?.small?.url || cover.formats?.thumbnail?.url;
+    if (!url) return '/images/blog-placeholder.jpg';
+    if (url.startsWith('http')) return url;
+    return `${STRAPI_API_URL}${url}`;
 }
 
 const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
@@ -23,15 +33,7 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
         notFound();
     }
 
-  // Use original image if available, otherwise fallback to large/medium
-    const imageUrl =
-        project.cover?.url
-        ? `http://localhost:1337${project.cover.url}`
-        : project.cover?.formats?.large?.url
-        ? `http://localhost:1337${project.cover.formats.large.url}`
-        : project.cover?.formats?.medium?.url
-        ? `http://localhost:1337${project.cover.formats.medium.url}`
-        : '/images/blog-placeholder.jpg';
+    const imageUrl = getImageUrl(project.cover);
 
     return (
         <div>
@@ -42,7 +44,7 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
                 className="relative w-full max-w-4xl mb-8 rounded-lg overflow-hidden"
                 style={{ aspectRatio: '16/9', minHeight: 200, maxHeight: 600 }}
             >
-                <Image
+                <img
                 src={imageUrl}
                 alt={project.cover.alternativeText || project.title}
                 fill
