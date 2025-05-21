@@ -44,7 +44,7 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
                 className="relative w-full max-w-4xl mb-8 rounded-lg overflow-hidden"
                 style={{ aspectRatio: '16/9', minHeight: 200, maxHeight: 600 }}
             >
-                <img
+                <Image
                 src={imageUrl}
                 alt={project.cover.alternativeText || project.title}
                 fill
@@ -56,7 +56,7 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
             </div>
 
             {/* Content Container */}
-            <div className="w-full max-w-2xl md:max-w-3xl lg:max-w-2xl xl:max-w-2xl 2xl:max-w-2xl mx-auto" style={{ width: '100%', maxWidth: '50vw' }}>
+            <div className="w-full max-w-2xl md:max-w-3xl lg:max-w-2xl xl:max-w-2xl 2xl:max-w-2xl mx-auto" >
                 {/* Project Header */}
                 <div className="mb-8">
                 <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
