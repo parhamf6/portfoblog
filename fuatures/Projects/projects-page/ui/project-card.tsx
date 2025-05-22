@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { ProjectPosts } from '@/types/projects';
 import { STRAPI_MEDIA_URL } from '@/config/link_storage';
+import Image from 'next/image';
 
 // import { AnimatedBorder } from './animated-border';
 
@@ -10,10 +11,24 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ post }: ProjectCardProps) {
+  const getImageUrl = (cover: any): string => {
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL || '';
+
+    const imageFormats = cover?.formats;
+
+    const imageUrl =
+      imageFormats?.large?.url ||
+      imageFormats?.medium?.url ||
+      imageFormats?.small?.url ||
+      cover?.url;
+
+    return imageUrl?.startsWith('http')
+      ? imageUrl
+      : `${baseUrl}${imageUrl || '/images/blog-placeholder.jpg'}`;
+  };
+
   // Construct the full image URL
-  const imageUrl = post.cover?.formats?.thumbnail?.url 
-    ? `${post.cover.formats.thumbnail.url.startsWith('http') ? post.cover.formats.thumbnail.url : `${STRAPI_MEDIA_URL}${post.cover.formats.thumbnail.url}`}`
-    : 'images/blog-placeholder.jpg';
+  const imageUrl = getImageUrl(post.cover);
 
   return (
     <motion.div
@@ -22,11 +37,14 @@ export default function ProjectCard({ post }: ProjectCardProps) {
       className="group h-full w-full rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-700 shadow-md hover:shadow-xl transition-shadow duration-300 bg-background-light dark:bg-background-dark"
     >
       <div className="relative h-48 w-full">
-        <img
-          src={imageUrl}
-          alt={post.cover?.alternativeText || post.title}
-          className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
-        />
+        <Image
+                  src={imageUrl}
+                  alt={post.cover?.alternativeText || post.title}
+                  fill
+                  className="object-cover group-hover:opacity-90 transition-opacity rounded-t-lg"
+                  sizes="(max-width: 768px) 100vw, 600px"
+                  quality={90}
+                />
       </div>
       <div className="p-5 flex flex-col h-[calc(100%-12rem)]">
         <h3 className="text-2xl font-semibold mb-2 text-foreground-light dark:text-foreground-dark">{post.title}</h3>

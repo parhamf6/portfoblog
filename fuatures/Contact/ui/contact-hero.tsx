@@ -10,9 +10,9 @@ export default function ContactSection() {
                     <h2>Get in Touch</h2>
                 </div>
                 <div className='flex gap-2 items-center justify-between'>
-                    <div className='hover:scale-110'><Linkedin /></div>
-                    <div className='hover:scale-110'><Github /></div>
-                    <div className='hover:scale-110'><Mail /></div>
+                    <a className='hover:scale-110' href='' target='_blank'><Linkedin /></a>
+                    <a className='hover:scale-110' href='https://github.com/parhamf6' target='_blank'><Github /></a>
+                    <a className='hover:scale-110' href='mailto:parhamfdev@proton.me' target='_blank'><Mail /></a>
                 </div>
             </div>
             <div>

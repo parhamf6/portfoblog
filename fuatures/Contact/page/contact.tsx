@@ -69,10 +69,10 @@ export default function ContactPage() {
                         <h3 className="text-lg font-medium mb-1">Email</h3>
                         <p className="text-muted-foreground mb-2">Feel free to email me directly</p>
                         <a 
-                            href="mailto:hello@example.com" 
+                            href="mailto:parhamfdev@proton.me" 
                             className="text-primary hover:underline"
                         >
-                            hello@example.com
+                            parhamfdev@proton.me
                         </a>
                         </div>
                     </div>
@@ -136,12 +136,12 @@ export default function ContactPage() {
                         <h3 className="text-lg font-medium mb-1">GitHub</h3>
                         <p className="text-muted-foreground mb-2">Check out my code and projects</p>
                         <a 
-                            href="https://github.com/johndoe" 
+                            href="https://github.com/parhamf6" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-primary hover:underline"
                         >
-                            github.com/johndoe
+                            github.com/parhamf6
                         </a>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ export default function HomePage() {
                     <h1 className='text-8xl'>Hello World!</h1>
                 </div>
                 <div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo eos iure nulla voluptate beatae neque, nesciunt officia quidem, fugit alias ducimus adipisci natus mollitia, rerum quos. Temporibus consequuntur dicta velit!</p>
+                    <p>Im a passionate developer who loves learning and constantly seeks out challenges and projects that push my limits. Growth through solving hard problems is what drives me.</p>
                 </div>
                 <div className='flex items-center mt-2'>
                     <Link href="/about">

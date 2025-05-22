@@ -36,7 +36,7 @@ export default function AboutPage() {
                     />
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">John Doe</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Parham Forati</h1>
                     <p className="text-xl text-muted-foreground mb-6">Full Stack Developer</p>
                     <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a 
