@@ -82,13 +82,24 @@ const PostSlugPage = async ({ params }: { params: Params }) => {
                     </div>
 
                 {/* Project Content */}
-                    <div className="prose prose-lg max-w-none">
+                    <div className="prose prose-lg leading-8 max-w-none">
                         {project.blocks.map((block) => (
                             <div key={block.id} className="mb-6">
                                 {block.__component === 'shared.rich-text' && (
                                     <ReactMarkdown
                                         remarkPlugins={[remarkGfm]}
                                         rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                                        components={{
+                                            h1: ({...props}) => <h1 className="text-4xl font-bold mt-4 mb-4" {...props} />,
+                                            h2: ({...props}) => <h2 className="text-3xl font-bold mt-4 mb-3" {...props} />,
+                                            h3: ({...props}) => <h3 className="text-2xl font-bold mt-4 mb-2" {...props} />,
+                                            ul: ({...props}) => <ul className="list-disc pl-6 mb-4" {...props} />,
+                                            ol: ({...props}) => <ol className="list-decimal pl-6 mb-4" {...props} />,
+                                            li: ({...props}) => <li className="mb-2" {...props} />,
+                                            p: ({...props}) => <p className="mb-4" {...props} />,
+                                            em: ({...props}) => <em className="italic" {...props} />,
+                                            strong: ({...props}) => <strong className="font-bold" {...props} />
+                                        }}
                                     >
                                         {block.body}
                                     </ReactMarkdown>
