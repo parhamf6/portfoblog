@@ -60,7 +60,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                 By ParhamF
               </div>
               <div>
-                {new Date(post.publishedAt).toLocaleDateString()}
+                {new Date(post.date).toLocaleDateString()}
               </div>
             </div>
         </div>

@@ -2,13 +2,13 @@
 import { ProjectPosts } from "@/types/projects";
 import { STRAPI_API_URL } from '@/config/link_storage';
 
-export async function getProjectPosts(): Promise<ProjectPosts[]> {
+export async function getProjectPosts(sortOrder: "asc" | "desc" = "desc"): Promise<ProjectPosts[]> {
     try {
         console.log('Fetching blog posts...');
         const url = `${STRAPI_API_URL}/api/projects?populate=*`;
         console.log('Fetching from URL:', url);
         
-        const res = await fetch(`${STRAPI_API_URL}/api/projects?populate=*`, {
+        const res = await fetch(`${STRAPI_API_URL}/api/projects?populate=*&sort=date:${sortOrder}`, {
             next: { revalidate: 60 }, // optional: revalidate after 60s (ISR)
         });
     
@@ -51,4 +51,3 @@ export async function getProjectPosts(): Promise<ProjectPosts[]> {
         return [];
     }
 }
-

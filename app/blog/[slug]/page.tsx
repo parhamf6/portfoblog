@@ -71,7 +71,7 @@ const PostSlugPage = async ({ params }: { params: Params }) => {
                             <span>{formatDate(project.date)}</span>
                             <span>•</span>
                             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                            {project.categories.name}
+                                {project.categories[0]?.name}
                             </span>
                         </div>
                     </div>

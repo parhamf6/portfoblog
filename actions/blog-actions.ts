@@ -4,13 +4,15 @@ import { BlogPost } from "@/types/blog";
 import { STRAPI_API_URL } from '@/config/link_storage';
 
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
+export async function getBlogPosts(sortOrder: "asc" | "desc" = "desc"): Promise<BlogPost[]> {
     try {
         console.log('Fetching blog posts...');
-        const url = `${STRAPI_API_URL}/api/Articles?populate=*`;
+        
+        // Build the URL with sort order
+        const url = `${STRAPI_API_URL}/api/Articles?populate=*&sort=date:${sortOrder}`;
         console.log('Fetching from URL:', url);
         
-        const res = await fetch(`${STRAPI_API_URL}/api/Articles?populate=*`, {
+        const res = await fetch(url, {
             next: { revalidate: 60 }, // optional: revalidate after 60s (ISR)
         });
     
@@ -20,23 +22,20 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     
         const json = await res.json();
         
-        // Log the structure of the first post if available
         if (json.data && json.data.length > 0) {
             console.log('First post structure:', JSON.stringify(json.data[0], null, 2));
         }
         
-        // Ensure we have data and it's an array
         if (!json.data || !Array.isArray(json.data)) {
             console.log('No data or invalid data format received');
             return [];
         }
 
-        // Validate each post has required fields
         const validPosts = json.data.filter((post: any) => {
-            const isValid = post && 
-                post.id && 
-                post.title && 
-                post.description && 
+            const isValid = post &&
+                post.id &&
+                post.title &&
+                post.description &&
                 post.slug;
             
             if (!isValid) {

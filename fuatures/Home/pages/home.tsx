@@ -23,7 +23,7 @@ export default function HomePage() {
                     <h1 className='text-8xl'>Hello World!</h1>
                 </div>
                 <div>
-                    <p>Im a passionate developer who loves learning and constantly seeks out challenges and projects that push my limits. Growth through solving hard problems is what drives me.</p>
+                    <p>My name is <span className='font-bold'>Parham Forati</span>, Im a passionate developer who loves learning and constantly seeks out challenges and projects that push my limits. Growth through solving hard problems is what drives me.</p>
                 </div>
                 <div className='flex items-center mt-2'>
                     <Link href="/about">

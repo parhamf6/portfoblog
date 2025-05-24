@@ -12,11 +12,12 @@ export default function ProjectPage() {
     const [posts, setPosts] = useState<ProjectPosts[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const fetchedPosts = await getProjectPosts();
+                const fetchedPosts = await getProjectPosts(sortOrder);
                 if (!fetchedPosts || fetchedPosts.length === 0) {
                     setError('No blog posts found.');
                 } else {
@@ -32,7 +33,7 @@ export default function ProjectPage() {
         };
 
         fetchPosts();
-    }, []);
+    }, [sortOrder]);
 
     if (loading) {
         return (
@@ -81,11 +82,20 @@ export default function ProjectPage() {
             </div>
             <div className='border m-4 p-2'>
                 <div className='flex items-center justify-between'>
-                    <div>
-                        <h1>All Posts</h1>
+                    <div className=' p-2 mb-4 mt-4 text-2xl'>
+                        <h1>All Posts :</h1>
                     </div>
-                    <div>
-                        Sorting
+                    <div className=" p-2 mb-4 mt-4 ">
+                        <label htmlFor="sortOrder" className="mr-2 text-sm font-medium">Sort by:</label>
+                        <select
+                            id="sortOrder"
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+                            className="border px-3 py-1 rounded text-sm"
+                        >
+                            <option value="desc">Newest</option>
+                            <option value="asc">Oldest</option>
+                        </select>
                     </div>
                 </div>
                 <div>

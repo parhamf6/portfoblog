@@ -61,7 +61,7 @@ export default function ProjectCard({ post }: ProjectCardProps) {
                 By ParhamF
               </div>
               <div>
-                {new Date(post.publishedAt).toLocaleDateString()}
+                {new Date(post.date).toLocaleDateString()}
               </div>
             </div>
         </div>
