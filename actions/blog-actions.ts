@@ -9,7 +9,7 @@ export async function getBlogPosts(sortOrder: "asc" | "desc" = "desc"): Promise<
         console.log('Fetching blog posts...');
         
         // Build the URL with sort order
-        const url = `${STRAPI_API_URL}/api/Articles?populate=*&sort=date:${sortOrder}`;
+        const url = `${STRAPI_API_URL}/api/Articles?fields[0]=id&fields[1]=title&fields[2]=slug&fields[3]=description&fields[4]=date&populate=cover&sort=date:${sortOrder}`;
         console.log('Fetching from URL:', url);
         
         const res = await fetch(url, {

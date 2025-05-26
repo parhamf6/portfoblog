@@ -5,10 +5,10 @@ import { STRAPI_API_URL } from '@/config/link_storage';
 export async function getProjectPosts(sortOrder: "asc" | "desc" = "desc"): Promise<ProjectPosts[]> {
     try {
         console.log('Fetching blog posts...');
-        const url = `${STRAPI_API_URL}/api/projects?populate=*`;
+        const url = `${STRAPI_API_URL}/api/projects?fields[0]=id&fields[1]=title&fields[2]=slug&fields[3]=description&fields[4]=date&populate=cover&sort=date:${sortOrder}`;
         console.log('Fetching from URL:', url);
         
-        const res = await fetch(`${STRAPI_API_URL}/api/projects?populate=*&sort=date:${sortOrder}`, {
+        const res = await fetch(url, {
             next: { revalidate: 60 }, // optional: revalidate after 60s (ISR)
         });
     

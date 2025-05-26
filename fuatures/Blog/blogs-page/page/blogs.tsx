@@ -7,12 +7,15 @@ import BlogCard from '../ui/blog-card';
 import { BlogPost } from '@/types/blog';
 import { motion } from 'framer-motion';
 import { getBlogPosts } from '@/actions/blog-actions';
+import SearchBar from '@/components/search-bar/SearchBar';
 
 export default function BlogPostsPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+
 
     useEffect(() => {
     const fetchPosts = async () => {
@@ -52,6 +55,8 @@ export default function BlogPostsPage() {
         );
     }
 
+
+
     return (
         <main>
             <div>
@@ -59,27 +64,8 @@ export default function BlogPostsPage() {
             </div>
             <div className='border p-2 m-4 flex flex-col gap-8'>
                 <div>
-                    <h1 className='text-center font-bold'>Put the Search Here</h1>
+                    <SearchBar />
                 </div>
-                {/* <div className='flex gap-2 flex-col '>
-                    <div>
-                        Filter by category :
-                    </div>
-                    <div className='flex'>
-                        <div className='p-2 m-2 border rounded-[16px]'>
-                            Back-End
-                        </div>
-                        <div className='p-2 m-2 border rounded-[16px]'>
-                            Front-End
-                        </div>
-                        <div className='p-2 m-2 border rounded-[16px]'>
-                            Python
-                        </div>
-                        <div className='p-2 m-2 border rounded-[16px]'>
-                            JavaScript
-                        </div>
-                    </div>
-                </div> */}
             </div>
             <div className='border m-4 p-2'>
                 <div className='flex items-center justify-between'>
@@ -94,8 +80,8 @@ export default function BlogPostsPage() {
                             onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
                             className="border px-3 py-1 rounded text-sm"
                         >
-                            <option value="desc">Newest</option>
-                            <option value="asc">Oldest</option>
+                            <option className='text-gray-600' value="desc">Newest</option>
+                            <option className='text-gray-600' value="asc">Oldest</option>
                         </select>
                     </div>
                 </div>
