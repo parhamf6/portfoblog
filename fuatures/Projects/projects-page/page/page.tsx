@@ -8,6 +8,7 @@ import { ProjectPosts } from '@/types/projects';
 import { motion } from 'framer-motion';
 import { getProjectPosts } from '@/actions/project-actions';
 import SearchBarProject from '@/components/search-bar-project/search-bar-project';
+import ProjectCategories from '@/components/categories-project/categories-projects';
 
 
 export default function ProjectPage() {
@@ -61,6 +62,14 @@ export default function ProjectPage() {
             <div className='border p-2 m-4 flex flex-col gap-8'>
                 <div>
                     <SearchBarProject />
+                </div>
+                <div className='flex  gap-4 items-center justify-between flex-wrap'>
+                    <div>
+                        <h2>Filter By Categoris : </h2>
+                    </div>
+                    <div>
+                        <ProjectCategories />
+                    </div>
                 </div>
             </div>
             <div className='border m-4 p-2'>

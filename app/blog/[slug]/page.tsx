@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
 import { STRAPI_API_URL } from '@/config/link_storage';
 import Image from 'next/image';
+import ShareButton from '@/components/share-button/share-btn';
 
 
 // Remove custom interface completely - rely on Next.js's internal types
@@ -73,6 +74,9 @@ const PostSlugPage = async ({ params }: { params: Params }) => {
                             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
                                 {project.categories[0]?.name}
                             </span>
+                        </div>
+                        <div>
+                            <ShareButton />
                         </div>
                     </div>
 

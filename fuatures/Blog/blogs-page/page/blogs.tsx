@@ -8,6 +8,7 @@ import { BlogPost } from '@/types/blog';
 import { motion } from 'framer-motion';
 import { getBlogPosts } from '@/actions/blog-actions';
 import SearchBar from '@/components/search-bar/SearchBar';
+import BlogCategories from '@/components/categories-blog/categories-blog';
 
 export default function BlogPostsPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -65,6 +66,14 @@ export default function BlogPostsPage() {
             <div className='border p-2 m-4 flex flex-col gap-8'>
                 <div>
                     <SearchBar />
+                </div>
+                <div className='flex  gap-4 items-center justify-between flex-wrap'>
+                    <div>
+                        <h2>Filter By Categoris : </h2>
+                    </div>
+                    <div>
+                        <BlogCategories />
+                    </div>
                 </div>
             </div>
             <div className='border m-4 p-2'>

@@ -9,6 +9,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
+import ShareButton from '@/components/share-button/share-btn';
 
 
 interface ProjectPageProps {
@@ -73,6 +74,9 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
                     <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
                     {project.category.name}
                     </span>
+                </div>
+                <div>
+                    <ShareButton />
                 </div>
                 </div>
 

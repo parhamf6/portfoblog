@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import Footer from "@/components/footer/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
         <body className={`${geistSans.className} bg-background-light dark:bg-background-dark text-foreground-light dark:text-foreground-dark min-h-screen transition-colors duration-300`}>
           {children}
+          <Footer />
         </body>
+
       </html>
     </ThemeProvider>
   );

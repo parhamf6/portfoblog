@@ -6,6 +6,7 @@ import ProjectSection from '../ui/project-section';
 import { TextShimmer } from '../ui/text-shimmer';
 import Link from 'next/link';
 import BlogSection from '../ui/blog-section';
+import Footer from '@/components/footer/footer';
 export default function HomePage() {
     return (
         <main>
@@ -46,6 +47,7 @@ export default function HomePage() {
                 <BlogSection></BlogSection>
             </div>
         </div>
+
         </main>
     );
 }
