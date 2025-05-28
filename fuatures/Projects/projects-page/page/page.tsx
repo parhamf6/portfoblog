@@ -63,14 +63,9 @@ export default function ProjectPage() {
                 <div>
                     <SearchBarProject />
                 </div>
-                <div className='flex  gap-4 items-center justify-between flex-wrap'>
-                    <div>
-                        <h2>Filter By Categoris : </h2>
-                    </div>
-                    <div>
-                        <ProjectCategories />
-                    </div>
-                </div>
+            </div>
+            <div className='border p-2 m-4 flex flex-col gap-8'>
+                <ProjectCategories />
             </div>
             <div className='border m-4 p-2'>
                 <div className='flex items-center justify-between'>

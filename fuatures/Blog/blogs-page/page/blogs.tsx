@@ -67,14 +67,9 @@ export default function BlogPostsPage() {
                 <div>
                     <SearchBar />
                 </div>
-                <div className='flex  gap-4 items-center justify-between flex-wrap'>
-                    <div>
-                        <h2>Filter By Categoris : </h2>
-                    </div>
-                    <div>
-                        <BlogCategories />
-                    </div>
-                </div>
+            </div>
+            <div className='border p-2 m-4 flex flex-col gap-8'>
+                <BlogCategories />
             </div>
             <div className='border m-4 p-2'>
                 <div className='flex items-center justify-between'>

@@ -144,13 +144,13 @@ export default async function CategoryPage({ searchParams }: CategoryPageProps) 
     <main>
       <Navbar />
       <div className='border p-2 m-4 flex flex-col gap-8'>
-        <div>
-          <SearchBar />
-        </div>
-        <div>
-          <BlogCategories />
-        </div>
-      </div>
+                      <div>
+                          <SearchBar />
+                      </div>
+                  </div>
+                  <div className='border p-2 m-4 flex flex-col gap-8'>
+                      <BlogCategories />
+                  </div>
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">

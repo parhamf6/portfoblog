@@ -5,7 +5,7 @@ import ProjectCard from '@/fuatures/Projects/projects-page/ui/project-card';
 import { STRAPI_API_URL } from '@/config/link_storage';
 import Navbar from '@/app/components/ui/global/navbar';
 import ProjectCategories from '@/components/categories-project/categories-projects';
-import SearchBar from '@/components/search-bar/SearchBar';
+import SearchBarProject from '@/components/search-bar-project/search-bar-project';
 import { Suspense } from 'react';
 
 const API_URL = 'https://ingenious-blessing-e681962b65.strapiapp.com'
@@ -144,13 +144,13 @@ export default async function CategoryPage({ searchParams }: CategoryPageProps) 
     <main>
       <Navbar />
       <div className='border p-2 m-4 flex flex-col gap-8'>
-        <div>
-          <SearchBar />
-        </div>
-        <div>
-          <ProjectCategories />
-        </div>
-      </div>
+                      <div>
+                          <SearchBarProject />
+                      </div>
+                  </div>
+                  <div className='border p-2 m-4 flex flex-col gap-8'>
+                      <ProjectCategories />
+                  </div>
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">
