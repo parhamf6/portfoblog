@@ -10,13 +10,13 @@ export default function Footer() {
       <div className="flex flex-col space-y-3">
         <div className="flex space-x-4">
           {[{
-            href: "https://github.com/yourusername",
+            href: "https://github.com/parhamf6",
             icon: <Github size={20} />
           }, {
             href: "https://linkedin.com/in/yourusername",
             icon: <Linkedin size={20} />
           }, {
-            href: "mailto:your@email.com",
+            href: "mailto:parhamfdev@proton.me",
             icon: <Mail size={20} />
           }].map(({ href, icon }) => (
             <a
@@ -30,7 +30,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <span className="text-xs select-text">Contact: your@email.com</span>
+        <span className="text-xs select-text">Contact: parhamfdev@proton.me</span>
       </div>
 
       {/* Section 2: Navigation */}
@@ -40,12 +40,12 @@ export default function Footer() {
           { href: "/blog", label: "Blog" },
           { href: "/projects", label: "Projects" },
           { href: "/about", label: "About" },
-          { href: "/privacy", label: "Privacy Policy" },
+          // { href: "/privacy", label: "Privacy Policy" },
         ].map(({ href, label }) => (
           <Link
             key={href}
             href={href}
-            className="hover:text-yellow-500 transition transform hover:scale-105"
+            className="hover:text-[#eab308] transition transform hover:scale-105"
           >
             {label}
           </Link>
@@ -65,7 +65,7 @@ export default function Footer() {
           </span>
           by Parham F
         </span>
-        <span>© Parham F {new Date().getFullYear()}</span>
+        <span>© Parham Forati {new Date().getFullYear()}</span>
       </div>
 
       <style jsx>{`

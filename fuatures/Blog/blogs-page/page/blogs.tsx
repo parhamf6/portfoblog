@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 // import Link from 'next/link';
-import Navbar from '@/app/components/ui/global/navbar';
 import BlogCard from '../ui/blog-card';
 import { BlogPost } from '@/types/blog';
 import { motion } from 'framer-motion';
@@ -60,9 +59,6 @@ export default function BlogPostsPage() {
 
     return (
         <main>
-            <div>
-                <Navbar></Navbar>
-            </div>
             <div className='border p-2 m-4 flex flex-col gap-8'>
                 <div>
                     <SearchBar />

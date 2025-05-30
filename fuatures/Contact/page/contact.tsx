@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '@/app/components/ui/global/navbar';
 // import { toast } from 'sonner';
 
 export default function ContactPage() {
@@ -32,9 +31,6 @@ export default function ContactPage() {
 
   return (
     <main>
-        <div>
-            <Navbar></Navbar>
-        </div>
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="max-w-4xl mx-auto">
                 <header className="mb-12 text-center border p-2">

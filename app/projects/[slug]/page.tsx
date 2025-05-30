@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getProjectBySlug } from '@/fuatures/Projects/project-page/project-actions';
 import { formatDate } from '@/lib/utils';
-import Navbar from '@/app/components/ui/global/navbar';
 import { STRAPI_API_URL } from '@/config/link_storage';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -78,7 +77,6 @@ const ProjectSlugPage = async ({ params, searchParams }: ProjectPageProps) => {
 
     return (
         <div>
-            <Navbar></Navbar>
             <article className="flex flex-col items-center w-full px-2 py-8">
             {/* Cover Image */}
             <div

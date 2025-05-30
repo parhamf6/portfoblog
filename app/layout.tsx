@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/ui/backtotop";
+import Navbar from "./components/ui/global/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
         <body className={`${geistSans.className} bg-background-light dark:bg-background-dark text-foreground-light dark:text-foreground-dark min-h-screen transition-colors duration-300`}>
+          <Navbar />
           {children}
           <ScrollToTop />
           <Footer />

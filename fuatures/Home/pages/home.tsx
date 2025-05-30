@@ -1,21 +1,16 @@
 'use client'
-import Navbar from '@/app/components/ui/global/navbar';
 import { TextScramble } from '../ui/text-scrample'; 
 import ContactSection from '@/fuatures/Contact/ui/contact-hero';
 import ProjectSection from '../ui/project-section';
 import { TextShimmer } from '../ui/text-shimmer';
 import Link from 'next/link';
 import BlogSection from '../ui/blog-section';
-import Footer from '@/components/footer/footer';
 export default function HomePage() {
     return (
         <main>
-        <div className='flex items-center justify-between'>
-            <Navbar/>
-        </div>
         <div className='flex flex-col gap-2 h-1/2'>
             <div className='border m-4 p-2 w-{50%} h-{50%}'>
-                <TextScramble className="font-mono uppercase text-2xl" duration={3}>
+                <TextScramble className="font-mono uppercase  text-2xl" duration={3}>
                     Think, Build, Deploy
                 </TextScramble>
             </div>

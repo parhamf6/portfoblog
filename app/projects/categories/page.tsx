@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 import qs from 'qs'
 import ProjectCard from '@/fuatures/Projects/projects-page/ui/project-card';
 import { STRAPI_API_URL } from '@/config/link_storage';
-import Navbar from '@/app/components/ui/global/navbar';
+
 import ProjectCategories from '@/components/categories-project/categories-projects';
 import SearchBarProject from '@/components/search-bar-project/search-bar-project';
 import { Suspense } from 'react';
@@ -61,6 +61,37 @@ async function getCategoryResults(category: string) {
     console.error('Error in getCategoryResults:', error)
     return []
   }
+}
+
+
+async function getCategory(category: string) {
+  try {
+    if (!category.trim()) {
+      console.log('Empty category, returning empty results')
+      return []
+    }
+
+    
+
+    console.log('Making API request to:', `${API_URL}/api/categories?filters[name][$containsi]=${category}`)
+    
+    const res = await fetch(`${API_URL}/api/categories?filters[name][$containsi]=${category}`, {
+      cache: 'no-store',
+    })
+    
+    if (!res.ok) {
+      console.error('API response not OK:', res.status, res.statusText)
+      throw new Error(`HTTP error! status: ${res.status}`)
+    }
+    
+    const data = await res.json()
+    console.log('API Response:', JSON.stringify(data, null, 2))
+    
+    return data.data || []
+    } catch (error) {
+      console.error('Error in getCategoryResults:', error)
+    return []
+    }
 }
 
 // Loading component for category results
@@ -139,10 +170,11 @@ export default async function CategoryPage({ searchParams }: CategoryPageProps) 
   const category = params?.c ? String(params.c) : ''
   console.log('CategoryPage received params:', params)
   console.log('Processed category:', category)
+  const categoryResult = await getCategory(category)
+  console.log('Category info:', categoryResult)
 
   return (
     <main>
-      <Navbar />
       <div className='border p-2 m-4 flex flex-col gap-8'>
                       <div>
                           <SearchBarProject />
@@ -156,6 +188,9 @@ export default async function CategoryPage({ searchParams }: CategoryPageProps) 
           <h1 className="text-3xl font-bold mb-8">
             {category ? `Category: "${category}"` : 'Browse Categories'}
           </h1>
+          <p className="text-gray-600 mb-6">
+            {category} : {categoryResult.length > 0 ? categoryResult[0].description : 'No description found'}
+          </p>
           
           {!category && (
             <div className="text-center py-16">

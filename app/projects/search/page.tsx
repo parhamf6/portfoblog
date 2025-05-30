@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import qs from 'qs'
 import ProjectCard from '@/fuatures/Projects/projects-page/ui/project-card';
 import { STRAPI_API_URL } from '@/config/link_storage';
-import Navbar from '@/app/components/ui/global/navbar';
+
 import SearchBarProject from '@/components/search-bar-project/search-bar-project';
 import { Suspense } from 'react';
 
@@ -165,7 +165,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <main>
-      <Navbar />
       <div className='border p-2 m-4 flex flex-col gap-8'>
         <div>
           <SearchBarProject />

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '@/app/components/ui/global/navbar';
 // import { toast } from 'sonner';
 
 export default function AboutPage() {
@@ -18,9 +17,6 @@ export default function AboutPage() {
 
   return (
     <div className="">
-        <div>
-            <Navbar></Navbar>
-        </div>
         <div className='p-4 m-8 mt-12'>
             <header className="mb-12 p-4">
                 <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-6">

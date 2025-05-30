@@ -31,7 +31,7 @@ const ScrollToTop = () => {
             exit={{ opacity: 0, y: 50 }}
             whileHover={{ scale: 1.1, rotate: -5 }}
             whileTap={{ scale: 0.95, rotate: 5 }}
-            className="fixed bottom-6 right-6 z-50 rounded-2xl bg-[#eab308]/70 backdrop-blur-md p-3 text-primary shadow-xl transition-colors hover:bg-primary hover:text-background dark:bg-background/80 dark:hover:bg-primary"
+            className="fixed bottom-6 right-6 z-50 rounded-2xl bg-[#eab308] backdrop-blur-md p-3 text-primary shadow-xl transition-colors hover:bg-primary hover:text-background dark:bg-background/80 dark:hover:bg-primary"
             >
             <ArrowUp className="h-5 w-5" />
             </motion.button>

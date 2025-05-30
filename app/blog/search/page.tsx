@@ -5,7 +5,6 @@ export const dynamic = 'force-dynamic'
 import qs from 'qs'
 import BlogCard from '@/fuatures/Blog/blogs-page/ui/blog-card';
 import { STRAPI_API_URL } from '@/config/link_storage';
-import Navbar from '@/app/components/ui/global/navbar';
 import SearchBar from '@/components/search-bar/SearchBar';
 import { Suspense } from 'react';
 
@@ -165,7 +164,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <main>
-      <Navbar />
       <div className='border p-2 m-4 flex flex-col gap-8'>
         <div>
           <SearchBar />

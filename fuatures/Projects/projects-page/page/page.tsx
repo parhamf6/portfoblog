@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 // import Link from 'next/link';
-import Navbar from '@/app/components/ui/global/navbar';
 import ProjectCard from '@/fuatures/Projects/projects-page/ui/project-card';
 import { ProjectPosts } from '@/types/projects';
 import { motion } from 'framer-motion';
@@ -56,9 +55,7 @@ export default function ProjectPage() {
 
     return (
         <main>
-            <div>
-                <Navbar></Navbar>
-            </div>
+
             <div className='border p-2 m-4 flex flex-col gap-8'>
                 <div>
                     <SearchBarProject />

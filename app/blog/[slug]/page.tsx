@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getPostBySlug } from '@/fuatures/Blog/blog-actions';
 import { formatDate } from '@/lib/utils';
-import Navbar from '@/app/components/ui/global/navbar';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeHighlight from 'rehype-highlight';
@@ -100,7 +99,6 @@ const PostSlugPage = async ({ params }: { params: Params }) => {
 
     return (
         <div>
-            <Navbar></Navbar>
             <article className="flex flex-col items-center w-full px-2 py-8">
             {/* Cover Image */}
                 <div
