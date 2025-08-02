@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 // import { toast } from 'sonner';
+import { TextShimmer } from '@/fuatures/Home/ui/text-shimmer';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -196,7 +197,7 @@ export default function ContactPage() {
                     <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-md font-medium transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+                    className="w-full hover:text-[#eab308] bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-2xl font-medium transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
                     >
                     {submitting ? (
                         <div className="flex items-center">
@@ -229,7 +230,7 @@ export default function ContactPage() {
                 </form>
                 </div>
 
-                <div className="bg-card rounded-lg p-8 shadow-sm border border-border">
+                <div className="bg-card p-8 shadow-sm border border-border">
                 <h2 className="text-2xl font-bold mb-4">Looking for a Developer?</h2>
                 <p className="text-muted-foreground mb-6">
                     If youre looking for a skilled developer to join your team or help with your project, 
@@ -309,21 +310,12 @@ export default function ContactPage() {
                     href="/about" 
                     className="text-primary hover:underline font-medium inline-flex items-center"
                 >
-                    Learn more about my experience
-                    <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="18" 
-                    height="18" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    className="ml-1"
-                    >
-                    <path d="m9 18 6-6-6-6"/>
-                    </svg>
+                    <TextShimmer
+                            duration={1.2}
+                            className='text-lg font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]'
+                            >
+                            Learn more about my experience
+                    </TextShimmer> 
                 </Link>
                 </div>
             </div>

@@ -1,38 +1,137 @@
+# PortfoBlog - Personal Portfolio & Blog Platform
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A modern, responsive portfolio and blog platform built with Next.js 15, TypeScript, and Tailwind CSS.
 
-## Getting Started
+## 🌟 Features
 
-First, run the development server:
+- **Dynamic Blog System** - Feature-rich blogging with markdown support
+- **Project Showcase** - Beautiful project cards with detailed project pages
+- **Dark/Light Mode** - Full theme support using next-themes
+- **Responsive Design** - Mobile-first approach with Tailwind CSS
+- **Modern Animations** - Smooth animations using Framer Motion
+- **Search Functionality** - Real-time search for both blogs and projects
+- **SEO Optimized** - Built with SEO best practices
+- **Social Sharing** - Integrated social media sharing buttons
+- **Interactive UI Components** - Custom UI components with modern design
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **State Management**: React Hooks
+- **Icons**: Lucide React
+- **Content Rendering**: React Markdown
+- **Code Highlighting**: Rehype Highlight
+
+## 📦 Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/portfoblog-front.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Create a `.env.local` file with necessary environment variables
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+## 🛠️ Development
 
 ```bash
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm run start
+
+# Run linting
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+portfoblog-front/
+├── app/               # Next.js app directory
+├── components/        # Reusable components
+├── features/         # Feature-based components
+│   ├── Blog/         # Blog related features
+│   ├── Home/         # Homepage features
+│   └── Projects/     # Project related features
+├── lib/              # Utility functions
+├── public/           # Static assets
+└── types/            # TypeScript type definitions
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Features in Detail
 
-## Learn More
+### Blog System
 
-To learn more about Next.js, take a look at the following resources:
+- Markdown support with syntax highlighting
+- Categories and tags
+- Search functionality
+- Share buttons for social media
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Project Showcase
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Project cards with images
+- Detailed project pages
+- Filterable project list
+- Interactive UI elements
 
-## Deploy on Vercel
+### Homepage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Hero section with animations
+- Featured projects
+- Latest blog posts
+- Contact section
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deployment
+
+This project is optimized for deployment on Vercel. Simply connect your GitHub repository to Vercel for automatic deployments.
+
+```bash
+# Build for production
+npm run build
+
+# Deploy to Vercel
+vercel
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+
+- **ParhamF** - [GitHub Profile](https://github.com/yourusername)
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first CSS framework
+- Framer Motion for the animation library
 

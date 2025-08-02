@@ -12,7 +12,6 @@ import { getBlogPosts } from '@/actions/blog-actions';
 export default function BlogSection() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -46,7 +45,7 @@ export default function BlogSection() {
           <div className=" mb-12">
             <h2 className="text-4xl font-bold mb-2 dark:text-foreground-dark">Blog</h2>
             <p className="text-textc-light dark:text-textc-dark text-lg">
-              Here are my top blog Posts.
+              Here are my Latest blog Posts.
             </p>
           </div>
           <div className='relative items-center mb-12 justify-center'>

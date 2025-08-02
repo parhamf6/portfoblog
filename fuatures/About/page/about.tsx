@@ -333,7 +333,7 @@ export default function AboutPage() {
                 Ive worked on numerous projects throughout my career, ranging from e-commerce platforms to data visualization tools.
                 Here are some highlights from my portfolio.
                 </p>
-                <div className="flex justify-center">
+                <div className="flex justify-center border rounded-xl">
                 <Link 
                     href="/projects" 
                     className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2.5 rounded-md font-medium transition-colors inline-flex items-center"
@@ -357,7 +357,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            <section>
+            <section className=''>
                 <h2 className="text-2xl font-bold mb-6 pb-2 border-b">Education</h2>
                 <div className="group mb-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
