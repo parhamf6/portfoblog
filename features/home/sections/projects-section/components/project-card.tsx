@@ -22,7 +22,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       whileHover={{ y: -5 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }} // Reduced from 0.5
+      transition={{ duration: 0.2 }}
+      id="project-card"
       whileHover="hover"
       variants={{
         hover: {

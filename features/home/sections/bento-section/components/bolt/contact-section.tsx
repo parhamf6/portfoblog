@@ -8,17 +8,24 @@ import { Status , StatusIndicator, StatusLabel } from "@/components/ui/kibo-ui/s
 export function ContactSection() {
   return (
     <motion.div 
-      className="group relative overflow-hidden rounded-xl border border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-border/60 hover:bg-card/80 h-full"
+      className="group relative overflow-hidden rounded-xl border border-border backdrop-blur-sm bg-card/50 hover:bg-card/60 transition-all duration-300 hover:border-border/60  h-full"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.4 }}
+      id="contact-card"
     >
       <div className="relative z-10 h-full p-6 flex flex-col">
         <div className="flex justify-between mb-4">
           <div>
-            <h3 className="text-xl font-semibold text-foreground mb-2 flex items-center gap-2">
-              <Mail className="w-5 h-5" />
-              Get in Touch
-            </h3>
+            <div className="flex items-center space-x-3 mb-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 border border-primary/20">
+              <Mail className="h-5 w-5 text-secondary" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground group-hover:text-secondary transition-colors">
+                Get in Touch
+              </h3>
+            </div>
+          </div>
             <p className="text-sm bg-gradient-to-r from-green-400 via-green-200 to-red-400 inline-block text-transparent bg-clip-text">From Tehran/Iran</p>
           </div>
           <Button variant="outline" className="flex  items-center justify-center gap-2">
