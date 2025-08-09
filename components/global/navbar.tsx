@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useTranslations , useLocale } from 'next-intl';
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },

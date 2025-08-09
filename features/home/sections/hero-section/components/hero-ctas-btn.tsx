@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 
+
 // CTA 1: Read What I'm Learning (Supabase-inspired)
 export const LearningCTA = () => {
   return (
