@@ -6,6 +6,7 @@ import { AboutCard, GitHubCard } from "./components/about-github-cards";
 import { ContactSection } from "./components/bolt/contact-section";
 import { AnimatedBeamDemo } from "../../components/bream";
 
+
 export default function BentoSection() {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">

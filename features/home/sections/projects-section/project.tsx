@@ -5,10 +5,19 @@ import { Button } from "@/components/ui/button";
 import ProjectCard from "./components/project-card";
 import { projects } from "@/lib/data/projects/projects-list";
 import Link from "next/link";
+import { slideInLeft , drawPath } from "@/components/global/framer-varients";
+import { useAnimateInView } from "@/hooks/useAnimateInView";
+import { ShineBorder } from "@/components/shine-border";
 
 export default function ProjectSection() {
+    const { ref, inView } = useAnimateInView();
     return (
-        <section className="py-16 md:py-24 px-4 md:px-8">
+        <motion.section 
+        ref={ref}
+        variants={slideInLeft}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        className="py-16 md:py-24 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
             <motion.div 
             className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
@@ -43,6 +52,6 @@ export default function ProjectSection() {
             ))}
             </div>
         </div>
-        </section>
+        </motion.section>
     );
 }

@@ -18,19 +18,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      className="group relative h-full flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all"
-      whileHover={{ y: -5 }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
+      className={`group relative h-full flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all hover:border-${project.color}`}
+      whileHover={{ y: -5 , borderColor:`${project.color}`}}
+      // initial={{ opacity: 0, y: 20 }}
+      // animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.1 }}
       id="project-card"
-      whileHover="hover"
-      variants={{
-        hover: {
-          boxShadow: `0 0 25px 5px ${project.color}`,
-          transition: { duration: 0.1 } // Added instant transition
-        },
-      }}
     >
       {/* Glow effect overlay */}
       <motion.div
@@ -76,7 +69,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       
       <div className="flex flex-col flex-1 p-6">
         <div className="mb-4">
-          <h3 className="text-xl font-bold mb-2 font-serif">{project.title}</h3>
+          <div>
+            <h3 className="text-xl font-bold mb-2 font-serif">{project.title}</h3>
+          </div>
           <p className="text-muted-foreground text-sm line-clamp-2">
             {project.description}
           </p>

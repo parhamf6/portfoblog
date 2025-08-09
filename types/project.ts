@@ -11,5 +11,6 @@ export interface Project {
     demoUrl?: string;
     githubUrl?: string;
     slug: string;
-    color: string; // Add this new property
+    color: string;
+    status:boolean;
 }

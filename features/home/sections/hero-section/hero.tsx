@@ -1,9 +1,8 @@
+"use client"
 import { IconCloudDemo } from "./components/icon-cloud-demo";
 import Introduction from "./components/introduction";
 import React from "react";
 import { Spotlight } from "@/components/spotlight";
-import { AuroraBackground } from "@/components/aurora-background";
-
 // export default function HeroSection() {
 //     return (
 //         <section className="min-h-screen flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 md:px-12 lg:px-16 py-16 md:py-0">
@@ -16,6 +15,7 @@ import { AuroraBackground } from "@/components/aurora-background";
 //         </section>
 //     );
 // }
+
 
 export default function HeroSection() {
     return (

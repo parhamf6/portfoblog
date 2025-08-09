@@ -6,15 +6,24 @@ import { BlogCard } from "./components/blog-card";
 import { BlogPosts } from "@/lib/data/blogs/blogs-list";
 import Link from "next/link";
 // import { useRouter } from "next/router";
+import { fadeInUp , slideUpBlur, slideInRight } from "@/components/global/framer-varients";
+import { useAnimateInView } from "@/hooks/useAnimateInView";
+import { ShimmerButton } from "@/components/shimmer-btn";
 
 export default function BlogSection() {
+    const { ref, inView } = useAnimateInView();
     // const router = useRouter()
     // const handleBlogClick = (slug: string) => {
     // console.log(`Navigate to: /blog/${slug}`);
     // router.push(`/blog/${slug}`)
     // };
     return (
-        <section className="py-16 md:py-24 px-4 md:px-8">
+        <motion.section 
+        ref={ref}
+        variants={slideInRight}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        className="py-16 md:py-24 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
             <motion.div 
             className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
@@ -38,17 +47,14 @@ export default function BlogSection() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {BlogPosts.map((blog, index) => (
-                <motion.div
+                <div
                 key={blog.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                 <BlogCard {...blog} layout="vertical" />
-                </motion.div>
+                </div>
             ))}
             </div>
         </div>
-        </section>
+        </motion.section>
     );
 }
