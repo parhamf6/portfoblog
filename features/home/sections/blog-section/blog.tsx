@@ -6,7 +6,7 @@ import { BlogCard } from "./components/blog-card";
 import { BlogPosts } from "@/lib/data/blogs/blogs-list";
 import Link from "next/link";
 // import { useRouter } from "next/router";
-import { fadeInUp , slideUpBlur, slideInRight } from "@/components/global/framer-varients";
+import { fadeInUp , slideUpBlur, slideInRight , simple } from "@/components/global/framer-varients";
 import { useAnimateInView } from "@/hooks/useAnimateInView";
 import { ShimmerButton } from "@/components/shimmer-btn";
 
@@ -20,7 +20,7 @@ export default function BlogSection() {
     return (
         <motion.section 
         ref={ref}
-        variants={slideInRight}
+        variants={simple}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         className="py-16 md:py-24 px-4 md:px-8">

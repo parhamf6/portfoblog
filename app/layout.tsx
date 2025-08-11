@@ -3,10 +3,8 @@ import { Geist, Geist_Mono , Chivo, Lora , Roboto_Mono , Raleway , Poppins } fro
 import "./globals.css";
 import Navbar from "@/components/global/navbar";
 import React from "react";
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
-import {setRequestLocale} from 'next-intl/server';
+import { ScrollProgress } from "@/components/scroll-oprogress";
+import Footer from "@/components/global/footer";
 
 const chivo = Chivo({
   subsets: ['latin'],
@@ -45,32 +43,6 @@ export const metadata: Metadata = {
   description: "My PortfoBlog",
 };
 
-
-// export default async function LocaleLayout({
-//   children,
-//   params
-// }: {
-//   children: React.ReactNode;
-//   params: Promise<{locale: string}>;
-// }) {
-//   // Ensure that the incoming `locale` is valid
-//   const {locale} = await params;
-//   if (!hasLocale(routing.locales, locale)) {
-//     notFound();
-//   }
-//   // setRequestLocale(locale);
- 
-//   return (
-//     <html lang={locale} dir={locale === 'fa' ? 'rtl' :'ltr'}>
-//       <body className={` ${chivo.variable} ${lora.variable} ${robotoMono.variable} antialiased`}>
-//         <Navbar />
-//         <main className="px-4 md:px-8">
-//           <NextIntlClientProvider>{children}</NextIntlClientProvider>
-//         </main>
-//       </body>
-//     </html>
-//   );
-// }
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,11 +50,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${chivo.variable} ${lora.variable} ${robotoMono.variable} antialiased`}>
+      <body className={` ${chivo.variable} ${lora.variable} ${robotoMono.variable} antialiased `}>
         <Navbar />
-        <main className="px-4 md:px-8">
+        <ScrollProgress position="top" thickness={2} />
+        <main className="">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

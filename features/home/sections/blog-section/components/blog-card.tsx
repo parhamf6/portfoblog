@@ -224,7 +224,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
 
         {/* Enhanced Read More CTA */}
         <div className="flex items-center justify-between">
-          <Link href={`/blog/${slug}`}>
+          <Link href={`/blogs/${slug}`}>
             <button
               onClick={handleReadMoreClick}
               className="read-more-btn group/btn inline-flex items-center gap-2 px-4 py-2.5 

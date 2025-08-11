@@ -18,7 +18,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      className={`group relative h-full flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all hover:border-${project.color}`}
+      className={`group relative h-full flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all
+          hover:border-${project.color}`}
       whileHover={{ y: -5 , borderColor:`${project.color}`}}
       // initial={{ opacity: 0, y: 20 }}
       // animate={{ opacity: 1, y: 0 }}
@@ -67,10 +68,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       
-      <div className="flex flex-col flex-1 p-6">
+      <div className="flex flex-col gap-4 flex-1 p-6">
         <div className="mb-4">
           <div>
-            <h3 className="text-xl font-bold mb-2 font-serif">{project.title}</h3>
+            <h3 className="text-xl font-bold mb-4 font-serif">{project.title}</h3>
           </div>
           <p className="text-muted-foreground text-sm line-clamp-2">
             {project.description}

@@ -5,7 +5,7 @@ interface BlogAuthor {
   bio?: string;
 }
 
-interface BlogMeta {
+export interface BlogMeta {
   author: BlogAuthor;
   publishedDate: string;
   readingTime?: number;
@@ -13,7 +13,7 @@ interface BlogMeta {
   category?: string;
 }
 
-interface BlogCardProps {
+export interface BlogCardProps {
   id: string;
   title: string;
   description: string;
@@ -21,6 +21,7 @@ interface BlogCardProps {
   techTags: string[];
   meta: BlogMeta;
   slug: string;
+  category:string;
   featured?: boolean;
   primaryTech?: string;
   className?: string;

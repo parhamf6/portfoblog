@@ -13,14 +13,14 @@ import {
 import { Boxes } from "lucide-react";
 
 const technologies = [
-  { name: "Python", icon: SiPython, color: '#FFD43B' },
-  { name: "TypeScript", icon: SiTypescript, color: '#3178C6' },
-  { name: "Docker", icon: SiDocker, color: '#2496ED' },
-  { name: "Django", icon: SiDjango, color: "#23bd09" },
-  { name: "FastAPI", icon: SiFastapi, color: '#009688'  },
-  { name: "Tailwind", icon: SiTailwindcss, color: '#06B6D4'},
-  { name: "React", icon: SiReact, color: '#61DBFB' },
-  { name: "Next.js", icon: SiNextdotjs, color: '#000000' },
+  { name: "Python", level:"Expert", icon: SiPython, color: '#FFD43B' },
+  { name: "TypeScript", level:"Proficient", icon: SiTypescript, color: '#3178C6' },
+  { name: "Docker", level:"Proficient", icon: SiDocker, color: '#2496ED' },
+  { name: "Django", level:"Expert", icon: SiDjango, color: "#23bd09" },
+  { name: "FastAPI", level:"Expert", icon: SiFastapi, color: '#009688'  },
+  { name: "Tailwind", level:"Expert", icon: SiTailwindcss, color: '#06B6D4'},
+  { name: "React", level:"Proficient", icon: SiReact, color: '#61DBFB' },
+  { name: "Next.js", level:"Proficient", icon: SiNextdotjs, color: '#000000' },
 ];
 
 export function TechStack() {
