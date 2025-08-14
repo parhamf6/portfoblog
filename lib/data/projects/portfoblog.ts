@@ -7,7 +7,7 @@ export const PortfoblogData: ProjectData = {
     tagline: "Solution for a personal blog and prtfolio at the same time",
     duration: "3 months",
     role: "Full-Stack Developer",
-    status: "Live",
+    status: "development",
     
     // Quick Summary for fast overview
     quickSummary: {
@@ -32,7 +32,7 @@ export const PortfoblogData: ProjectData = {
     processFlow: {
       title: "Research & Development Process",
       description: "A comprehensive approach from user research to final deployment",
-      blogPostUrl: "https://your-blog.com/project-process-deep-dive",
+      blogPostUrl: "/porfoblog-process",
       stages: [
         { name: "Discovery", duration: "2 weeks", description: "User interviews & market research" },
         { name: "Design", duration: "3 weeks", description: "Wireframes, prototypes & user testing" },

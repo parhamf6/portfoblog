@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "./components/project-card";
-import { projects } from "@/lib/data/projects/projects-list";
+import { projects as Allprojects } from "@/lib/data/projects/projects-list";
 import Link from "next/link";
 import { slideInLeft , drawPath } from "@/components/global/framer-varients";
 import { useAnimateInView } from "@/hooks/useAnimateInView";
@@ -11,6 +11,7 @@ import { ShineBorder } from "@/components/shine-border";
 
 export default function ProjectSection() {
     const { ref, inView } = useAnimateInView();
+    const projects = Allprojects.slice(-3)
     return (
         <motion.section 
         ref={ref}

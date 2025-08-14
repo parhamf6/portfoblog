@@ -1,8 +1,12 @@
 "use client"
 import React, { useState } from 'react';
 import { ExternalLink, Github, Play, Code, Users, Calendar, TrendingUp, Sparkles, ChevronRight, ArrowRight, ChevronDown, ChevronUp, Clock, Target, Zap, BookOpen, Image, ArrowLeft, ArrowRight as ArrowRightIcon, LucideIcon } from 'lucide-react';
-import { GitfatherData } from '@/lib/data/projects/gitfather-data';
+import { GitfatherData } from '@/lib/data/projects/gitfather';
 import { SummaryData ,  Metric } from '@/types/project';
+import ModernImageGallery from '@/features/project/components/image-gallery';
+import ProcessFlow from '@/features/project/components/process-flow';
+import { ProjectStatus , statusConfig } from '@/features/project/components/project-status';
+
 
 type TabId = 'summary' | 'overview' | 'process' | 'gallery' | 'technical' | 'results';
 type SummarySection = 'problem' | 'solution' | 'impact';
@@ -85,131 +89,7 @@ const ProjectShowcase: React.FC = () => {
     );
   };
 
-  const ProcessDiagram: React.FC = () => (
-    <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-2xl font-bold mb-2">{projectData.processFlow.title}</h3>
-          <p className="text-muted-foreground">{projectData.processFlow.description}</p>
-        </div>
-        <a 
-          href={projectData.processFlow.blogPostUrl}
-          className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
-        >
-          <BookOpen className="w-4 h-4" />
-          Read Full Case Study
-          <ExternalLink className="w-3 h-3" />
-        </a>
-      </div>
 
-      {/* Process Flow Visualization */}
-      <div className="relative">
-        <div className="flex items-center justify-between mb-8">
-          {projectData.processFlow.stages.map((stage, index) => (
-            <div key={index} className="flex flex-col items-center relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center border-2 border-primary/30 mb-3">
-                <span className="text-lg font-bold text-primary">{index + 1}</span>
-              </div>
-              <h4 className="font-semibold text-sm mb-1">{stage.name}</h4>
-              <p className="text-xs text-muted-foreground text-center mb-1">{stage.duration}</p>
-              <p className="text-xs text-muted-foreground/80 text-center max-w-20">{stage.description}</p>
-              
-              {index < projectData.processFlow.stages.length - 1 && (
-                <div className="absolute top-8 left-16 w-full h-0.5 bg-gradient-to-r from-primary/50 to-secondary/50" />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Placeholder for process diagram */}
-        <div className="bg-muted/10 rounded-xl p-12 border-2 border-dashed border-border/50">
-          <div className="text-center space-y-4">
-            <div className="w-24 h-24 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto">
-              <Code className="w-12 h-12 text-primary" />
-            </div>
-            <h4 className="text-lg font-semibold">Process Flow Diagram</h4>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Replace this section with your actual process diagram, architecture flowchart, 
-              or user journey visualization
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const ImageGallery: React.FC = () => {
-    const currentImage = projectData.projectImages[currentImageIndex];
-    
-    return (
-      <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-2xl font-bold mb-2">Project Gallery</h3>
-            <p className="text-muted-foreground">Screenshots and key features showcase</p>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Image className="w-4 h-4" />
-            {currentImageIndex + 1} of {projectData.projectImages.length}
-          </div>
-        </div>
-
-        {/* Main Image Display */}
-        <div className="relative mb-6 group">
-          <div className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-2">
-            <div className="bg-muted/20 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden">
-              <div className="text-center space-y-3">
-                <div className="w-20 h-20 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto">
-                  <Image className="w-10 h-10 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold">{currentImage.title}</p>
-                  <p className="text-sm text-muted-foreground">{currentImage.description}</p>
-                  <span className="inline-block mt-2 px-3 py-1 bg-secondary/20 text-secondary text-xs rounded-full">
-                    {currentImage.category}
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground/70">Replace with actual screenshot: {currentImage.url}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Arrows */}
-          <button 
-            onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-card"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <button 
-            onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-card"
-          >
-            <ArrowRightIcon className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Thumbnail Navigation */}
-        <div className="flex gap-3 justify-center">
-          {projectData.projectImages.map((image, index) => (
-            <button
-              key={image.id}
-              onClick={() => setCurrentImageIndex(index)}
-              className={`w-16 h-12 rounded-lg border-2 transition-all duration-300 ${
-                index === currentImageIndex
-                  ? 'border-primary bg-primary/20'
-                  : 'border-border/50 bg-muted/20 hover:border-primary/50'
-              }`}
-            >
-              <div className="w-full h-full rounded-md bg-muted/40 flex items-center justify-center">
-                <span className="text-xs font-mono">{index + 1}</span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   const TechBadge: React.FC<{ tech: string }> = ({ tech }) => {
     const badgeColors: Record<string, string> = {
@@ -281,6 +161,10 @@ const ProjectShowcase: React.FC = () => {
                   {projectData.duration}
                 </span>
                 <span className="text-muted-foreground">{projectData.role}</span>
+                <span className="px-3 py-1  font-medium">
+                  {/* {projectData.status} */}
+                  <ProjectStatus variant={projectData.status.toLowerCase() as keyof typeof statusConfig} />
+                </span>
               </div>
               
               <div>
@@ -313,14 +197,6 @@ const ProjectShowcase: React.FC = () => {
                 >
                   <Github className="w-4 h-4" />
                   Source Code
-                </a>
-                <a
-                  href={projectData.links.caseStudy}
-                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground px-6 py-3 rounded-lg font-medium transition-all duration-200"
-                >
-                  <Code className="w-4 h-4" />
-                  Case Study
-                  <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
             </div>
@@ -436,13 +312,19 @@ const ProjectShowcase: React.FC = () => {
 
         {activeTab === 'process' && (
           <div className="space-y-8">
-            <ProcessDiagram />
+            <ProcessFlow data={projectData.processFlow} />
           </div>
         )}
 
         {activeTab === 'gallery' && (
-          <div className="space-y-8">
-            <ImageGallery />
+          <div className="min-h-screen bg-background p-8">
+            <div className="max-w-6xl mx-auto">
+              <ModernImageGallery
+                images={projectData.projectImages}
+                title="Project Showcase"
+                subtitle="Explore the key features and interfaces of our latest project"
+              />
+            </div>
           </div>
         )}
 

@@ -5,7 +5,7 @@ export const GitfatherData: ProjectData = {
     tagline: "A brief, compelling description of what your project accomplishes",
     duration: "3 months",
     role: "Full-Stack Developer",
-    status: "Live",
+    status: "paused",
     
     // Quick Summary for fast overview
     quickSummary: {

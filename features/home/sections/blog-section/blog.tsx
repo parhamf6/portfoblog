@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { BlogCard } from "./components/blog-card";
-import { BlogPosts } from "@/lib/data/blogs/blogs-list";
+import { BlogPosts as Allposts } from "@/lib/data/blogs/blogs-list";
 import Link from "next/link";
 // import { useRouter } from "next/router";
 import { fadeInUp , slideUpBlur, slideInRight , simple } from "@/components/global/framer-varients";
@@ -17,6 +17,7 @@ export default function BlogSection() {
     // console.log(`Navigate to: /blog/${slug}`);
     // router.push(`/blog/${slug}`)
     // };
+    const BlogPosts = Allposts.slice(-4,-1)
     return (
         <motion.section 
         ref={ref}
