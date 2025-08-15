@@ -88,7 +88,7 @@ const ProcessFlow: React.FC<ProcessFlowProps> = ({ data }) => {
                   {/* Arrow */}
                   {index < data.stages.length - 1 && (
                     <motion.div
-                      className="absolute top-6 -right-4 text-primary/40"
+                      className="absolute top-4.5 -right-4 text-primary/40"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4, delay: (index * 0.2) + 0.8 }}

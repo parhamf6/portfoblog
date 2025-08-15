@@ -289,13 +289,13 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
     // Table styling
     table: ({ children }: any) => (
       <div className="overflow-x-auto mb-4">
-        <table className="min-w-full border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full border ">
           {children}
         </table>
       </div>
     ),
     thead: ({ children }: any) => (
-      <thead className="bg-gray-50 dark:bg-gray-800">{children}</thead>
+      <thead className="bg-card">{children}</thead>
     ),
     tbody: ({ children }: any) => (
       <tbody className="divide-y divide-gray-200 dark:divide-gray-700">

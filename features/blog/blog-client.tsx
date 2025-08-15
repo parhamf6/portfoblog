@@ -326,7 +326,7 @@ export default function BlogPostClient({
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-2 py-12">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Table of Contents - Desktop */}
@@ -337,7 +337,7 @@ export default function BlogPostClient({
             {/* Article Content */}
             <div className="lg:col-span-9 order-1 lg:order-2">
               <Card className="bg-card/30 backdrop-blur-sm border-border/50 overflow-hidden">
-                <CardContent className="p-8 md:p-12">
+                <CardContent className="p-3 md:p-12">
                   {/* Content */}
                   <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground/90 prose-li:text-foreground/90 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-muted prose-pre:border prose-pre:border-border/50">
                     <MarkdownRenderer content={fileContent} />
