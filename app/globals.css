@@ -15,7 +15,7 @@
   --popover-foreground: var(--card-foreground);
   --primary: oklch(0.85 0.19 100);         /* Vibrant yellow (#f8df0b) */
   --primary-foreground: oklch(0.12 0.01 270); /* Very dark for contrast */
-  --secondary: oklch(0.65 0.23 27);        /* Vibrant red-orange (#f82e0b) */
+  --secondary: oklch(65.065% 0.2302 27.077);        /* Vibrant red-orange (#f82e0b) */
   --secondary-foreground: var(--primary-foreground);
   --muted: oklch(0.25 0.01 260);           /* Muted blue-gray */
   --muted-foreground: oklch(0.65 0.01 260); /* Medium gray */
@@ -192,3 +192,190 @@
   background-size: auto;
   background-blend-mode: overlay;
 }
+
+
+
+
+.animated-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 40px;
+            border: 3px solid;
+            border-color: transparent;
+            font-size: 16px;
+            background-color: transparent;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: var(--font-sans);
+          }
+
+          /* Blog Button Styling */
+          .blog-button {
+            color: oklch(0.85 0.19 100); /* Primary yellow */
+            box-shadow: 0 0 0 2px oklch(0.85 0.19 100);
+          }
+
+          .blog-button:hover {
+            color: oklch(0.12 0.01 270); /* Dark text on hover */
+            box-shadow: 0 0 0 12px transparent;
+            border-radius: 16px;
+          }
+
+          .blog-button .circle {
+            background-color: oklch(0.85 0.19 100); /* Primary yellow */
+          }
+
+          .blog-button:active {
+            scale: 0.95;
+            box-shadow: 0 0 0 4px oklch(0.85 0.19 100);
+          }
+
+          /* Projects Button Styling */
+          .projects-button {
+            color: oklch(0.7 0.2 300); /* Purple accent */
+            box-shadow: 0 0 0 2px oklch(0.7 0.2 300);
+          }
+
+          .projects-button:hover {
+            color: oklch(0.95 0.005 260); /* Light text on hover */
+            box-shadow: 0 0 0 12px transparent;
+            border-radius: 16px;
+          }
+
+          .projects-button .circle {
+            background-color: oklch(0.7 0.2 300); /* Purple */
+          }
+
+          .projects-button:active {
+            scale: 0.95;
+            box-shadow: 0 0 0 4px oklch(0.7 0.2 300);
+          }
+
+          /* Hero Button Styling */
+          .hero-button {
+            color: oklch(0.85 0.19 100);
+            box-shadow: 0 0 0 2px oklch(0.85 0.19 100);
+            padding: 20px 48px;
+            font-size: 18px;
+          }
+
+          .hero-button:hover {
+            color: oklch(0.12 0.01 270);
+            box-shadow: 0 0 0 12px transparent;
+            border-radius: 16px;
+          }
+
+          .hero-button .circle {
+            background-color: oklch(0.85 0.19 100);
+          }
+
+          .hero-button:active {
+            scale: 0.95;
+            box-shadow: 0 0 0 4px oklch(0.85 0.19 100);
+          }
+
+          /* Common SVG and Icon Styling */
+          .animated-button svg {
+            position: absolute;
+            width: 24px;
+            z-index: 9;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+          }
+
+          .blog-button svg {
+            fill: oklch(0.85 0.19 100);
+          }
+
+          .projects-button svg {
+            fill: oklch(0.7 0.2 300);
+          }
+
+          .hero-button svg {
+            fill: oklch(0.85 0.19 100);
+          }
+
+          .blog-button:hover svg,
+          .hero-button:hover svg {
+            fill: oklch(0.12 0.01 270);
+          }
+
+          .projects-button:hover svg {
+            fill: oklch(0.95 0.005 260);
+          }
+
+          .button-icon {
+            position: relative;
+            z-index: 10;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+          }
+
+          .blog-button:hover .button-icon {
+            color: oklch(0.12 0.01 270);
+          }
+
+          .projects-button:hover .button-icon {
+            color: oklch(0.95 0.005 260);
+          }
+
+          .animated-button .arr-1 {
+            right: 16px;
+          }
+
+          .animated-button .arr-2 {
+            left: -25%;
+          }
+
+          .animated-button .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+          }
+
+          .animated-button .text {
+            position: relative;
+            z-index: 10;
+            transform: translateX(-12px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+          }
+
+          .animated-button:hover .arr-1 {
+            right: -25%;
+          }
+
+          .animated-button:hover .arr-2 {
+            left: 16px;
+          }
+
+          .animated-button:hover .text {
+            transform: translateX(12px);
+          }
+
+          .animated-button:hover .circle {
+            width: 220px;
+            height: 220px;
+            opacity: 1;
+          }
+
+          /* Responsive Design */
+          @media (max-width: 640px) {
+            .animated-button {
+              padding: 16px 32px;
+              font-size: 15px;
+            }
+            
+            .hero-button {
+              padding: 18px 40px;
+              font-size: 16px;
+            }
+          }

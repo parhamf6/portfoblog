@@ -203,12 +203,12 @@ const Footer = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <a href="/privacy" className="hover:text-primary transition-colors">
+              {/* <a href="/privacy" className="hover:text-primary transition-colors">
                 Privacy
-              </a>
-              <a href="/rss.xml" className="hover:text-primary transition-colors">
+              </a> */}
+              {/* <a href="/rss.xml" className="hover:text-primary transition-colors">
                 RSS
-              </a>
+              </a> */}
               <div className="flex items-center gap-1 text-xs">
                 <Calendar className="w-3 h-3" />
                 Last updated: Aug 2025
