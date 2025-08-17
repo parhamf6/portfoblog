@@ -126,6 +126,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         shadow-lg hover:shadow-2xl transition-all duration-500 ease-out
         hover:scale-[1.02] hover:ring-2 hover:ring-[oklch(0.85_0.19_100_/_0.3)]
         border border-[oklch(0.3_0.01_260)] hover:border-[oklch(0.85_0.19_100_/_0.5)]
+        h-[480px] w-[420px]
         ${featured ? 'ring-2 ring-[oklch(0.85_0.19_100_/_0.4)] shadow-[0_0_30px_oklch(0.85_0.19_100_/_0.2)]' : ''}
         ${isHorizontal ? 'flex gap-6 p-5' : 'flex flex-col p-6'}
         ${className}

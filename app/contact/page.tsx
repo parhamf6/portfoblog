@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Mail, MessageCircle, Github, Linkedin, Twitter, Send, Coffee, Code, Lightbulb, Users, ArrowRight, Star, Globe, CheckCircle, ExternalLink, Zap } from 'lucide-react';
-import HeroBackground from '@/components/contact-hero-background';
+import { Mail, MessageCircle, Github, Linkedin, Twitter, Send, Coffee, Code, Lightbulb, Users, ArrowRight, Star, Globe, CheckCircle, ExternalLink, Zap , Copy , Check} from 'lucide-react';
+// import HeroBackground from '@/components/contact-hero-background';
 import TextType from '@/components/text-animation/text-type';
 
 const ContactPage = () => {
@@ -112,6 +112,18 @@ const ContactPage = () => {
       setFormData({ name: '', email: '', subject: '', message: '', intent: '' });
       setSelectedIntent('');
     }, 1500);
+  };
+    const [copied, setCopied] = useState(false);
+  const email = "parhamfdev@proton.me";
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   return (
@@ -274,6 +286,25 @@ const ContactPage = () => {
                 <h2 className="text-3xl font-bold mb-4">What brings you here?</h2>
                 <p className="text-muted-foreground">Choose the option that best describes your intention</p>
               </div>
+              <div className='flex  items-center'>
+                    <div 
+                      onClick={handleCopy}
+                      className="flex items-center justify-between w-full px-3 py-2 text-sm bg-card border border-border rounded-md cursor-pointer hover:border-accent transition-colors duration-200 group"
+                    >
+                      <span className='mr-4'>click to copy the email</span>
+                      <span className="text-muted-foreground flex-1 select-none">
+                        {email}
+                      </span>
+                      
+                      <button className="ml-2 p-1 rounded hover:bg-muted transition-colors duration-1000">
+                        {copied ? (
+                          <Check className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {contactIntents.map((intent) => {
@@ -310,11 +341,12 @@ const ContactPage = () => {
                   );
                 })}
               </div>
+
             </div>
 
             {/* Contact Form */}
             <div className="sticky top-8">
-              <div id="contact-form" className="bg-card/80 backdrop-blur rounded-2xl border border-border shadow-2xl shadow-primary/5 p-8">
+              <div id="contact-form" className="bg-card/80 backdrop-blur rounded-2xl border border-border shadow-2xl shadow-primary/5 p-4 md:p-8">
                 <div className="mb-6">
                   <h3 className="text-2xl font-bold mb-2">Get in Touch</h3>
                   <p className="text-muted-foreground text-sm">Fill out the form and I'll respond within 24 hours</p>
@@ -388,9 +420,9 @@ const ContactPage = () => {
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        {/* <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" /> */}
                         {/* Send Message */}
-                        On development , use email insted
+                        On development, use email please
                       </>
                     )}
                   </button>

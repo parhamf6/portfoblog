@@ -18,7 +18,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      className={`group relative h-full flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all
+      className={`group relative h-[480px] w-[420px] flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all
           hover:border-${project.color}`}
       whileHover={{ y: -5 , borderColor:`${project.color}`}}
       // initial={{ opacity: 0, y: 20 }}

@@ -31,7 +31,7 @@ export const LearningCTA = () => {
 export const BuildingCTA = () => {
   return (
     <motion.a
-      href="/blog"
+      href="/blogs"
       className="group relative inline-flex items-center justify-center rounded-lg border border-border bg-card px-6 py-4 text-card-foreground transition-all duration-300 hover:bg-card/90 hover:shadow-lg hover:shadow-secondary/10"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}

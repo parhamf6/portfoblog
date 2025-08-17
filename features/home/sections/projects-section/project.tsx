@@ -19,7 +19,7 @@ export default function ProjectSection() {
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         className="py-16 md:py-24 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mr-16 ml-16 mx-auto">
             <motion.div 
             className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
             initial={{ opacity: 0, y: 20 }}
@@ -50,7 +50,7 @@ export default function ProjectSection() {
           </button> */}
             </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
+            <div className="flex flex-wrap items-center justify-center gap-6">
             {projects.map((project, index) => (
                 <motion.div
                 key={project.id}

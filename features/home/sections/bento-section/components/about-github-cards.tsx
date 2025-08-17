@@ -2,6 +2,7 @@
 import { motion } from "motion/react";
 import { Github, User, ArrowUpRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 export function AboutCard() {
   return (
     <motion.div
@@ -10,7 +11,7 @@ export function AboutCard() {
       transition={{ delay: 0.3 }}
       whileHover={{ scale: 1.02 }}
       id="about-card"
-      className="group relative overflow-hidden rounded-xl border border-border bg-card/50 hover:bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-border/60  cursor-pointer"
+      className="group relative overflow-hidden rounded-xl border border-border bg-card/50 hover:bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-border/60"
     >
       <div className="p-6 space-y-4">
         <div className="flex items-center justify-between">
@@ -24,9 +25,11 @@ export function AboutCard() {
               </h3>
             </div>
           </div>
-          <Button variant="outline" className="flex  items-center justify-center gap-2">
-            <p>who?</p>
-            <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <Button variant="outline"  >
+            <Link href="/about" className="flex  items-center justify-center gap-2">
+              <p>who?</p>
+              <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
           </Button>
         </div>
         
@@ -35,7 +38,7 @@ export function AboutCard() {
         </p>
         
         {/* Subtle glow effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-secondary rounded-xl" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-secondary rounded-xl pointer-events-none" />
       </div>
     </motion.div>
   );
@@ -63,9 +66,11 @@ export function GitHubCard() {
               </h3>
             </div>
           </div>
-          <Button variant="outline" className="flex  items-center justify-center gap-2">
-            <p>Follow</p>
-            <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <Button variant="outline"  >
+            <Link href="https://github.com/parhamf6" className="flex  items-center justify-center gap-2">
+              <p>Follow</p>
+              <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
           </Button>
         </div>
         
@@ -74,7 +79,7 @@ export function GitHubCard() {
         </p>
         
         {/* Subtle glow effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-secondary rounded-xl" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-secondary rounded-xl pointer-events-none" />
       </div>
     </motion.div>
   );

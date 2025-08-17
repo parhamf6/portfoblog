@@ -5,6 +5,7 @@ import { Globe } from "./globe";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Status , StatusIndicator, StatusLabel } from "@/components/ui/kibo-ui/status";
+import Link from "next/link";
 export function ContactSection() {
   return (
     <motion.div 
@@ -28,9 +29,11 @@ export function ContactSection() {
           </div>
             <p className="text-sm bg-gradient-to-r from-green-400 via-green-200 to-red-400 inline-block text-transparent bg-clip-text">From Tehran/Iran</p>
           </div>
-          <Button variant="outline" className="flex  items-center justify-center gap-2">
-            <p>Reach out</p>
-            <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <Button variant="outline">
+            <Link href="/contact"  className="flex  items-center justify-center gap-2">
+              <p>Reach out</p>
+              <ArrowUpRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
           </Button>
         </div>
         <div className="text-center">

@@ -8,8 +8,8 @@ const App = () => {
       title: "Research an Idea",
       description: "Explore concepts, validate assumptions, and gather insights to shape the project direction.",
       stats: [
-        { label: "Ideas Researched", value: 25, suffix: "+" },
-        { label: "Articles Read", value: 120 },
+        { label: "Ideas Researched", value: 10, suffix: "+" },
+        { label: "Articles Read", value: 200, suffix: "+" },
         // { label: "Hours Spent", value: 40, suffix: "+" }
       ]
     },
@@ -19,25 +19,25 @@ const App = () => {
       stats: [
         { label: "Projects Built", value: 10 },
         // { label: "Prototypes Created", value: 15 },
-        { label: "Features Implemented", value: 45 }
+        { label: "Features Implemented", value: 80, suffix: "+" }
       ]
     },
     {
       title: "Testing & Enhancing",
       description: "Gather feedback, identify improvements, and refine the product based on user insights.",
       stats: [
-        { label: "Tests Conducted", value: 85 },
+        { label: "Tests Conducted", value: 50 , suffix: "+" },
         // { label: "Iterations", value: 12 },
-        { label: "Improvements Made", value: 30 }
+        { label: "Improvements Made", value: 30 , suffix: "+" }
       ]
     },
     {
       title: "Publish the Journey",
       description: "Share the process, lessons learned, and final results with the community.",
       stats: [
-        { label: "Articles Published", value: 45 },
+        { label: "Articles Published", value: 10 },
         // { label: "Readers Reached", value: 10000, suffix: "+" },
-        { label: "Feedback Received", value: 250, suffix: "+" }
+        { label: "Feedback Received", value: 100, suffix: "+" }
       ]
     }
   ];
