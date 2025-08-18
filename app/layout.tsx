@@ -53,7 +53,7 @@ export default function RootLayout({
       <body className={` ${chivo.variable} ${lora.variable} ${robotoMono.variable} antialiased `}>
         <Navbar />
         <ScrollProgress position="top" thickness={2} />
-        <main className="">
+        <main className="mr-2 ml-2">
           {children}
         </main>
         <Footer />
