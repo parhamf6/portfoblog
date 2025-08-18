@@ -30,7 +30,7 @@ export const GitfatherData: ProjectData = {
     processFlow: {
       title: "Research & Development Process",
       description: "A comprehensive approach from user research to final deployment",
-      blogPostUrl: "https://your-blog.com/project-process-deep-dive",
+      blogPostUrl: "/blogs/gitfather-the-story-behind-it",
       stages: [
         { name: "Discovery", duration: "2 weeks", description: "User interviews & market research" },
         { name: "Design", duration: "3 weeks", description: "Wireframes, prototypes & user testing" },
@@ -46,28 +46,32 @@ export const GitfatherData: ProjectData = {
         id: 1,
         title: "Dashboard Overview",
         description: "Clean, intuitive main dashboard with key metrics",
-        url: "screenshot-dashboard.jpg",
+        // url: "screenshot-dashboard.jpg",
+        url:"/content/projects/gitfather/pictures/1.png",
         category: "Desktop"
       },
       {
         id: 2, 
         title: "Mobile Experience",
         description: "Fully responsive mobile interface",
-        url: "screenshot-mobile.jpg",
+        // url: "screenshot-mobile.jpg",
+        url:"/content/projects/gitfather/pictures/1.png",
         category: "Mobile"
       },
       {
         id: 3,
         title: "User Settings",
         description: "Comprehensive settings panel with dark mode",
-        url: "screenshot-settings.jpg", 
+        // url: "screenshot-settings.jpg", 
+        url:"/content/projects/gitfather/pictures/1.png",
         category: "Desktop"
       },
       {
         id: 4,
         title: "Analytics View",
         description: "Advanced analytics with interactive charts",
-        url: "screenshot-analytics.jpg",
+        // url: "screenshot-analytics.jpg",
+        url:"/content/projects/gitfather/pictures/1.png",
         category: "Desktop"
       }
     ],
