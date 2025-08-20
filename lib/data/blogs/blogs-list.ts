@@ -19,24 +19,7 @@ export const BlogPosts: BlogCardProps[] = [
         primaryTech: 'react'
     },
     {
-        id: '2', 
-        title: 'Gitfather: the story behind it',
-        description: 'my journy to try play and trick the system , false and useless attempt that teached me many good lessons, my first big project.',
-        // coverImage: 'https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=800&h=400&fit=crop&q=80',
-        coverImage: '/thumbnails/gitfather.png',
-        techTags: ['Tailwind', 'CSS', 'Design', 'Frontend'],
-        meta: {
-        author: { name: 'Parham Forati' },
-        publishedDate: '2025-07-28',
-        readingTime: 6,
-        views: 1592
-        },
-        slug: 'gitfather-the-story-behind-it',
-        category:"Front-end",
-        primaryTech: 'tailwind'
-    },
-    {
-        id: '3',
+        id: '2',
         title: 'Devhub: the story behind it',
         description: 'my longest project , a project with over 30k lines of code that has many tools in it and start with a simple question what if?',
         // coverImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop&q=80',
@@ -52,6 +35,24 @@ export const BlogPosts: BlogCardProps[] = [
         category:"Back-end",
         primaryTech: 'python'
     },
+    {
+        id: '3', 
+        title: 'Gitfather: the story behind it',
+        description: 'my journy to try play and trick the system , false and useless attempt that teached me many good lessons, my first big project.',
+        // coverImage: 'https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=800&h=400&fit=crop&q=80',
+        coverImage: '/thumbnails/gitfather.png',
+        techTags: ['Tailwind', 'CSS', 'Design', 'Frontend'],
+        meta: {
+        author: { name: 'Parham Forati' },
+        publishedDate: '2025-07-28',
+        readingTime: 6,
+        views: 1592
+        },
+        slug: 'gitfather-the-story-behind-it',
+        category:"Front-end",
+        primaryTech: 'tailwind'
+    },
+
     {
         id: '4',
         title: 'Retrieval-Augmented Generation: The Key to Smarter AI Responses',

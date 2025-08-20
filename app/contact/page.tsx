@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Mail, MessageCircle, Github, Linkedin, Twitter, Send, Coffee, Code, Lightbulb, Users, ArrowRight, Star, Globe, CheckCircle, ExternalLink, Zap , Copy , Check} from 'lucide-react';
 // import HeroBackground from '@/components/contact-hero-background';
 import TextType from '@/components/text-animation/text-type';
+import { AnimatePresence , motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const ContactPage = () => {
   const [selectedIntent, setSelectedIntent] = useState('');
@@ -113,7 +115,7 @@ const ContactPage = () => {
       setSelectedIntent('');
     }, 1500);
   };
-    const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false);
   const email = "parhamfdev@proton.me";
 
   const handleCopy = async () => {
@@ -122,7 +124,7 @@ const ContactPage = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
@@ -286,25 +288,46 @@ const ContactPage = () => {
                 <h2 className="text-3xl font-bold mb-4">What brings you here?</h2>
                 <p className="text-muted-foreground">Choose the option that best describes your intention</p>
               </div>
-              <div className='flex  items-center'>
-                    <div 
-                      onClick={handleCopy}
-                      className="flex items-center justify-between w-full px-3 py-2 text-sm bg-card border border-border rounded-md cursor-pointer hover:border-accent transition-colors duration-200 group"
-                    >
-                      <span className='mr-4'>click to copy the email</span>
-                      <span className="text-muted-foreground flex-1 select-none">
-                        {email}
-                      </span>
-                      
-                      <button className="ml-2 p-1 rounded hover:bg-muted transition-colors duration-1000">
-                        {copied ? (
-                          <Check className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <Copy className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
+<div className="flex items-center w-full">
+      <button
+        onClick={handleCopy}
+        className={cn(
+          "flex items-center justify-between w-full px-3 py-2 rounded-md border",
+          "bg-card border-border text-sm cursor-pointer transition-colors",
+          "hover:border-accent active:scale-[0.98] touch-manipulation"
+        )}
+      >
+        <span className="mr-3 text-left flex-1 truncate">
+          {email}
+        </span>
+
+        <div className="relative flex items-center">
+          <AnimatePresence mode="wait" initial={false}>
+            {copied ? (
+              <motion.div
+                key="check"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Check className="h-5 w-5 text-green-500" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="copy"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Copy className="h-5 w-5 text-muted-foreground group-hover:text-accent" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </button>
+    </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {contactIntents.map((intent) => {

@@ -63,7 +63,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground mt-8">
       {/* Subtle Background */}
       <div className="fixed inset-0 opacity-[0.015] pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />

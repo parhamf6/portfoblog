@@ -235,7 +235,7 @@ export default function BlogPostClient({
       {/* Header with gradient overlay */}
       <div className="relative">
         {post.coverImage && (
-          <div className="absolute inset-0 h-96 md:h-[500px]">
+          <div className="absolute inset-0 h-96 md:h-[500px] opacity-50">
             <Image
               src={post.coverImage}
               alt={post.title}
@@ -261,7 +261,7 @@ export default function BlogPostClient({
           {/* Hero Section */}
           <div className="container mx-auto px-4 pb-12">
             <div className="max-w-4xl mx-auto">
-              <Badge variant="secondary" className="mb-6 bg-secondary/20 text-secondary border-secondary/30">
+              <Badge variant="secondary" className="mb-6 border-secondary/30">
                 {post.category}
               </Badge>
 
@@ -269,7 +269,7 @@ export default function BlogPostClient({
                 {post.title}
               </h1>
 
-              <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl">
+              <p className="text-xl md:text-2xl text mb-8 leading-relaxed max-w-3xl">
                 {post.description}
               </p>
 
@@ -346,7 +346,7 @@ export default function BlogPostClient({
                   {/* Article Footer */}
                   <div className="mt-12 pt-8 border-t border-border/50">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                      <div className="flex items-center gap-4">
+                      {/* <div className="flex items-center gap-4">
                         <Button variant="outline" size="sm" className="bg-background/50">
                           <Bookmark className="h-4 w-4 mr-2" />
                           Save Article
@@ -355,7 +355,7 @@ export default function BlogPostClient({
                           <Share2 className="h-4 w-4 mr-2" />
                           Share
                         </Button>
-                      </div>
+                      </div> */}
                       <ShareButtons title={post.title} url={`/blogs/${post.slug}`} />
                     </div>
                   </div>
