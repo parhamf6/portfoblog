@@ -153,9 +153,9 @@ const ProjectShowcase: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="flex items-center gap-3 text-sm">
-                <span className="px-3 py-1 bg-primary/20 text-primary rounded-full font-medium">
+                {/* <span className="px-3 py-1 bg-primary/20 text-primary rounded-full font-medium">
                   {projectData.status}
-                </span>
+                </span> */}
                 <span className="text-muted-foreground flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   {projectData.duration}

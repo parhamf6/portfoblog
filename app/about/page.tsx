@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { 
   Code2, 
   Briefcase, 
@@ -30,14 +31,14 @@ const AboutPage = () => {
 
   const skills = {
     frontend: [
-      { name: 'React', level: 95, color: 'var(--badge-react)' },
-      { name: 'TypeScript', level: 90, color: 'var(--badge-ts)' },
-      { name: 'Next.js', level: 88, color: 'var(--badge-next)' },
-      { name: 'Tailwind', level: 92, color: 'var(--primary)' },
+      { name: 'React', level: 80, color: 'var(--badge-react)' },
+      { name: 'TypeScript', level: 95, color: 'var(--badge-ts)' },
+      { name: 'Next.js', level: 75, color: 'var(--badge-next)' },
+      { name: 'Tailwind', level: 95, color: 'var(--primary)' },
     ],
     backend: [
-      { name: 'Node.js', level: 85, color: 'var(--badge-node)' },
-      { name: 'Python', level: 80, color: 'var(--badge-python)' },
+      { name: 'Node.js', level: 80, color: 'var(--badge-node)' },
+      { name: 'Python', level: 100, color: 'var(--badge-python)' },
       { name: 'PostgreSQL', level: 75, color: 'var(--badge-go)' },
       { name: 'MongoDB', level: 70, color: 'var(--badge-vue)' },
     ]
@@ -365,7 +366,7 @@ const AboutPage = () => {
       </section>
 
       {/* CTA Section - Clean & Focused */}
-      <section className="py-20 px-6 lg:px-12 bg-card/20">
+      <section className="py-20 px-6 lg:px-12 bg-card/20  rounded-xl">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">Ready to collaborate?</h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -374,13 +375,17 @@ const AboutPage = () => {
           
           <div className="flex gap-4 justify-center">
             <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
-              <Mail className="w-4 h-4" />
-              Start a Conversation
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <Link href="/contact" className='flex items-center gap-2'>
+                <Mail className="w-4 h-4" />
+                Start a Conversation
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
             </button>
             <button className="border border-border px-8 py-4 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2">
-              <ExternalLink className="w-4 h-4" />
-              View Portfolio
+              <Link href="/projects" className='flex items-center gap-2'>
+                <ExternalLink className="w-4 h-4" />
+                View Portfolio
+              </Link>
             </button>
           </div>
         </div>

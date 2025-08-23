@@ -95,7 +95,7 @@ const ProjectShowcase: React.FC = () => {
       'TypeScript': 'bg-[oklch(0.55_0.18_240)] text-white',
       'React': 'bg-[oklch(0.65_0.18_200)] text-white',
       'Next.js': 'bg-[oklch(0.95_0_0)] text-black',
-      'Node.js': 'bg-[oklch(0.55_0.15_140)] text-white',
+      // 'Node.js': 'bg-[oklch(0.55_0.15_140)] text-white',
       'Tailwind CSS': 'bg-[oklch(0.65_0.18_200)] text-white',
       'Framer Motion': 'bg-[oklch(0.6_0.15_300)] text-white',
       'Shadcn/ui': 'bg-[oklch(0.7_0.2_100)] text-black'

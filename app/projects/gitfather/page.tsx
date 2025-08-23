@@ -93,13 +93,9 @@ const ProjectShowcase: React.FC = () => {
 
   const TechBadge: React.FC<{ tech: string }> = ({ tech }) => {
     const badgeColors: Record<string, string> = {
-      'TypeScript': 'bg-[oklch(0.55_0.18_240)] text-white',
-      'React': 'bg-[oklch(0.65_0.18_200)] text-white',
-      'Next.js': 'bg-[oklch(0.95_0_0)] text-black',
-      'Node.js': 'bg-[oklch(0.55_0.15_140)] text-white',
-      'Tailwind CSS': 'bg-[oklch(0.65_0.18_200)] text-white',
-      'Framer Motion': 'bg-[oklch(0.6_0.15_300)] text-white',
-      'Shadcn/ui': 'bg-[oklch(0.7_0.2_100)] text-black'
+      'Telegram Bot API': 'bg-[oklch(0.55_0.18_240)] text-white',
+      'pygithub': 'bg-[oklch(0.95_0_0)] text-black',
+      'Python': 'bg-[oklch(0.7_0.2_100)] text-black'
     };
 
     return (
@@ -153,9 +149,9 @@ const ProjectShowcase: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="flex items-center gap-3 text-sm">
-                <span className="px-3 py-1 bg-primary/20 text-primary rounded-full font-medium">
+                {/* <span className="px-3 py-1 bg-primary/20 text-primary rounded-full font-medium">
                   {projectData.status}
-                </span>
+                </span> */}
                 <span className="text-muted-foreground flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   {projectData.duration}
@@ -183,14 +179,14 @@ const ProjectShowcase: React.FC = () => {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <a
+                {/* <a
                   href={projectData.links.demo}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 group"
                 >
                   <Play className="w-4 h-4" />
                   Live Demo
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </a> */}
                 <a
                   href={projectData.links.github}
                   className="inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-lg font-medium hover:bg-muted/50 transition-all duration-200"
