@@ -19,7 +19,12 @@ import {
   Rocket,
   Globe
 } from 'lucide-react';
-
+import { SiPython, SiFastapi, SiPostgresql , SiMysql ,
+  SiNodedotjs , SiPhp , SiTailwindcss, SiNextdotjs , 
+  SiTypescript , SiJavascript , SiReact , SiFramer , 
+  SiFigma , SiLinux , SiGnubash , SiGit , 
+  SiGithub, SiDocker } from 'react-icons/si';
+import TechnicalSkillsSection from '@/features/about/tech-section';
 const AboutPage = () => {
   const [scrollY, setScrollY] = useState(0);
 
@@ -190,7 +195,7 @@ const AboutPage = () => {
       </section>
 
       {/* Skills Section - Minimal Grid */}
-      <section className="py-20 px-6 lg:px-12">
+      {/* <section className="py-20 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Technical Expertise</h2>
@@ -200,7 +205,6 @@ const AboutPage = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Frontend */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold flex items-center gap-2">
                 <Code2 className="w-5 h-5 text-primary" />
@@ -226,8 +230,6 @@ const AboutPage = () => {
                 ))}
               </div>
             </div>
-
-            {/* Backend */}
             <div className="space-y-6">
               <h3 className="text-xl font-semibold flex items-center gap-2">
                 <Briefcase className="w-5 h-5 text-secondary" />
@@ -255,6 +257,9 @@ const AboutPage = () => {
             </div>
           </div>
         </div>
+      </section> */}
+      <section className='py-20 px-6 lg:px-12'>
+        <TechnicalSkillsSection />
       </section>
 
       {/* Experience Section - Clean Timeline */}
@@ -374,19 +379,20 @@ const AboutPage = () => {
           </p>
           
           <div className="flex gap-4 justify-center">
-            <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
-              <Link href="/contact" className='flex items-center gap-2'>
-                <Mail className="w-4 h-4" />
+            <Link href="/contact" className='flex items-center gap-2 cursor-pointer'>
+                <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
+              <Mail className="w-4 h-4" />
                 Start a Conversation
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
             </button>
-            <button className="border border-border px-8 py-4 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2">
-              <Link href="/projects" className='flex items-center gap-2'>
+            </Link>
+            <Link href="/projects" className='flex items-center gap-2 cursor-pointer'>
+                <button className="border border-border px-8 py-4 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2">
                 <ExternalLink className="w-4 h-4" />
-                View Portfolio
-              </Link>
-            </button>
+                  View Portfolio
+              </button>
+            </Link>
+
           </div>
         </div>
       </section>
