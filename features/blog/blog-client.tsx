@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { ShareButtons } from "@/features/blog/components/share-buttons";
 import { RelatedPosts } from "@/features/blog/components/related-posts";
+import { QuoteShareProvider } from "@/components/quote-share/QuoteShareProvider";
 import {
   ArrowLeft,
   Clock,
@@ -231,7 +232,13 @@ export default function BlogPostClient({
   relatedPosts
 }: BlogPostClientProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <QuoteShareProvider
+      author={post.meta.author.name}
+      source="parhamf.com"
+      blogTitle={post.title}
+      watermark="yourblog.com"
+    >
+      <div className="min-h-screen bg-background">
       {/* Header with gradient overlay */}
       <div className="relative">
         {post.coverImage && (
@@ -385,5 +392,6 @@ export default function BlogPostClient({
       {/* Back to Top Button */}
       <BackToTop />
     </div>
+    </QuoteShareProvider>
   );
 }

@@ -379,3 +379,23 @@
               font-size: 16px;
             }
           }
+
+
+/* Better text selection styling */
+::selection {
+  background-color: rgba(248, 223, 11, 0.3); /* Your primary color with opacity */
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: rgba(248, 223, 11, 0.3);
+  color: inherit;
+}
+
+/* Ensure text is selectable in prose areas */
+.prose p, .prose blockquote, .prose li, .prose h1, .prose h2, .prose h3 {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
