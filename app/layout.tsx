@@ -5,7 +5,7 @@ import Navbar from "@/components/global/navbar";
 import React from "react";
 import { ScrollProgress } from "@/components/scroll-oprogress";
 import Footer from "@/components/global/footer";
-
+import { PageTransition } from "@/components/global/page-transition";
 const chivo = Chivo({
   subsets: ['latin'],
   variable: '--font-chivo',
