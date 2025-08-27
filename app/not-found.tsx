@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { NavigationLink } from "@/components/global/navigation-link"
+import dynamic from "next/dynamic"
 const commands = [
   { cmd: "ls", output: ["home/", "projects/", "blogs/", "about/", "contact/"] },
   {
@@ -31,6 +32,8 @@ const commands = [
   },
   { cmd: "pwd", output: ["/404/lost-in-cyberspace"] },
 ]
+
+const ClientStars = dynamic(() => import("@/components/client-stars-404"), {ssr:false})
 
 export default function NotFound() {
   const router = useRouter()
@@ -133,7 +136,7 @@ export default function NotFound() {
         />
       </div>
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
@@ -154,6 +157,9 @@ export default function NotFound() {
             }}
           />
         ))}
+      </div> */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <ClientStars />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 min-h-screen flex flex-col items-center justify-center">
