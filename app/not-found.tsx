@@ -77,18 +77,21 @@ export default function NotFound() {
     e.preventDefault()
     if (!terminalInput.trim()) return
 
+    // Convert input to lowercase for command processing
+    const inputLowerCase = terminalInput.trim().toLowerCase()
+    
     const newHistory = [...terminalHistory, { type: "input" as const, content: `$ ${terminalInput}` }]
 
-    const command = commands.find((cmd) => cmd.cmd === terminalInput.trim())
+    const command = commands.find((cmd) => cmd.cmd === inputLowerCase)
     if (command) {
       command.output.forEach((line) => {
         newHistory.push({ type: "output", content: line })
       })
-    } else if (terminalInput.trim() === "clear") {
+    } else if (inputLowerCase === "clear") {
       setTerminalHistory([])
       setTerminalInput("")
       return
-    } else if (terminalInput.trim() === "home") {
+    } else if (inputLowerCase === "home") {
       newHistory.push({ type: "output", content: "Navigating to home..." })
       setTerminalHistory(newHistory)
       setTimeout(() => {
@@ -96,8 +99,8 @@ export default function NotFound() {
       }, 500)
       setTerminalInput("")
       return
-    } else if (terminalInput.trim().startsWith("cd ")) {
-      const dir = terminalInput.trim().split(" ")[1]
+    } else if (inputLowerCase.startsWith("cd ")) {
+      const dir = inputLowerCase.split(" ")[1]
       newHistory.push({ type: "output", content: `Navigating to /${dir}...` })
       setTerminalHistory(newHistory)
       setTimeout(() => {
