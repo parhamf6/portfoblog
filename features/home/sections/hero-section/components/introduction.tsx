@@ -2,11 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { BuildingCTA, LearningCTA } from "./hero-ctas-btn";
-
-
+import { useEffect } from "react";
+import CuriousQuote from "./title-hero";
 
 
 export default function Introduction() {
+    useEffect(() => {
+        console.log("Curious? The secret awaits at the bottom of the page. or classic konami");
+    }, []);
     return (
         <motion.div 
         className="flex flex-col justify-center space-y-6 text-center md:text-left"
@@ -14,16 +17,16 @@ export default function Introduction() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         >
-        <motion.div
+        {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
         >
             <h1 id="hero-text" className="text-3xl sm:text-4xl md:text-5xl text-accent font-bold  font-serif">
-                Think It. Build It. Share It.
+                Be curious, not judgmental
             </h1>
-        </motion.div>
-        
+        </motion.div> */}
+        <CuriousQuote />
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -36,10 +39,11 @@ export default function Introduction() {
             This isn’t a finished product. It’s a <span className="text-foreground font-semibold">living thing</span>.
             </p> */}
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            My name is <span className="text-foreground font-semibold">Parham Forati</span> a <span className="text-foreground font-semibold">Full Stack Developer</span> Foces on backend. 
-            I’m a <span className="text-foreground font-semibold">self-taught</span> developer.
-            Here you’ll find working <span className="text-foreground font-semibold">code</span>, honest <span className="text-foreground font-semibold">writing</span>, all open, all evolving.
-            This isn’t a finished product. It’s a <span className="text-foreground font-semibold">living thing</span>.
+                My name is <span className="text-foreground font-semibold">Parham Forati</span>, a Full Stack <span className="text-foreground font-semibold" > Developer</span> focused on <span className="text-foreground font-semibold">backend</span>. 
+                I’m a <span className="text-foreground font-semibold">self-taught</span> developer.
+                Here you’ll find working <span className="text-foreground font-semibold">code</span>, honest <span className="text-foreground font-semibold">writing</span>, all open, all evolving.
+                This isn’t a finished product. It’s a <span className="text-foreground font-semibold">living thing</span>.
+                <span className="text-muted-foreground/50"> For the curious, there's more to discover at the buttom of this page.</span>
             </p>
         </motion.div>
         
