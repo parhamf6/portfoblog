@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
+import { useRouter } from 'next/navigation'; // Added for navigation
 
 // ====================================================================
 // CONFIGURATION & DATA SECTION
@@ -10,9 +11,10 @@ import { Card } from '@/components/ui/card';
 const portfolioData = {
   personal: {
     name: "Parham Forati",
-    title: "Full-Stack Developer & Digital Creator",
+    title: "Full-Stack Developer",
     location: "Tehran ,Iran",
     email: "parhamfdev@proton.me",
+    phone: "no mate use email",
     website: "https://portfoblog-front-private.vercel.app/",
     tagline: "Building the future, one line of code at a time",
     story: [
@@ -28,10 +30,9 @@ const portfolioData = {
     home: { path: "/", description: "Welcome page and introduction" },
     about: { path: "/about", description: "Learn more about me" },
     projects: { path: "/projects", description: "My work and creations" },
-    blog: { path: "/blogs", description: "Thoughts and tutorials" },
+    blogs: { path: "/blogs", description: "Thoughts and tutorials" },
     contact: { path: "/contact", description: "Get in touch" },
   },
-
   skills: [
     { name: "TypeScript", level: 95, color: "bg-[oklch(0.55_0.18_240)]", category: "Languages" },
     { name: "React/Next.js", level: 90, color: "bg-[oklch(0.65_0.18_200)]", category: "Frontend" },
@@ -42,42 +43,32 @@ const portfolioData = {
     { name: "PHP", level: 75, color: "bg-[oklch(0.7_0.2_30)]", category: "Languages" },
     { name: "Tailwind CSS", level: 90, color: "bg-[oklch(0.65_0.18_200)]", category: "Frontend" }
   ],
-
   experience: [
     {
       role: "Full-Stack Developer",
       company: "Freelance",
-      period: "2022 - Present",
+      period: "2022 - Present", // Added duration field
       description: "Leading development of scalable web applications serving 100k+ users.",
       achievements: ["40% performance improvement",]
     },
   ],
-
   projects: [
     { 
-      name: "E-commerce Platform", 
-      tech: "React, Node.js, PostgreSQL", 
+      name: "Portfoblog", 
+      tech: "React, Next.js, TypeScript", // Fixed typo in Next.js
       status: "Live",
-      description: "Full-featured online marketplace with payment integration",
-      link: "https://github.com/yourusername/ecommerce"
+      description: "Portfolio Blog for developers(your in it right now)",
+      link: "https://github.com/parhamf6/portfoblog"
     },
     { 
-      name: "Analytics Dashboard", 
-      tech: "Next.js, TypeScript, D3.js", 
-      status: "In Progress",
-      description: "Real-time data visualization and business intelligence tool",
-      link: "https://github.com/yourusername/dashboard"
+      name: "Developers Tools Dashboard", // Fixed typo in name
+      tech: "Next.js, TypeScript, React", 
+      status: "In Progress/Live",
+      description: "collection of useful daily tools for developers",
+      link: "https://devhub-taupe.vercel.app/"
     },
-    { 
-      name: "Task Management App", 
-      tech: "React Native, Firebase", 
-      status: "Planning",
-      description: "Cross-platform productivity app with team collaboration",
-      link: "https://github.com/yourusername/taskapp"
-    }
   ]
 };
-
 // Fun content arrays - add more jokes, quotes, facts
 const jokes = [
   "Why do programmers prefer dark mode? Because light attracts bugs! 🐛",
@@ -87,9 +78,10 @@ const jokes = [
   "Why did the programmer quit his job? He didn't get arrays! 📊",
   "A SQL query goes into a bar, walks up to two tables and asks: 'Can I join you?' 🍻",
   "Why do Java developers wear glasses? Because they don't see sharp! 👓",
-  "How do you comfort a JavaScript bug? You console it! 🤗"
+  "How do you comfort a JavaScript bug? You console it! 🤗",
+  "I'd tell them a UDP joke but there's no guarantee that they would get it.",
+  "C and C++ went to a five star bar, C was stopped by the gate guards because C got no class.",
 ];
-
 const quotes = [
   "\"Code is poetry written in logic.\" - Anonymous",
   "\"The best error message is the one that never shows up.\" - Thomas Fuchs", 
@@ -98,9 +90,9 @@ const quotes = [
   "\"First, solve the problem. Then, write the code.\" - John Johnson",
   "\"Any fool can write code that a computer can understand. Good programmers write code that humans can understand.\" - Martin Fowler",
   "\"The only way to learn a new programming language is by writing programs in it.\" - Dennis Ritchie",
-  "\"Code never lies, comments sometimes do.\" - Ron Jeffries"
+  "\"Code never lies, comments sometimes do.\" - Ron Jeffries",
+  "\"NVIDIA, FUCK YOU.\" - Linus Torvalds"
 ];
-
 const techFacts = [
   "🚀 The first computer bug was an actual bug - a moth found in a Harvard computer in 1947!",
   "💾 The term 'byte' comes from 'bite' but was spelled differently to avoid confusion with 'bit'",
@@ -110,11 +102,9 @@ const techFacts = [
   "🐍 Python was named after the British comedy group 'Monty Python'",
   "☕ Java was originally called 'Oak' but was renamed due to trademark issues"
 ];
-
 // ====================================================================
 // GAME COMPONENTS SECTION
 // ====================================================================
-
 // Guess the Number Game
 const GuessGame = ({ onExit }) => {
   const [target] = useState(() => Math.floor(Math.random() * 100) + 1);
@@ -122,17 +112,14 @@ const GuessGame = ({ onExit }) => {
   const [attempts, setAttempts] = useState(0);
   const [message, setMessage] = useState('Guess a number between 1 and 100!');
   const [gameOver, setGameOver] = useState(false);
-
   const handleGuess = () => {
     const num = parseInt(guess);
     if (isNaN(num) || num < 1 || num > 100) {
       setMessage('Please enter a valid number between 1 and 100');
       return;
     }
-
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
-
     if (num === target) {
       setMessage(`🎉 Correct! You got it in ${newAttempts} attempts!`);
       setGameOver(true);
@@ -143,7 +130,6 @@ const GuessGame = ({ onExit }) => {
     }
     setGuess('');
   };
-
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'Escape') onExit();
@@ -152,7 +138,6 @@ const GuessGame = ({ onExit }) => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [onExit, gameOver, guess]);
-
   return (
     <div className="text-center p-4">
       <div className="text-primary text-xl mb-4">🎯 Guess the Number!</div>
@@ -183,22 +168,18 @@ const GuessGame = ({ onExit }) => {
     </div>
   );
 };
-
 // Rock Paper Scissors Game
 const RockPaperScissors = ({ onExit }) => {
   const [playerScore, setPlayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
   const [lastRound, setLastRound] = useState(null);
   const [rounds, setRounds] = useState(0);
-
   const choices = ['🪨', '📄', '✂️'];
   const choiceNames = ['rock', 'paper', 'scissors'];
-
   const play = (playerChoice) => {
     const computerChoice = Math.floor(Math.random() * 3);
     const newRounds = rounds + 1;
     setRounds(newRounds);
-
     let result;
     if (playerChoice === computerChoice) {
       result = 'tie';
@@ -213,7 +194,6 @@ const RockPaperScissors = ({ onExit }) => {
       result = 'lose';
       setComputerScore(prev => prev + 1);
     }
-
     setLastRound({
       player: playerChoice,
       computer: computerChoice,
@@ -221,7 +201,6 @@ const RockPaperScissors = ({ onExit }) => {
       round: newRounds
     });
   };
-
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'Escape') onExit();
@@ -232,7 +211,6 @@ const RockPaperScissors = ({ onExit }) => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [onExit]);
-
   return (
     <div className="text-center p-4">
       <div className="text-primary text-xl mb-4">🎮 Rock Paper Scissors</div>
@@ -257,7 +235,6 @@ const RockPaperScissors = ({ onExit }) => {
           </div>
         )}
       </div>
-
       <div className="space-y-2 mb-4">
         {choices.map((choice, index) => (
           <button
@@ -269,14 +246,12 @@ const RockPaperScissors = ({ onExit }) => {
           </button>
         ))}
       </div>
-
       <div className="text-muted-foreground text-sm">
         Click buttons or press 1, 2, 3 keys | ESC to exit
       </div>
     </div>
   );
 };
-
 // Typing Speed Test Game
 const TypingTest = ({ onExit }) => {
   const sentences = [
@@ -286,19 +261,16 @@ const TypingTest = ({ onExit }) => {
     "TypeScript adds static typing to JavaScript",
     "CSS Grid and Flexbox are powerful layout tools"
   ];
-
   const [currentSentence] = useState(sentences[Math.floor(Math.random() * sentences.length)]);
   const [userInput, setUserInput] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const [finished, setFinished] = useState(false);
-
   useEffect(() => {
     if (userInput.length === 1 && !startTime) {
       setStartTime(Date.now());
     }
-
     if (userInput === currentSentence && !finished) {
       const endTime = Date.now();
       const timeInMinutes = (endTime - startTime) / 60000;
@@ -306,7 +278,6 @@ const TypingTest = ({ onExit }) => {
       setWpm(Math.round(wordsTyped / timeInMinutes));
       setFinished(true);
     }
-
     // Calculate accuracy
     let correct = 0;
     for (let i = 0; i < userInput.length; i++) {
@@ -314,7 +285,6 @@ const TypingTest = ({ onExit }) => {
     }
     setAccuracy(userInput.length > 0 ? Math.round((correct / userInput.length) * 100) : 100);
   }, [userInput, currentSentence, startTime, finished]);
-
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'Escape') onExit();
@@ -322,7 +292,6 @@ const TypingTest = ({ onExit }) => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [onExit]);
-
   return (
     <div className="p-4">
       <div className="text-primary text-xl mb-4 text-center">⌨️ Typing Speed Test</div>
@@ -331,7 +300,6 @@ const TypingTest = ({ onExit }) => {
         <div>WPM: <span className="text-primary font-bold">{wpm}</span></div>
         <div>Accuracy: <span className="text-primary font-bold">{accuracy}%</span></div>
       </div>
-
       <div className="mb-4 p-4 bg-card rounded border border-border font-mono text-lg leading-relaxed">
         {currentSentence.split('').map((char, index) => (
           <span
@@ -350,7 +318,6 @@ const TypingTest = ({ onExit }) => {
           </span>
         ))}
       </div>
-
       <input
         type="text"
         value={userInput}
@@ -360,7 +327,6 @@ const TypingTest = ({ onExit }) => {
         disabled={finished}
         autoFocus
       />
-
       {finished && (
         <div className="mt-4 p-3 bg-primary/10 rounded text-center">
           <div className="text-primary font-bold text-lg">🎉 Test Complete!</div>
@@ -370,23 +336,19 @@ const TypingTest = ({ onExit }) => {
     </div>
   );
 };
-
 // Matrix Effect Component (Enhanced)
 const MatrixEffect = ({ onExit }) => {
   const canvasRef = useRef(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 400;
-
     const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
     const matrixArray = matrix.split("");
     const fontSize = 10;
     const columns = canvas.width / fontSize;
     const drops = Array.from({ length: columns }).fill(1);
-
     const draw = () => {
       ctx.fillStyle = 'rgba(21, 25, 41, 0.04)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -404,20 +366,17 @@ const MatrixEffect = ({ onExit }) => {
         drops[index]++;
       });
     };
-
     const interval = setInterval(draw, 35);
     
     const handleKeyPress = (e) => {
       if (e.key === 'Escape') onExit();
     };
     window.addEventListener('keydown', handleKeyPress);
-
     return () => {
       clearInterval(interval);
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [onExit]);
-
   return (
     <div className="text-center p-4">
       <div className="text-primary mb-4 text-xl">🌐 Welcome to the Matrix</div>
@@ -428,7 +387,6 @@ const MatrixEffect = ({ onExit }) => {
     </div>
   );
 };
-
 // ====================================================================
 // COMMAND SYSTEM SECTION
 // ====================================================================
@@ -444,8 +402,8 @@ const commandSystem = {
         "",
         "📁 Navigation & File System:",
         "├── ls              - List all available routes",
-        "├── cd <route>      - Navigate to a route (home, about, projects, blog, contact)",
-        "├── pwd             - Show current location",
+        "├── cd <route>      - Navigate to a route (home, about, projects, blogs, contact)",
+        // "├── pwd             - Show current location",
         "└── help            - Show this help menu",
         "",
         "👤 Portfolio & Info:",
@@ -454,22 +412,22 @@ const commandSystem = {
         "├── skills          - Technical skills with proficiency levels",
         "├── experience      - Professional work history",
         "├── projects        - Featured projects and work",
-        "├── contact         - Contact information and social links",
-        "└── resume          - Professional resume",
+        "└── contact         - Contact information and social links",
+        // "└── resume          - Professional resume",
         "",
         "🎮 Games & Entertainment:",
         "├── guess           - Number guessing game",
         "├── rps             - Rock Paper Scissors",
-        "├── typing          - Typing speed test",
-        "├── matrix          - Enter the Matrix",
-        "└── trivia          - Tech trivia questions",
+        // "├── typing          - Typing speed test",
+        "└── matrix          - Enter the Matrix",
+        // "└── trivia          - Tech trivia questions",
         "",
         "🛠️ Utilities & Fun:",
         "├── joke            - Random programming joke",
         "├── quote           - Inspirational developer quote",
         "├── fact            - Interesting tech fact",
-        "├── coffee          - ASCII coffee art",
-        "├── weather         - Current weather info",
+        // "├── coffee          - ASCII coffee art",
+        // "├── weather         - Current weather info",
         "├── time            - Current date and time",
         "└── clear           - Clear the terminal",
         "",
@@ -481,7 +439,6 @@ const commandSystem = {
       ]
     })
   },
-
   ls: {
     description: "List all available app routes",
     category: "Navigation",
@@ -494,15 +451,14 @@ const commandSystem = {
         ),
         "",
         "💡 Use 'cd <route>' to navigate to any of these routes",
-        "📝 Example: 'cd projects' or 'cd blog'"
+        "📝 Example: cd projects"
       ]
     })
   },
-
   cd: {
     description: "Navigate to different app routes",
     category: "Navigation", 
-    execute: (cmd) => {
+    execute: (cmd, _, router) => { // Added router parameter
       const parts = cmd.split(' ');
       if (parts.length < 2) {
         return {
@@ -513,7 +469,6 @@ const commandSystem = {
           ]
         };
       }
-
       const route = parts[1].toLowerCase();
       if (portfolioData.routes[route]) {
         return {
@@ -522,9 +477,10 @@ const commandSystem = {
             `📍 Destination: ${portfolioData.routes[route].description}`,
             `🔗 URL: ${portfolioData.routes[route].path}`,
             "",
-            "✨ In a real app, this would navigate to the route!"
+            "✨ Redirecting now..."
           ],
-          navigate: route
+          navigate: route,
+          router: router // Pass router for actual navigation
         };
       } else {
         return {
@@ -536,7 +492,6 @@ const commandSystem = {
       }
     }
   },
-
   pwd: {
     description: "Show current working directory", 
     category: "Navigation",
@@ -548,32 +503,28 @@ const commandSystem = {
       ]
     })
   },
-
   // Portfolio Information Commands
   about: {
     description: "Personal information and background",
     category: "Portfolio",
     execute: () => ({
       output: [
-        `╭─ About ${portfolioData.personal.name} ─────────────────────╮`,
-        `│ Title:    ${portfolioData.personal.title.padEnd(25)} │`,
+        `╭─ About ${portfolioData.personal.name} ───────────────────╮`,
+        `│ Title:    ${portfolioData.personal.title.padEnd(25)}    │`,
         `│ Location: ${portfolioData.personal.location.padEnd(25)} │`,
-        `│ Email:    ${portfolioData.personal.email.padEnd(25)} │`,
-        `│ Website:  ${portfolioData.personal.website.padEnd(25)} │`,
+        `│ Email:    ${portfolioData.personal.email.padEnd(25)}    │`,
+        // `│ Website:  ${portfolioData.personal.website.padEnd(25)} │`,
         `╰─────────────────────────────────────────╯`,
         "",
         `🎯 ${portfolioData.personal.tagline}`,
         "",
-        "🚀 Passionate about creating innovative digital solutions",
         "💡 Always exploring new technologies and best practices", 
         "🌟 Open to collaboration and exciting opportunities",
-        "🎨 Believer in clean code and exceptional user experiences",
         "",
         "💬 Want to know my story? Type 'story'"
       ]
     })
   },
-
   story: {
     description: "My journey and personal story",
     category: "Portfolio",
@@ -585,19 +536,18 @@ const commandSystem = {
         "",
         "🎭 The chapters so far:",
         "├── Chapter 1: The Curious Beginner",
-        "│   Started with HTML/CSS, fell in love with problem-solving",
+        "│   Started with Python, fell in love with problem-solving",
         "├── Chapter 2: The Learning Journey", 
         "│   Dove deep into JavaScript, React, and backend technologies",
         "├── Chapter 3: The Professional Growth",
-        "│   Built real products, led teams, mentored developers",
+        "│   Built real products to solve real problems for me and developers",
         "└── Chapter 4: The Current Adventure",
-        "    Exploring new frontiers, building this terminal experience!",
+        "    Exploring new frontiers, build more tools and learn every day!",
         "",
         "🔮 The story continues... What chapter will we write together?"
       ]
     })
   },
-
   skills: {
     description: "Technical skills with proficiency levels",
     category: "Portfolio",
@@ -607,7 +557,6 @@ const commandSystem = {
         acc[skill.category].push(skill);
         return acc;
       }, {});
-
       const output = ["🛠️ Technical Skills & Proficiency:", ""];
       
       Object.entries(skillsByCategory).forEach(([category, skills]) => {
@@ -618,14 +567,12 @@ const commandSystem = {
         });
         output.push("");
       });
-
       output.push("🎯 Specialized in modern full-stack development");
       output.push("📚 Continuous learner and technology enthusiast");
       
       return { output };
     }
   },
-
   experience: {
     description: "Professional work history and achievements",
     category: "Portfolio",
@@ -635,7 +582,7 @@ const commandSystem = {
         "",
         ...portfolioData.experience.flatMap((exp, index) => [
           `${index + 1}. 🏢 ${exp.company} - ${exp.role}`,
-          `   ⏰ Duration: ${exp.duration}`,
+          `   ⏰ Duration: ${exp.period}`, // Fixed to use period instead of duration
           `   📋 ${exp.description}`,
           `   🏆 Key Achievements:`,
           ...exp.achievements.map(achievement => `      • ${achievement}`),
@@ -645,7 +592,6 @@ const commandSystem = {
       ]
     })
   },
-
   projects: {
     description: "Featured projects and portfolio work",
     category: "Portfolio", 
@@ -666,7 +612,6 @@ const commandSystem = {
       ]
     })
   },
-
   contact: {
     description: "Contact information and social links",
     category: "Portfolio",
@@ -676,15 +621,15 @@ const commandSystem = {
         "",
         "💌 Direct Contact:",
         `├── Email:    ${portfolioData.personal.email}`,
-        `├── Phone:    ${portfolioData.personal.phone}`,
+        `├── Phone:    ${portfolioData.personal.phone}`, // Now using the added phone field
         `└── Website:  ${portfolioData.personal.website}`,
         "",
         "🔗 Find Me Online:",
-        "├── 🐙 GitHub:    https://github.com/yourusername",
-        "├── 💼 LinkedIn:  https://linkedin.com/in/yourprofile",
-        "├── 🐦 Twitter:   https://twitter.com/yourhandle",
-        "├── 📸 Instagram: https://instagram.com/yourhandle",
-        "└── 💻 Portfolio: https://yourportfolio.com",
+        "└── 🐙 GitHub:    https://github.com/yourusername",
+        // "├── 💼 LinkedIn:  https://linkedin.com/in/yourprofile",
+        // "├── 🐦 Twitter:   https://twitter.com/yourhandle",
+        // "├── 📸 Instagram: https://instagram.com/yourhandle",
+        // "└── 💻 Portfolio: https://yourportfolio.com",
         "",
         "💬 Always excited to discuss:",
         "• New opportunities and collaborations",
@@ -696,7 +641,6 @@ const commandSystem = {
       ]
     })
   },
-
   resume: {
     description: "Professional resume and CV",
     category: "Portfolio",
@@ -724,32 +668,27 @@ const commandSystem = {
       ]
     })
   },
-
   // Game Commands
   guess: {
     description: "Number guessing game (1-100)",
     category: "Games",
     execute: () => ({ component: 'guess' })
   },
-
   rps: {
     description: "Rock Paper Scissors game",
     category: "Games", 
     execute: () => ({ component: 'rps' })
   },
-
   typing: {
     description: "Typing speed test challenge",
     category: "Games",
     execute: () => ({ component: 'typing' })
   },
-
   matrix: {
     description: "Enter the Matrix digital rain",
     category: "Games",
     execute: () => ({ component: 'matrix' })
   },
-
   trivia: {
     description: "Tech trivia questions",
     category: "Games",
@@ -776,7 +715,6 @@ const commandSystem = {
       };
     }
   },
-
   // Fun & Utility Commands
   joke: {
     description: "Random programming joke",
@@ -791,7 +729,6 @@ const commandSystem = {
       ]
     })
   },
-
   quote: {
     description: "Inspirational developer quote",
     category: "Fun",
@@ -805,7 +742,6 @@ const commandSystem = {
       ]
     })
   },
-
   fact: {
     description: "Interesting technology fact",
     category: "Fun",
@@ -819,7 +755,6 @@ const commandSystem = {
       ]
     })
   },
-
   coffee: {
     description: "ASCII coffee art for coding fuel",
     category: "Fun",
@@ -839,7 +774,6 @@ const commandSystem = {
       ]
     })
   },
-
   weather: {
     description: "Current weather information",
     category: "Utilities",
@@ -860,7 +794,6 @@ const commandSystem = {
       ]
     })
   },
-
   time: {
     description: "Current date and time information",
     category: "Utilities",
@@ -886,13 +819,11 @@ const commandSystem = {
       };
     }
   },
-
   clear: {
     description: "Clear the terminal screen",
     category: "Utilities",
     execute: () => ({ clear: true })
   },
-
   history: {
     description: "Show recent command history",
     category: "Utilities",
@@ -909,29 +840,27 @@ const commandSystem = {
       ]
     })
   },
-
   // Easter Eggs and Special Commands
-  konami: {
-    description: "Easter egg - Konami code activated",
-    category: "Easter Eggs",
-    execute: () => ({
-      output: [
-        "🎮 KONAMI CODE ACTIVATED!",
-        "",
-        "↑ ↑ ↓ ↓ ← → ← → B A",
-        "",
-        "🚀 CHEAT MODE ENABLED!",
-        "✨ You've unlocked the secret developer mode!",
-        "🎯 All skills now show 100% proficiency",
-        "💰 Infinite coffee activated",
-        "🔥 Matrix mode permanently available",
-        "",
-        "🏆 Achievement Unlocked: 'Old School Gamer'",
-        "🎊 You're part of an elite group of users!"
-      ]
-    })
-  },
-
+  // konami: {
+  //   description: "Easter egg - Konami code activated",
+  //   category: "Easter Eggs",
+  //   execute: () => ({
+  //     output: [
+  //       "🎮 KONAMI CODE ACTIVATED!",
+  //       "",
+  //       "↑ ↑ ↓ ↓ ← → ← → B A",
+  //       "",
+  //       "🚀 CHEAT MODE ENABLED!",
+  //       "✨ You've unlocked the secret developer mode!",
+  //       "🎯 All skills now show 100% proficiency",
+  //       "💰 Infinite coffee activated",
+  //       "🔥 Matrix mode permanently available",
+  //       "",
+  //       "🏆 Achievement Unlocked: 'Old School Gamer'",
+  //       "🎊 You're part of an elite group of users!"
+  //     ]
+  //   })
+  // },
   sudo: {
     description: "Easter egg - sudo attempt",
     category: "Easter Eggs", 
@@ -943,18 +872,16 @@ const commandSystem = {
         "😏 However, I appreciate the authentic approach.",
         "",
         "💡 Fun fact: This terminal is built with React!",
-        "🎭 For real sudo powers, you'll need to hire me 😉"
       ]
     })
   },
-
   whoami: {
     description: "Identity check - who am I?",
     category: "System",
     execute: () => ({
       output: [
         `👤 You are: visitor@${portfolioData.personal.name.toLowerCase().replace(' ', '')}-portfolio`,
-        `🏠 Home: /portfolio/terminal`,
+        `🏠 Home: /portfolio/well-done`,
         `🎯 Purpose: Exploring an awesome developer's work`,
         `⚡ Privileges: Guest access to all public commands`,
         `🚀 Status: Welcome! Feel free to explore`,
@@ -964,11 +891,9 @@ const commandSystem = {
     })
   }
 };
-
 // ====================================================================
 // MAIN TERMINAL COMPONENT
 // ====================================================================
-
 export default function PortfolioTerminal() {
   // State Management
   const [input, setInput] = useState("");
@@ -983,12 +908,15 @@ export default function PortfolioTerminal() {
   // Refs
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
-
+  
+  // Router for navigation
+  const router = useRouter();
+  
   // Helper Functions
   const addToHistory = useCallback((entry) => {
     setHistory(prev => [...prev, entry]);
   }, []);
-
+  
   const typewriterEffect = useCallback((text, callback) => {
     setIsLoading(true);
     let index = 0;
@@ -1002,22 +930,22 @@ export default function PortfolioTerminal() {
       }
     }, 30);
   }, []);
-
+  
   // Command Execution
   const executeCommand = useCallback((cmd) => {
     const trimmedCmd = cmd.trim().toLowerCase();
     setCommandHistory(prev => [...prev, trimmedCmd]);
     
     addToHistory({ type: 'input', content: `$ ${cmd}` });
-
+    
     // Handle special cases
     if (trimmedCmd === '') return;
-
+    
     // Find and execute command
     const commandKey = trimmedCmd.split(' ')[0];
     
     if (commandSystem[commandKey]) {
-      const result = commandSystem[commandKey].execute(trimmedCmd, commandHistory);
+      const result = commandSystem[commandKey].execute(trimmedCmd, commandHistory, router);
       
       if (result.clear) {
         setHistory([]);
@@ -1033,8 +961,10 @@ export default function PortfolioTerminal() {
         return;
       }
       
-      if (result.navigate) {
-        addToHistory({ type: 'success', content: `🎯 Navigation command executed for: ${result.navigate}` });
+      if (result.navigate && result.router) {
+        // Actually navigate to the route
+        result.router.push(`/${result.navigate}`);
+        addToHistory({ type: 'success', content: `🎯 Successfully navigated to /${result.navigate}` });
       }
       
       if (result.output) {
@@ -1064,8 +994,8 @@ export default function PortfolioTerminal() {
       
       addToHistory({ type: 'info', content: '📚 Type "help" to see all available commands' });
     }
-  }, [commandHistory, addToHistory]);
-
+  }, [commandHistory, addToHistory, router]);
+  
   // Event Handlers
   const handleSubmit = () => {
     if (!input.trim() || isLoading) return;
@@ -1075,7 +1005,7 @@ export default function PortfolioTerminal() {
     setHistoryIndex(-1);
     setShowSuggestions(false);
   };
-
+  
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInput(value);
@@ -1090,7 +1020,7 @@ export default function PortfolioTerminal() {
       setShowSuggestions(false);
     }
   };
-
+  
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleSubmit();
@@ -1130,14 +1060,14 @@ export default function PortfolioTerminal() {
       }
     }
   };
-
+  
   // Auto-scroll effect
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [history]);
-
+  
   // Welcome message on mount
   useEffect(() => {
     const welcomeMessages = [
@@ -1156,31 +1086,27 @@ export default function PortfolioTerminal() {
       '🎮 Ready to explore? Let\'s start your journey...',
       ''
     ];
-
     welcomeMessages.forEach((msg, index) => {
       setTimeout(() => {
         addToHistory({ type: 'output', content: msg });
       }, index * 150);
     });
   }, [addToHistory]);
-
+  
   // Render game components
   if (currentComponent === 'matrix') {
     return <MatrixEffect onExit={() => setCurrentComponent(null)} />;
   }
-
   if (currentComponent === 'guess') {
     return <GuessGame onExit={() => setCurrentComponent(null)} />;
   }
-
   if (currentComponent === 'rps') {
     return <RockPaperScissors onExit={() => setCurrentComponent(null)} />;
   }
-
   if (currentComponent === 'typing') {
     return <TypingTest onExit={() => setCurrentComponent(null)} />;
   }
-
+  
   // Main Terminal UI
   return (
     <div className="w-full max-w-5xl mx-auto p-4 min-h-screen">
@@ -1204,7 +1130,7 @@ export default function PortfolioTerminal() {
             </div>
           </div>
         </div>
-
+        
         {/* Terminal Body */}
         <div 
           ref={terminalRef} 
@@ -1235,7 +1161,7 @@ export default function PortfolioTerminal() {
               </motion.div>
             ))}
           </AnimatePresence>
-
+          
           {/* Loading Indicator */}
           {isLoading && (
             <motion.div 
@@ -1247,7 +1173,7 @@ export default function PortfolioTerminal() {
               <span>Processing...</span>
             </motion.div>
           )}
-
+          
           {/* Autocomplete Suggestions */}
           {showSuggestions && suggestions.length > 0 && (
             <motion.div 
@@ -1283,9 +1209,16 @@ export default function PortfolioTerminal() {
               </div>
             </motion.div>
           )}
-
+          
           {/* Command Input */}
-          <div className="flex items-center gap-2 mt-4 pt-2">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+            autoComplete="off"
+            className="flex items-center gap-2 mt-4 pt-2"
+          >
             <span className="text-primary font-bold">$</span>
             <input
               ref={inputRef}
@@ -1298,6 +1231,8 @@ export default function PortfolioTerminal() {
               disabled={isLoading}
               autoFocus
               spellCheck={false}
+              autoComplete="off"
+              inputMode="text"
             />
             <motion.span
               animate={{ opacity: [1, 0] }}
@@ -1306,9 +1241,9 @@ export default function PortfolioTerminal() {
             >
               █
             </motion.span>
-          </div>
+          </form>
         </div>
-
+        
         {/* Terminal Footer */}
         <div className="px-4 py-2 border-t border-border/50 bg-muted/10">
           <div className="flex justify-between items-center text-xs font-mono">

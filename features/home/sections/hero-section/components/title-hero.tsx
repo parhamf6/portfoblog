@@ -47,11 +47,11 @@ export default function CuriousQuote({
       {/* Main heading: subtle color/scale change on hover */}
       <motion.h1
         id="hero-text"
-        className={`text-3xl sm:text-4xl md:text-5xl text-accent font-bold font-serif leading-tight select-none`}
+        className={`text-3xl sm:text-4xl md:text-5xl text-accent font-bold font-serif leading-tight select-none transition-colors duration-500`}
         animate={{
           scale: isHover ? 1.02 : 1,
           // animate a subtle color shift (override Tailwind at runtime)
-          color: isHover ? "#F6E05E" : undefined,
+          color: isHover ? "#fd3a37" : undefined,
         }}
         transition={{ type: "spring", stiffness: 220, damping: 18 }}
       >
@@ -64,7 +64,7 @@ export default function CuriousQuote({
           <motion.div
             // position absolutely to follow cursor via motion values (x/y)
             style={{ x, y }}
-            className="pointer-events-none absolute z-0 whitespace-nowrap px-3 py-1 rounded-xl text-sm font-medium bg-gray-900/90 backdrop-blur-sm text-white shadow-lg"
+            className="pointer-events-none absolute z-0 whitespace-nowrap px-3 py-1 rounded-xl text-sm font-medium bg-gray-900/20 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 text-white shadow-lg"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
