@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono , Chivo, Lora , Roboto_Mono , Raleway , Poppins } from "next/font/google";
+import { Chivo, Lora, Roboto_Mono, Raleway, Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/global/navbar";
+import ClientLayout from "@/components/global/client-layout";
 import React from "react";
-import { ScrollProgress } from "@/components/scroll-oprogress";
-import Footer from "@/components/global/footer";
-import { PageTransition } from "@/components/global/page-transition";
+
 const chivo = Chivo({
   subsets: ['latin'],
   variable: '--font-chivo',
@@ -35,8 +33,7 @@ const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
   variable: '--font-poppins',
   display: 'swap',
-})
-
+});
 
 export const metadata: Metadata = {
   title: "Parham Forati",
@@ -50,13 +47,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${chivo.variable} ${lora.variable} ${robotoMono.variable} antialiased `}>
-        <Navbar />
-        <ScrollProgress position="top" thickness={2} />
-        <main className="">
+      <body className={`${chivo.variable} ${lora.variable} ${robotoMono.variable} ${raleway.variable} ${poppins.variable} antialiased`}>
+        <ClientLayout>
           {children}
-        </main>
-        <Footer />
+        </ClientLayout>
       </body>
     </html>
   );

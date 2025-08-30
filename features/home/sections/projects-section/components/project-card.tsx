@@ -95,7 +95,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <Button asChild size="sm" className="flex-1">
               <Link href={project.demoUrl!} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="w-4 h-4 mr-1" />
-                View
+                View Demo
               </Link>
             </Button>
           ) : (

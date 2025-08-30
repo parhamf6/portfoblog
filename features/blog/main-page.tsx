@@ -56,7 +56,7 @@ const BlogIndex = () => {
   const hasFilterSelections = selectedCategory !== 'All' || selectedTech !== 'All';
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground mb-32">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
         <div className="absolute inset-0" />
@@ -195,18 +195,18 @@ const BlogIndex = () => {
               </div>
 
               {/* Active Filters and Results Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2 border-t border-border/50">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-border/50">
                 
                 {/* Active Filters */}
                 <div className="flex flex-wrap items-center gap-2">
                   {(hasFilterSelections || searchQuery) && (
                     <>
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                      <span className="text-sm text-muted-foreground flex items-center gap-1">
                         <Filter className="w-3 h-3" />
                         Active filters:
                       </span>
                       {searchQuery && (
-                        <Badge variant="outline" className="flex items-center gap-1 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-xs">
+                        <Badge variant="outline" className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-sm">
                           <Search className="w-3 h-3" />
                           "{searchQuery.length > 20 ? searchQuery.substring(0, 20) + '...' : searchQuery}"
                           <button onClick={() => setSearchQuery('')} className="ml-1 hover:text-primary/80">
@@ -215,7 +215,7 @@ const BlogIndex = () => {
                         </Badge>
                       )}
                       {selectedCategory && selectedCategory !== 'All' && (
-                        <Badge variant="outline" className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 text-xs">
+                        <Badge variant="outline" className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 text-sm">
                           <Layers className="w-3 h-3" />
                           {selectedCategory}
                           <button onClick={clearCategory} className="ml-1 hover:text-blue-900">
@@ -224,7 +224,7 @@ const BlogIndex = () => {
                         </Badge>
                       )}
                       {selectedTech && selectedTech !== 'All' && (
-                        <Badge variant="outline" className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 hover:bg-green-100 text-xs">
+                        <Badge variant="outline" className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 hover:bg-green-100 text-sm">
                           <Tag className="w-3 h-3" />
                           {selectedTech}
                           <button onClick={clearTech} className="ml-1 hover:text-green-900">

@@ -24,6 +24,7 @@ import {
   Menu,
   X
 } from "lucide-react";
+import BackToTop from "@/components/global/back-to-top";
 
 interface TocItem {
   id: string;
@@ -188,42 +189,42 @@ function TableOfContents({ content }: { content: string }) {
 }
 
 // Back to Top Component
-function BackToTop() {
-  const [isVisible, setIsVisible] = useState(false);
+// function BackToTop() {
+//   const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
+//   useEffect(() => {
+//     const toggleVisibility = () => {
+//       if (window.pageYOffset > 300) {
+//         setIsVisible(true);
+//       } else {
+//         setIsVisible(false);
+//       }
+//     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+//     window.addEventListener('scroll', toggleVisibility);
+//     return () => window.removeEventListener('scroll', toggleVisibility);
+//   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+//   const scrollToTop = () => {
+//     window.scrollTo({
+//       top: 0,
+//       behavior: 'smooth',
+//     });
+//   };
 
-  if (!isVisible) return null;
+//   if (!isVisible) return null;
 
-  return (
-    <Button
-      onClick={scrollToTop}
-      size="sm"
-      variant="secondary"
-      className="fixed bottom-8 right-8 z-40 rounded-full shadow-lg hover:scale-105 text-primary-foreground"
-    >
-      <ChevronUp className="h-4 w-4" />
-    </Button>
-  );
-}
+//   return (
+//     <Button
+//       onClick={scrollToTop}
+//       size="sm"
+//       variant="secondary"
+//       className="fixed bottom-8 right-8 z-40 rounded-full shadow-lg hover:scale-105 text-primary-foreground "
+//     >
+//       <ChevronUp className="h-4 w-4" />
+//     </Button>
+//   );
+// }
 
 export default function BlogPostClient({
   post,
@@ -257,7 +258,7 @@ export default function BlogPostClient({
         <div className="relative z-10">
           {/* Navigation */}
           <div className="container mx-auto px-4 pt-8 pb-4">
-            <Button variant="ghost" asChild className="mb-6 hover:bg-card/50">
+            <Button variant="ghost" asChild className="mb-6 bg-card/50 hover:bg-card/80 text-foreground border bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 ">
               <Link href="/blogs" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Blogs
@@ -268,7 +269,7 @@ export default function BlogPostClient({
           {/* Hero Section */}
           <div className="container mx-auto px-4 pb-12">
             <div className="max-w-4xl mx-auto">
-              <Badge variant="secondary" className="mb-6 border-secondary/30">
+              <Badge variant="outline" className="mb-6 bg-secondary text-background border-secondary/30 ">
                 {post.category}
               </Badge>
 
@@ -388,9 +389,6 @@ export default function BlogPostClient({
           </div>
         </div>
       )}
-
-      {/* Back to Top Button */}
-      <BackToTop />
     </div>
     </QuoteShareProvider>
   );
