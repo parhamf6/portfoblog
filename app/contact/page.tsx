@@ -288,46 +288,7 @@ const ContactPage = () => {
                 <h2 className="text-3xl font-bold mb-4">What brings you here?</h2>
                 <p className="text-muted-foreground">Choose the option that best describes your intention</p>
               </div>
-<div className="flex items-center w-full">
-      <button
-        onClick={handleCopy}
-        className={cn(
-          "flex items-center justify-between w-full px-3 py-2 rounded-md border",
-          "bg-card border-border text-sm cursor-pointer transition-colors",
-          "hover:border-accent active:scale-[0.98] touch-manipulation"
-        )}
-      >
-        <span className="mr-3 text-left flex-1 truncate">
-          {email}
-        </span>
 
-        <div className="relative flex items-center">
-          <AnimatePresence mode="wait" initial={false}>
-            {copied ? (
-              <motion.div
-                key="check"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Check className="h-5 w-5 text-green-500" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="copy"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Copy className="h-5 w-5 text-muted-foreground group-hover:text-accent" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </button>
-    </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {contactIntents.map((intent) => {
@@ -382,6 +343,7 @@ const ContactPage = () => {
                       <input
                         type="text"
                         name="name"
+                        disabled
                         value={formData.name}
                         onChange={handleInputChange}
                         required
@@ -395,6 +357,7 @@ const ContactPage = () => {
                       <input
                         type="email"
                         name="email"
+                        disabled
                         value={formData.email}
                         onChange={handleInputChange}
                         required
@@ -409,6 +372,7 @@ const ContactPage = () => {
                     <input
                       type="text"
                       name="subject"
+                      disabled
                       value={formData.subject}
                       onChange={handleInputChange}
                       required
@@ -422,6 +386,7 @@ const ContactPage = () => {
                     <textarea
                       name="message"
                       value={formData.message}
+                      disabled
                       onChange={handleInputChange}
                       required
                       rows={5}
@@ -429,34 +394,64 @@ const ContactPage = () => {
                       placeholder="Tell me about your project, idea, or just say hello..."
                     ></textarea>
                   </div>
+                  
+                  <div className="flex items-center w-full">
+                    <button
+                      onClick={handleCopy}
+                      className={cn(
+                        "flex items-center justify-between w-full px-3 py-2 rounded-md border",
+                        "bg-card border-border text-sm cursor-pointer transition-colors",
+                        "hover:border-accent active:scale-[0.98] touch-manipulation"
+                      )}
+                    >
+                      <span className="mr-3 text-left flex-1 truncate">
+                        {email}
+                      </span>
 
+                      <div className="relative flex items-center">
+                        <AnimatePresence mode="wait" initial={false}>
+                          {copied ? (
+                            <motion.div
+                              key="check"
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Check className="h-5 w-5 text-green-500" />
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="copy"
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Copy className="h-5 w-5 text-muted-foreground group-hover:text-accent" />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </button>
+                  </div>
                   <button
                     type="submit"
                     // disabled={isSubmitting}
                     disabled={true}
                     className="w-full bg-gradient-to-r from-primary to-yellow-500 text-primary-foreground py-4 rounded-lg font-medium hover:from-primary/90 hover:to-yellow-500/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:shadow-primary/20 group"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        {/* <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" /> */}
-                        {/* Send Message */}
-                        On development, use email please
-                      </>
-                    )}
+                    On development, use email please
                   </button>
+                  
                 </form>
 
-                {showSuccess && (
+                {/* {showSuccess && (
                   <div className="mt-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-3 animate-in slide-in-from-top duration-300">
                     <CheckCircle className="w-5 h-5 text-green-500" />
                     <span className="text-green-500 text-sm">Message sent! I'll get back to you soon.</span>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
             {/* <div className="sticky top-8">

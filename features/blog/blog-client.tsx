@@ -258,7 +258,7 @@ export default function BlogPostClient({
         <div className="relative z-10">
           {/* Navigation */}
           <div className="container mx-auto px-4 pt-8 pb-4">
-            <Button variant="ghost" asChild className="mb-6 bg-card/50 hover:bg-card/80 text-foreground border bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 ">
+            <Button variant="ghost" asChild className="mb-6 bg-card/50 hover:bg-card/80 text-foreground border bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 ">
               <Link href="/blogs" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Blogs

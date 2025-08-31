@@ -1,6 +1,9 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Code2, 
   Briefcase, 
@@ -25,13 +28,61 @@ import { SiPython, SiFastapi, SiPostgresql , SiMysql ,
   SiFigma , SiLinux , SiGnubash , SiGit , 
   SiGithub, SiDocker } from 'react-icons/si';
 import TechnicalSkillsSection from '@/features/about/tech-section';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const AboutPage = () => {
   const [scrollY, setScrollY] = useState(0);
-
+  const heroRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
+    
+    // Initialize GSAP animations
+    if (heroRef.current && particlesRef.current) {
+      // Animated background particles
+      const particles = particlesRef.current.children;
+      gsap.to(particles, {
+        y: `-=${scrollY * 0.1}`,
+        duration: 0.5,
+        ease: "power1.out",
+      });
+      
+      // Parallax effect for hero content
+      gsap.to(heroRef.current.querySelector('.hero-content'), {
+        y: scrollY * 0.2,
+        duration: 0.5,
+        ease: "power1.out",
+      });
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrollY]);
+
+  // Initialize scroll animations
+  useEffect(() => {
+    // Animate sections on scroll
+    gsap.utils.toArray('.section-animate').forEach((section: any) => {
+      gsap.fromTo(section, 
+        { opacity: 0, y: 50 }, 
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    });
   }, []);
 
   const skills = {
@@ -57,7 +108,7 @@ const AboutPage = () => {
       location: "Remote",
       description: "Leading development of scalable web applications serving 100k+ users.",
       impact: "40% performance improvement",
-      technologies: ["React", "Next.js", "TypeScript", "Python", "PostgreSql", "FastAPI", "Dajngo"]
+      technologies: ["React", "Next.js", "TypeScript", "Python", "PostgreSql", "FastAPI", "Django"]
     },
   ];
 
@@ -68,213 +119,311 @@ const AboutPage = () => {
     { title: "Open Source", desc: "Contributing to tools" }
   ];
 
-  return (
-    <div className="min-h-screen bg-background text-foreground mt-8">
-      {/* Subtle Background */}
-      <div className="fixed inset-0 opacity-[0.015] pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
-      </div>
+  // Generate particles for background
+  const renderParticles = () => {
+    const particles = [];
+    for (let i = 0; i < 30; i++) {
+      const size = Math.random() * 10 + 5;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const delay = Math.random() * 5;
+      
+      particles.push(
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-primary/10"
+          style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            left: `${posX}%`,
+            top: `${posY}%`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 5,
+            repeat: Infinity,
+            delay: delay,
+            ease: "easeInOut"
+          }}
+        />
+      );
+    }
+    return particles;
+  };
 
-      {/* Hero Section - Left Aligned */}
-      <section className="min-h-screen flex items-center px-6 lg:px-12">
+  return (
+    <div className="min-h-screen bg-background text-foreground mt-8 relative overflow-hidden">
+      {/* Animated Background Particles */}
+      {/* <div className="fixed inset-0 pointer-events-none overflow-hidden" ref={particlesRef}>
+        {renderParticles()}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+      </div> */}
+
+      {/* Hero Section */}
+      <section ref={heroRef} className="min-h-screen flex items-center px-6 lg:px-12 relative">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Content */}
-            <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+            <div className="lg:col-span-7 space-y-8 hero-content">
+              <motion.div 
+                className="space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <motion.div 
+                  className="flex items-center gap-3 text-muted-foreground"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
+                  <motion.div 
+                    className="w-2 h-2 bg-primary rounded-full"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
                   <span className="text-sm font-medium tracking-wide">FULL-STACK DEVELOPER</span>
-                </div>
+                </motion.div>
                 
-                <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+                <motion.h1 
+                  className="text-4xl lg:text-6xl font-bold leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.7 }}
+                >
                   Hi, I'm <span className="text-primary">Parham Forati</span>
-                </h1>
+                </motion.h1>
                 
-                <p className="text-xl lg:text-2xl text-muted-foreground max-w-2xl leading-relaxed">
+                <motion.p 
+                  className="text-xl lg:text-2xl text-muted-foreground max-w-2xl leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.7 }}
+                >
                   I craft digital experiences that blend beautiful design with powerful functionality. 
                   Turning complex problems into simple, elegant solutions.
-                </p>
-              </div>
-
+                </motion.p>
+              </motion.div>
+              
               {/* Quick Stats */}
-              <div className="flex gap-8 py-6 border-y border-border">
-                <div>
-                  <div className="text-2xl font-bold text-primary">3+</div>
-                  <div className="text-sm text-muted-foreground">Years Experience</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary">5+</div>
-                  <div className="text-sm text-muted-foreground">Projects Delivered</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary">1k+</div>
-                  <div className="text-sm text-muted-foreground">Users Impacted</div>
-                </div>
-              </div>
-
+              <motion.div 
+                className="flex gap-8 py-6 border-y border-border"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.7 }}
+              >
+                {[
+                  { value: "3+", label: "Years Experience" },
+                  { value: "5+", label: "Projects Delivered" },
+                  { value: "1k+", label: "Users Impacted" }
+                ].map((stat, index) => (
+                  <motion.div 
+                    key={index}
+                    whileHover={{ y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="text-2xl font-bold text-primary">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+              
               {/* Actions */}
-              <div className="flex gap-4">
-                <button className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
+              <motion.div 
+                className="flex gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.7 }}
+              >
+                {/* <motion.button 
+                  className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium flex items-center gap-2 group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   <Download className="w-4 h-4" />
                   Download Resume
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </button>
-                <button className="border border-border px-8 py-3 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2">
-                  <a href="/contact" className='flex gap-2 items-center '>
+                  <motion.span
+                    animate={{ x: 0, y: 0 }}
+                    whileHover={{ x: 3, y: -3 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                  </motion.span>
+                </motion.button> */}
+                <a target='_blank' href="https://github.com/parhamf6" > 
+                  <motion.button 
+                  className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium flex items-center gap-2 group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Github className="w-4 h-4" />
+                  Github Profile
+                  <motion.span
+                    animate={{ x: 0, y: 0 }}
+                    whileHover={{ x: 3, y: -3 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                    </motion.span>
+                  </motion.button>
+                </a>
+                <motion.button 
+                  className="border border-border px-8 py-3 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <a href="/contact" className='flex gap-2 items-center'>
                     <Mail className="w-4 h-4" />
                     Let's Talk
                   </a>
-                </button>
-              </div>
-
+                </motion.button>
+              </motion.div>
+              
               {/* Social Links */}
-              <div className="flex gap-4">
+              <motion.div 
+                className="flex gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.7 }}
+              >
                 {[
-                  { icon: Github, href: "https://github.com/parhamf6", label: "GitHub" },
-                //   { icon: Linkedin, href: "#", label: "LinkedIn" },
+                  // { icon: Github, href: "https://github.com/parhamf6", label: "GitHub" },
                   { icon: Mail, href: "mailto:parhamfdev@proton.me", label: "Email" }
                 ].map((social, index) => (
-                  <a
+                  <motion.a
                     key={index}
                     href={social.href}
                     className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm"
+                    whileHover={{ y: -3 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
                     <social.icon className="w-4 h-4" />
                     {social.label}
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
+              </motion.div>
             </div>
-
+            
             {/* Profile Card */}
-            <div className="lg:col-span-5">
-              <div className="bg-card border border-border rounded-3xl p-8 space-y-6">
+            <motion.div 
+              className="lg:col-span-5"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+            >
+              <motion.div 
+                className="bg-card border border-border rounded-3xl p-8 space-y-6 shadow-lg"
+                whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 {/* Photo */}
                 <div className="relative">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-6">
+                  <motion.div 
+                    className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-6"
+                    whileHover={{ rotate: 5, scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <Code2 className="w-8 h-8 text-primary" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                  </motion.div>
+                  <motion.div 
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 10, 0]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  >
                     <div className="w-2 h-2 bg-primary-foreground rounded-full"></div>
-                  </div>
+                  </motion.div>
                 </div>
-
+                
                 {/* Quick Info */}
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-sm">
-                    <MapPin className="w-4 h-4 text-muted-foreground" />
-                    <span>Tehran ,IR</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Globe className="w-4 h-4 text-muted-foreground" />
-                    <span>Bussy at the moment</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Calendar className="w-4 h-4 text-muted-foreground" />
-                    <span>Usually responds within 48h</span>
-                  </div>
+                  {[
+                    { icon: MapPin, text: "Tehran, IR" },
+                    { icon: Globe, text: "Busy at the moment" },
+                    { icon: Calendar, text: "Usually responds within 48h" }
+                  ].map((item, index) => (
+                    <motion.div 
+                      key={index}
+                      className="flex items-center gap-3 text-sm"
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <item.icon className="w-4 h-4 text-muted-foreground" />
+                      <span>{item.text}</span>
+                    </motion.div>
+                  ))}
                 </div>
-
+                
                 {/* Current Focus */}
                 <div className="pt-6 border-t border-border">
                   <h3 className="font-medium mb-4">Currently focusing on</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {currentFocus.map((item, index) => (
-                      <div key={index} className="bg-muted/50 rounded-xl p-3">
+                      <motion.div 
+                        key={index}
+                        className="bg-muted/50 rounded-xl p-3"
+                        whileHover={{ 
+                          y: -5, 
+                          backgroundColor: "rgba(var(--primary-rgb), 0.1)",
+                          transition: { duration: 0.2 }
+                        }}
+                      >
                         <div className="font-medium text-sm">{item.title}</div>
                         <div className="text-xs text-muted-foreground">{item.desc}</div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Skills Section - Minimal Grid */}
-      {/* <section className="py-20 px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Technical Expertise</h2>
-            <p className="text-muted-foreground max-w-2xl">
-              Specialized in modern web technologies with a focus on performance, scalability, and user experience.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Code2 className="w-5 h-5 text-primary" />
-                Frontend Development
-              </h3>
-              <div className="grid gap-4">
-                {skills.frontend.map((skill) => (
-                  <div key={skill.name} className="flex items-center justify-between p-4 bg-card border border-border rounded-xl hover:border-primary/30 transition-colors">
-                    <span className="font-medium">{skill.name}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                      <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full rounded-full transition-all duration-700"
-                          style={{
-                            backgroundColor: skill.color,
-                            width: `${skill.level}%`
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-secondary" />
-                Backend Development
-              </h3>
-              <div className="grid gap-4">
-                {skills.backend.map((skill) => (
-                  <div key={skill.name} className="flex items-center justify-between p-4 bg-card border border-border rounded-xl hover:border-primary/30 transition-colors">
-                    <span className="font-medium">{skill.name}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                      <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full rounded-full transition-all duration-700"
-                          style={{
-                            backgroundColor: skill.color,
-                            width: `${skill.level}%`
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-      <section className='py-20 px-6 lg:px-12'>
+      {/* Skills Section */}
+      <section className='py-20 px-6 lg:px-12 section-animate'>
         <TechnicalSkillsSection />
       </section>
 
-      {/* Experience Section - Clean Timeline */}
-      <section className="py-20 px-6 lg:px-12 bg-card/20">
+      {/* Experience Section */}
+      <section className="py-20 px-6 lg:px-12 bg-card/20 section-animate">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
+          <motion.div 
+            className="mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Professional Journey</h2>
             <p className="text-muted-foreground max-w-2xl">
               Building impactful digital products and leading development teams across various industries.
             </p>
-          </div>
-
+          </motion.div>
+          
           <div className="space-y-8">
             {experiences.map((exp, index) => (
-              <div key={index} className="bg-card border border-border rounded-2xl p-8 hover:border-primary/30 transition-all group">
+              <motion.div 
+                key={index}
+                className="bg-card border border-border rounded-2xl p-8 group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: index * 0.1 }}
+                whileHover={{ 
+                  y: -5,
+                  transition: { duration: 0.3 }
+                }}
+              >
                 <div className="grid lg:grid-cols-12 gap-6">
                   <div className="lg:col-span-8">
                     <div className="flex flex-wrap items-start justify-between mb-4">
@@ -293,10 +442,10 @@ const AboutPage = () => {
                     
                     <p className="text-muted-foreground mb-4">{exp.description}</p>
                     
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                        {exp.impact}
-                      </div>
+                    <div 
+                      className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium inline-block"
+                    >
+                      {exp.impact}
                     </div>
                   </div>
                   
@@ -304,50 +453,82 @@ const AboutPage = () => {
                     <div className="space-y-4">
                       <h4 className="font-medium text-sm text-muted-foreground">TECHNOLOGIES</h4>
                       <div className="flex flex-wrap gap-2">
-                        {exp.technologies.map((tech) => (
-                          <span 
-                            key={tech}
+                        {exp.technologies.map((tech, techIndex) => (
+                          <motion.span 
+                            key={techIndex}
                             className="px-3 py-1 bg-muted text-xs rounded-full border border-border"
+                            whileHover={{ 
+                              backgroundColor: "rgba(var(--primary-rgb), 0.1)",
+                              y: -3,
+                              transition: { duration: 0.2 }
+                            }}
                           >
                             {tech}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Education & Certifications - Compact */}
-      <section className="py-20 px-6 lg:px-12">
+      {/* Education & Certifications */}
+      <section className="py-20 px-6 lg:px-12 section-animate">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Education */}
-            <div className="bg-card border border-border rounded-2xl p-8">
+            <motion.div 
+              className="bg-card border border-border rounded-2xl p-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              whileHover={{ y: -5 }}
+            >
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-primary" />
                 Education
               </h3>
               <div className="space-y-4">
-                <div className="pb-4 border-b border-border last:border-b-0 last:pb-0">
-                  <h4 className="font-medium">Bachelor of Molecular Biologist</h4>
-                  <p className="text-sm text-muted-foreground">University of Sciences</p>
-                  <p className="text-xs text-muted-foreground">2024 - Present</p>
-                </div>
-                <div className="pb-4 border-b border-border last:border-b-0 last:pb-0">
-                  <h4 className="font-medium">Development Skills</h4>
-                  <p className="text-sm text-muted-foreground">niversity of Books and Internet</p>
-                  <p className="text-xs text-muted-foreground">2020</p>
-                </div>
+                {[
+                  { 
+                    title: "Bachelor of Molecular Biologist", 
+                    institution: "University of Sciences", 
+                    year: "2024 - Present" 
+                  },
+                  { 
+                    title: "Development Skills", 
+                    institution: "University of Books and Internet", 
+                    year: "2020" 
+                  }
+                ].map((edu, index) => (
+                  <motion.div 
+                    key={index}
+                    className="pb-4 border-b border-border last:border-b-0 last:pb-0"
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <h4 className="font-medium">{edu.title}</h4>
+                    <p className="text-sm text-muted-foreground">{edu.institution}</p>
+                    <p className="text-xs text-muted-foreground">{edu.year}</p>
+                  </motion.div>
+                ))}
               </div>
-            </div>
-
+            </motion.div>
+            
             {/* Key Certifications */}
-            <div className="bg-card border border-border rounded-2xl p-8">
+            <motion.div 
+              className="bg-card border border-border rounded-2xl p-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+            >
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <Target className="w-5 h-5 text-secondary" />
                 Certifications
@@ -359,19 +540,30 @@ const AboutPage = () => {
                   { name: "TypeScript Fundamentals", issuer: "Microsoft", year: "2022" },
                   { name: "Next.js Certification", issuer: "Vercel", year: "2023" }
                 ].map((cert, index) => (
-                  <div key={index} className="pb-4 border-b border-border last:border-b-0 last:pb-0">
+                  <motion.div 
+                    key={index}
+                    className="pb-4 border-b border-border last:border-b-0 last:pb-0"
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <h4 className="font-medium">{cert.name}</h4>
                     <p className="text-sm text-muted-foreground">{cert.issuer} • {cert.year}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Clean & Focused */}
-      <section className="py-20 px-6 lg:px-12 bg-card/20  rounded-xl">
+      {/* CTA Section */}
+      <motion.section 
+        className="py-20 px-6 lg:px-12 bg-card/20 rounded-xl section-animate"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+      >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">Ready to collaborate?</h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -379,23 +571,33 @@ const AboutPage = () => {
           </p>
           
           <div className="flex gap-4 justify-center">
-            <Link href="/contact" className='flex items-center gap-2 cursor-pointer'>
-                <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
-              <Mail className="w-4 h-4" />
-                Start a Conversation
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </button>
-            </Link>
-            <Link href="/projects" className='flex items-center gap-2 cursor-pointer'>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/contact" className='flex items-center gap-2 cursor-pointer'>
+                <button className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium flex items-center gap-2 group">
+                  <Mail className="w-4 h-4" />
+                  Start a Conversation
+                  <motion.span
+                    animate={{ x: 0, y: 0 }}
+                    whileHover={{ x: 3, y: -3 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                  </motion.span>
+                </button>
+              </Link>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/projects" className='flex items-center gap-2 cursor-pointer'>
                 <button className="border border-border px-8 py-4 rounded-xl font-medium hover:bg-card transition-all flex items-center gap-2">
-                <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4" />
                   View Portfolio
-              </button>
-            </Link>
-
+                </button>
+              </Link>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

@@ -135,7 +135,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, isPrimary = false }) => {
 
           {/* CONTENT (above overlays) */}
           <div className="relative z-10 pb-4">
-            <div className="flex items-center gap-4">
+            <div className="flex md:flex-col md:items-start  items-center gap-4">
               <div
                 className="w-14 h-14 flex items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105"
                 style={{
