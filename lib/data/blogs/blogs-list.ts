@@ -41,7 +41,7 @@ export const BlogPosts: BlogCardProps[] = [
         description: 'my journy to try play and trick the system , false and useless attempt that teached me many good lessons, my first big project.',
         // coverImage: 'https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=800&h=400&fit=crop&q=80',
         coverImage: '/thumbnails/gitfather.png',
-        techTags: ['Tailwind', 'CSS', 'Design', 'Frontend'],
+        techTags: ['Python', 'Automation', 'Github'],
         meta: {
         author: { name: 'Parham Forati' },
         publishedDate: '2025-07-28',
@@ -70,5 +70,23 @@ export const BlogPosts: BlogCardProps[] = [
         category: "AI",
         featured: false,
         primaryTech: 'python'
+    },
+    {
+        id: '5',
+        title: 'Understanding DNS: How the Internet\'s Phone Book Really Works (+ Security Basics)',
+        description: 'Learn how DNS really works! Complete guide to domain name resolution with visual diagrams, practical examples, and essential security basics for developers.',
+        // coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop&q=80',
+        coverImage: '/thumbnails/dns-guide-visual.jpg',
+        techTags: ['DNS', 'Network Security', 'OWASP', 'Web Development', 'Cybersecurity', 'DevOps'],
+        meta: {
+            author: { name: 'Parham Forati' },
+            publishedDate: '2025-09-02',
+            readingTime: 15,
+            views: 1287
+        },
+        slug: 'understanding-dns-complete-guide',
+        category: "Security",
+        featured: false,
+        primaryTech: 'networking'
     }
 ];
