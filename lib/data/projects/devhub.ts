@@ -33,7 +33,7 @@ export const DevhubData: ProjectData = {
   processFlow: {
     title: "Research & Development Process",
     description: "A pragmatic, design-led engineering process from discovery to launch",
-    blogPostUrl: "https://your-blog.com/devhub-process-deep-dive",
+    blogPostUrl: "/blogs/devhub-the-story-behind-it",
     stages: [
       { name: "Discovery", duration: "2 weeks", description: "Inventory of developer pain points and feature prioritization" },
       { name: "Design", duration: "3 weeks", description: "Wireframes for the dashboard, tool pages, and Learn dialog; prototyping with Framer Motion for micro-interactions" },

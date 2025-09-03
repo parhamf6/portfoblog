@@ -40,7 +40,7 @@ export default function BlogSection() {
             </div>
             
             <Button asChild variant="outline" className="mt-4 md:mt-0">
-                <Link href="/projects">
+                <Link href="/blogs">
                 View All Blogs
                 </Link>
             </Button>

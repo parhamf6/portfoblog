@@ -33,7 +33,7 @@ export const GitfatherData: ProjectData = {
   processFlow: {
     title: "Research & Development Process",
     description: "Iterative, safety-first engineering: discovery → prototype → hardening → launch",
-    blogPostUrl: "https://your-blog.com/gitfather-process-deep-dive",
+    blogPostUrl: "/blogs/gitfather-the-story-behind-it",
     stages: [
       { name: "Discovery", duration: "1 week", description: "Interviewed developers about painful Git workflows; prioritized safe, high-value automations" },
       { name: "Design", duration: "2 weeks", description: "Designed CLI UX, Telegram command schema, YAML workflow spec and audit trail format" },

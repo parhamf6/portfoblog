@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# PortfoBlog
 
-First, run the development server:
+A modern, developer-focused portfolio and blog platform built with Next.js, React, TypeScript, Tailwind CSS, Framer Motion, and Shadcn/ui. PortfoBlog is designed to showcase your work, share technical stories, and provide a suite of composable tools for everyday engineering workflows.
+
+## Table of Contents
+- [Features](#features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+- Responsive design with smooth, purposeful animations
+- Portfolio and blog system for tech-focused content
+- Dark/light mode toggle with system preference detection
+- Performance optimized: lazy loading, dynamic imports, image optimization
+- SEO optimized with meta tags and structured data
+- Accessible design following WCAG guidelines
+- Modular architecture for easy extension
+- Tool registry system for developer utilities
+- Privacy-first: all data processed client-side
+
+## Demo
+Live demo: [your-demo-url-here](https://your-demo-url-here)
+
+## Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/parhamf6/portfoblog.git
+cd portfoblog
+
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
+- Visit `http://localhost:3000` to view the site locally.
+- Customize your portfolio, add blog posts, and explore built-in developer tools.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
+```
+app/            # Next.js app directory (pages, layouts, routes)
+components/     # Reusable UI and feature components
+features/       # Feature modules (home, blog, project, about)
+hooks/          # Custom React hooks
+i18n/           # Internationalization utilities
+lib/            # Utility functions and data
+public/         # Static assets (images, SVGs, content)
+types/          # TypeScript type definitions
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
+- **Next.js** (App Router)
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Shadcn/ui**
 
-## Learn More
+## Contributing
+Contributions are welcome! Please open issues or submit pull requests for improvements, new features, or bug fixes.
 
-To learn more about Next.js, take a look at the following resources:
+## License
+This project is licensed under the MIT License.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Built and maintained by [parhamf6](https://github.com/parhamf6)
