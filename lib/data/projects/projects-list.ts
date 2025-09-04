@@ -1,5 +1,5 @@
 // data/projects.ts
-import { Project } from "@/types/project";
+import type { Project } from "@/types/project"
 
 export const projects: Project[] = [
   {
@@ -13,7 +13,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/example/portfoblog",
     slug: "portfoblog",
     color: "rgba(59, 130, 246, 0.5)",
-    status:true
+    status: true,
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/parhamf6/gitfather",
     slug: "gitfather",
     color: "rgba(52, 211, 153, 0.5)",
-    status:true
+    status: true,
   },
   {
     id: 3,
@@ -38,6 +38,6 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/parhamf5/devhub",
     slug: "devhub",
     color: "rgba(236, 72, 153, 0.5)",
-    status:true
-  }
-];
+    status: true,
+  },
+]

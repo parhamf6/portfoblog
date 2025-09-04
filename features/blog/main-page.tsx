@@ -1,59 +1,59 @@
 "use client"
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, Clock, Eye, User, Calendar, Tag, Layers, X, Sparkles } from 'lucide-react';
-import { BlogPosts } from '@/lib/data/blogs/blogs-list';
-import { BlogCard } from '../home/sections/blog-section/components/blog-card';
-import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useState, useMemo } from "react"
+import { Search, Filter, Tag, Layers, X, Sparkles, Bookmark, BookmarkCheck } from "lucide-react"
+import { BlogPosts } from "@/lib/data/blogs/blogs-list"
+import { BlogCard } from "../home/sections/blog-section/components/blog-card"
+import { Badge } from "@/components/ui/badge"
+import { useBookmarks } from "@/hooks/useBookmark"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 // Main Blog Index Component
 const BlogIndex = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedTech, setSelectedTech] = useState('All');
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedTech, setSelectedTech] = useState("All")
+  const [showBookmarksOnly, setShowBookmarksOnly] = useState(false)
+
+  const { bookmarkedBlogs } = useBookmarks()
 
   // Extract unique categories and technologies
   const categories = useMemo(() => {
-    const cats = ['All', ...new Set(BlogPosts.map(post => post.category))];
-    return cats;
-  }, []);
+    const cats = ["All", ...new Set(BlogPosts.map((post) => post.category))]
+    return cats
+  }, [])
 
   const technologies = useMemo(() => {
-    const techs = ['All', ...new Set(BlogPosts.flatMap(post => post.techTags))];
-    return techs;
-  }, []);
+    const techs = ["All", ...new Set(BlogPosts.flatMap((post) => post.techTags))]
+    return techs
+  }, [])
 
   // Filter blogs based on search and filters
   const filteredBlogs = useMemo(() => {
-    return BlogPosts.filter(blog => {
-      const matchesSearch = 
+    return BlogPosts.filter((blog) => {
+      const matchesSearch =
         blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.techTags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      const matchesCategory = selectedCategory === 'All' || blog.category === selectedCategory;
-      const matchesTech = selectedTech === 'All' || blog.techTags.includes(selectedTech);
-      
-      return matchesSearch && matchesCategory && matchesTech;
-    });
-  }, [searchQuery, selectedCategory, selectedTech]);
+        blog.techTags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 
-  const clearCategory = () => setSelectedCategory('All');
-  const clearTech = () => setSelectedTech('All');
+      const matchesCategory = selectedCategory === "All" || blog.category === selectedCategory
+      const matchesTech = selectedTech === "All" || blog.techTags.includes(selectedTech)
+      const matchesBookmark = !showBookmarksOnly || bookmarkedBlogs.includes(blog.id)
+
+      return matchesSearch && matchesCategory && matchesTech && matchesBookmark
+    })
+  }, [searchQuery, selectedCategory, selectedTech, showBookmarksOnly, bookmarkedBlogs])
+
+  const clearCategory = () => setSelectedCategory("All")
+  const clearTech = () => setSelectedTech("All")
   const clearAllFilters = () => {
-    setSelectedCategory('All');
-    setSelectedTech('All');
-    setSearchQuery('');
-  };
+    setSelectedCategory("All")
+    setSelectedTech("All")
+    setSearchQuery("")
+    setShowBookmarksOnly(false)
+  }
 
-  const hasActiveFilters = selectedCategory !== 'All' || selectedTech !== 'All' || searchQuery;
-  const hasFilterSelections = selectedCategory !== 'All' || selectedTech !== 'All';
+  const hasActiveFilters = selectedCategory !== "All" || selectedTech !== "All" || searchQuery || showBookmarksOnly
+  const hasFilterSelections = selectedCategory !== "All" || selectedTech !== "All" || showBookmarksOnly
 
   return (
     <div className="min-h-screen bg-background text-foreground mb-32">
@@ -61,42 +61,58 @@ const BlogIndex = () => {
       <section className="relative overflow-hidden py-20 px-4">
         <div className="absolute inset-0" />
         <div className="relative max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-foreground to-secondary bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-foreground to-accent bg-clip-text text-transparent leading-tight">
             The Lab Notebook
           </h1>
-          <p className="text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl max-w-2xl mx-auto leading-relaxed text-muted-foreground">
             A collection of my thoughts, tutorials, and project updates from my journey as a developer.
           </p>
         </div>
       </section>
 
       {/* Search and Filters */}
-      <section className="px-4 pb-12 ">
-        <div id='blog-search-div' className="max-w-6xl mx-auto bg-gradient-to-br from-primary/15 via-transparent to-secondary/15 rounded-2xl">
-          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 mb-12">
-            
-            {/* Header with Clear All */}
+      <section className="px-4 pb-12">
+        <div
+          id="blog-search-div"
+          className="max-w-6xl mx-auto bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-2xl"
+        >
+          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-6 mb-12">
+            {/* Header with Clear All and Bookmarks */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Search className="w-5 h-5 text-primary" />
                 <h3 className="text-lg font-semibold text-foreground">Find Articles</h3>
                 <Sparkles className="w-4 h-4 text-primary/60" />
               </div>
-              {hasActiveFilters && (
+
+              <div className="flex items-center gap-3">
                 <button
-                  onClick={clearAllFilters}
-                  className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 px-3 py-1 rounded-lg hover:bg-muted/50 transition-colors"
+                  onClick={() => setShowBookmarksOnly(!showBookmarksOnly)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    showBookmarksOnly
+                      ? "bg-primary text-primary-foreground shadow-lg"
+                      : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
                 >
-                  <X className="w-3 h-3" />
-                  Clear all
+                  {showBookmarksOnly ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+                  Bookmarks ({bookmarkedBlogs.length})
                 </button>
-              )}
+
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearAllFilters}
+                    className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 px-3 py-1 rounded-lg hover:bg-muted/50 transition-colors"
+                  >
+                    <X className="w-3 h-3" />
+                    Clear all
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-col gap-6">
               {/* Search and Main Filters Row */}
               <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
-                
                 {/* Search Bar */}
                 <div className="relative flex-1 min-w-0">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
@@ -109,7 +125,7 @@ const BlogIndex = () => {
                   />
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery('')}
+                      onClick={() => setSearchQuery("")}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
                       <X className="w-4 h-4" />
@@ -119,7 +135,6 @@ const BlogIndex = () => {
 
                 {/* Filters Container */}
                 <div className="flex flex-col sm:flex-row gap-3 lg:min-w-0">
-                  
                   {/* Category Filter */}
                   <div className="relative min-w-[160px]">
                     <div className="mb-1 flex items-center gap-1">
@@ -130,12 +145,11 @@ const BlogIndex = () => {
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                         <SelectTrigger className="w-full bg-background/80 border-border hover:border-primary/50 focus:border-primary transition-colors text-sm">
                           <div className="flex items-center gap-2 text-left">
-                            {/* <Layers className="w-3 h-3 text-muted-foreground flex-shrink-0" /> */}
                             <SelectValue placeholder="All Categories" />
                           </div>
                         </SelectTrigger>
                         <SelectContent>
-                          {categories.map(category => (
+                          {categories.map((category) => (
                             <SelectItem key={category} value={category}>
                               <div className="flex items-center gap-2">
                                 <Layers className="w-3 h-3 text-muted-foreground" />
@@ -145,7 +159,7 @@ const BlogIndex = () => {
                           ))}
                         </SelectContent>
                       </Select>
-                      {selectedCategory && selectedCategory !== 'All' && (
+                      {selectedCategory && selectedCategory !== "All" && (
                         <button
                           onClick={clearCategory}
                           className="absolute right-8 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
@@ -166,12 +180,11 @@ const BlogIndex = () => {
                       <Select value={selectedTech} onValueChange={setSelectedTech}>
                         <SelectTrigger className="w-full bg-background/80 border-border hover:border-primary/50 focus:border-primary transition-colors text-sm">
                           <div className="flex items-center gap-2 text-left">
-                            {/* <Tag className="w-3 h-3 text-muted-foreground flex-shrink-0" /> */}
                             <SelectValue placeholder="All Technologies" />
                           </div>
                         </SelectTrigger>
                         <SelectContent>
-                          {technologies.map(tech => (
+                          {technologies.map((tech) => (
                             <SelectItem key={tech} value={tech}>
                               <div className="flex items-center gap-2">
                                 <Tag className="w-3 h-3 text-muted-foreground" />
@@ -181,7 +194,7 @@ const BlogIndex = () => {
                           ))}
                         </SelectContent>
                       </Select>
-                      {selectedTech && selectedTech !== 'All' && (
+                      {selectedTech && selectedTech !== "All" && (
                         <button
                           onClick={clearTech}
                           className="absolute right-8 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
@@ -196,7 +209,6 @@ const BlogIndex = () => {
 
               {/* Active Filters and Results Row */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-border/50">
-                
                 {/* Active Filters */}
                 <div className="flex flex-wrap items-center gap-2">
                   {(hasFilterSelections || searchQuery) && (
@@ -206,28 +218,49 @@ const BlogIndex = () => {
                         Active filters:
                       </span>
                       {searchQuery && (
-                        <Badge variant="outline" className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-sm">
-                          <Search className="w-3 h-3" />
-                          "{searchQuery.length > 20 ? searchQuery.substring(0, 20) + '...' : searchQuery}"
-                          <button onClick={() => setSearchQuery('')} className="ml-1 hover:text-primary/80">
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-sm"
+                        >
+                          <Search className="w-3 h-3" />"
+                          {searchQuery.length > 20 ? searchQuery.substring(0, 20) + "..." : searchQuery}"
+                          <button onClick={() => setSearchQuery("")} className="ml-1 hover:text-primary/80">
                             <X className="w-3 h-3" />
                           </button>
                         </Badge>
                       )}
-                      {selectedCategory && selectedCategory !== 'All' && (
-                        <Badge variant="outline" className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 text-sm">
+                      {showBookmarksOnly && (
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1 bg-accent/10 text-accent border-accent/20 hover:bg-accent/20 text-sm"
+                        >
+                          <Bookmark className="w-3 h-3" />
+                          Bookmarked
+                          <button onClick={() => setShowBookmarksOnly(false)} className="ml-1 hover:text-accent/80">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </Badge>
+                      )}
+                      {selectedCategory && selectedCategory !== "All" && (
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 text-sm dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800"
+                        >
                           <Layers className="w-3 h-3" />
                           {selectedCategory}
-                          <button onClick={clearCategory} className="ml-1 hover:text-blue-900">
+                          <button onClick={clearCategory} className="ml-1 hover:text-blue-900 dark:hover:text-blue-100">
                             <X className="w-3 h-3" />
                           </button>
                         </Badge>
                       )}
-                      {selectedTech && selectedTech !== 'All' && (
-                        <Badge variant="outline" className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 hover:bg-green-100 text-sm">
+                      {selectedTech && selectedTech !== "All" && (
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 hover:bg-green-100 text-sm dark:bg-green-950 dark:text-green-300 dark:border-green-800"
+                        >
                           <Tag className="w-3 h-3" />
                           {selectedTech}
-                          <button onClick={clearTech} className="ml-1 hover:text-green-900">
+                          <button onClick={clearTech} className="ml-1 hover:text-green-900 dark:hover:text-green-100">
                             <X className="w-3 h-3" />
                           </button>
                         </Badge>
@@ -241,7 +274,7 @@ const BlogIndex = () => {
                   <div className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                     <span className="font-medium text-foreground">{filteredBlogs.length}</span>
-                    <span>{filteredBlogs.length === 1 ? 'article' : 'articles'} found</span>
+                    <span>{filteredBlogs.length === 1 ? "article" : "articles"} found</span>
                   </div>
                 </div>
               </div>
@@ -252,9 +285,9 @@ const BlogIndex = () => {
 
       {/* Blog Grid */}
       <section>
-        <div className="max-w-7/8 mx-auto">
+        <div className="max-w-7xl mx-auto px-4">
           {filteredBlogs.length > 0 ? (
-            <div className="flex flex-wrap items-center justify-center gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
               {filteredBlogs.map((blog) => (
                 <BlogCard key={blog.id} {...blog} />
               ))}
@@ -262,24 +295,32 @@ const BlogIndex = () => {
           ) : (
             <div className="text-center py-20">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/30 flex items-center justify-center">
-                <Search className="w-8 h-8 text-muted-foreground" />
+                {showBookmarksOnly ? (
+                  <Bookmark className="w-8 h-8 text-muted-foreground" />
+                ) : (
+                  <Search className="w-8 h-8 text-muted-foreground" />
+                )}
               </div>
-              <h3 className="text-2xl font-semibold mb-2">No articles found</h3>
+              <h3 className="text-2xl font-semibold mb-2">
+                {showBookmarksOnly ? "No bookmarked articles" : "No articles found"}
+              </h3>
               <p className="text-muted-foreground mb-6">
-                Try adjusting your search terms or filters to find what you're looking for.
+                {showBookmarksOnly
+                  ? "Start bookmarking articles to see them here."
+                  : "Try adjusting your search terms or filters to find what you're looking for."}
               </p>
               <button
                 onClick={clearAllFilters}
                 className="px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-300 font-medium"
               >
-                Clear Filters
+                {showBookmarksOnly ? "Show All Articles" : "Clear Filters"}
               </button>
             </div>
           )}
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default BlogIndex;
+export default BlogIndex
