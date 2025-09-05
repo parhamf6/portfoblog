@@ -269,7 +269,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
       </div>
 
       {/* Floating Elements */}
-      <motion.div
+      {/* <motion.div
         className="absolute -top-2 -right-2 w-6 h-6 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100"
         animate={{
           scale: [1, 1.2, 1],
@@ -280,7 +280,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
         }}
-      />
+      /> */}
     </motion.div>
   )
 }

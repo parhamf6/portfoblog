@@ -18,7 +18,7 @@ export default function ProjectSection() {
         variants={slideInLeft}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        className="py-16 md:py-24 px-4 md:px-8">
+        className="py-16 md:py-24 px-1 md:px-4">
         <div className="mx-auto">
             <motion.div 
             className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"

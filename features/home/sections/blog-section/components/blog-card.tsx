@@ -400,7 +400,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         shadow-lg hover:shadow-2xl transition-all duration-500 ease-out
         hover:scale-[1.02] hover:ring-2 hover:ring-primary/30
         border border-border hover:border-primary/50
-        h-[520px] w-[420px]
+        h-[520px] max-w-[420px]
         flex flex-col
         ${featured ? "ring-2 ring-primary/40 shadow-primary/20" : ""}
         ${className}
