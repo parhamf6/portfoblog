@@ -264,13 +264,246 @@
 
 
 "use client"
-
 import type React from "react"
-import { ChevronRight, Clock, Calendar, User, ArrowUpRight, Bookmark, BookmarkCheck, Eye } from "lucide-react"
+import { useState } from "react"
+import { ChevronRight, Clock, Calendar, User, ArrowUpRight, Bookmark, BookmarkCheck, Eye, Sparkles, Heart } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useBookmarks } from "@/hooks/useBookmark"
+
+// Enhanced Bookmark Button Component
+const ModernBookmarkButton = ({ 
+  isBookmarked = false, 
+  onToggle, 
+  className = "",
+}) => {
+  const [showParticles, setShowParticles] = useState(false);
+  const [ripples, setRipples] = useState([]);
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    
+    // Create ripple effect
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const newRipple = {
+      id: Date.now(),
+      x: centerX,
+      y: centerY
+    };
+    
+    setRipples(prev => [...prev, newRipple]);
+    
+    // Remove ripple after animation
+    setTimeout(() => {
+      setRipples(prev => prev.filter(ripple => ripple.id !== newRipple.id));
+    }, 800);
+
+    // Show particles for bookmark action
+    if (!isBookmarked) {
+      setShowParticles(true);
+      setTimeout(() => setShowParticles(false), 1200);
+    }
+
+    onToggle?.();
+  };
+
+  // Particle animation variants
+  const particleVariants = {
+    hidden: { 
+      scale: 0, 
+      opacity: 0,
+      rotate: 0
+    },
+    visible: (i) => ({
+      scale: [0, 1, 0.8, 0],
+      opacity: [0, 1, 0.8, 0],
+      rotate: [0, 180 + (i * 60), 360 + (i * 60)],
+      x: [0, Math.cos(i * Math.PI / 3) * (25 + i * 8)],
+      y: [0, Math.sin(i * Math.PI / 3) * (25 + i * 8)],
+      transition: {
+        duration: 1.2,
+        delay: i * 0.08,
+        ease: [0.23, 1, 0.32, 1]
+      }
+    })
+  };
+
+  return (
+    <motion.button
+      onClick={handleClick}
+      className={`
+        p-2 rounded-full relative overflow-hidden
+        bg-white/10 backdrop-blur-md hover:bg-white/40 
+        border border-secondary/50 hover:border-secondary/70
+        transition-all duration-300 group/bookmark
+        focus:outline-none focus:ring-2 focus:ring-white/30
+        ${className}
+      `}
+      whileHover={{ 
+        scale: 1.1,
+        boxShadow: "0 8px 32px rgba(255, 255, 255, 0.1)"
+      }}
+      whileTap={{ scale: 0.9 }}
+      animate={{
+        rotate: isBookmarked ? [0, -5, 5, 0] : 0,
+      }}
+      transition={{ 
+        rotate: { duration: 0.6, ease: "easeInOut" },
+        scale: { type: "spring", stiffness: 300, damping: 20 }
+      }}
+    >
+      {/* Ripple Effects */}
+      <AnimatePresence>
+        {ripples.map((ripple) => (
+          <motion.div
+            key={ripple.id}
+            className="absolute rounded-full border-2 border-orange-400/50"
+            style={{
+              left: ripple.x - 15,
+              top: ripple.y - 15,
+              width: 30,
+              height: 30,
+            }}
+            initial={{ scale: 0, opacity: 1 }}
+            animate={{ 
+              scale: 2.5, 
+              opacity: 0,
+              borderWidth: 0
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          />
+        ))}
+      </AnimatePresence>
+
+      {/* Floating Particles */}
+      <AnimatePresence>
+        {showParticles && (
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 rounded-full"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  marginLeft: -2,
+                  marginTop: -2,
+                }}
+                variants={particleVariants}
+                custom={i}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
+                {i % 3 === 0 ? (
+                  <Sparkles className="w-3 h-3 text-orange-400" />
+                ) : i % 3 === 1 ? (
+                  <Heart className="w-3 h-3 text-pink-400" />
+                ) : (
+                  <div className="w-1 h-1 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full" />
+                )}
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Glow Effect */}
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        animate={isBookmarked ? {
+          boxShadow: [
+            "0 0 0 0 rgba(251, 146, 60, 0)",
+            "0 0 0 10px rgba(251, 146, 60, 0.1)",
+            "0 0 0 0 rgba(251, 146, 60, 0)"
+          ]
+        } : {}}
+        transition={{ duration: 1, repeat: isBookmarked ? Infinity : 0, repeatDelay: 2 }}
+      />
+
+      {/* Main Icon with Morphing Animation */}
+      <motion.div
+        className="relative z-10"
+        animate={{
+          rotateY: isBookmarked ? [0, 180, 360] : 0,
+          scale: isBookmarked ? [1, 1.2, 1] : 1
+        }}
+        transition={{ 
+          rotateY: { duration: 0.8, ease: "backOut" },
+          scale: { duration: 0.4, ease: "backOut" }
+        }}
+      >
+        <AnimatePresence mode="wait">
+          {isBookmarked ? (
+            <motion.div
+              key="bookmarked"
+              initial={{ scale: 0, opacity: 0, rotateZ: -180 }}
+              animate={{ scale: 1, opacity: 1, rotateZ: 0 }}
+              exit={{ scale: 0, opacity: 0, rotateZ: 180 }}
+              transition={{ duration: 0.5, ease: "backOut" }}
+              className="relative"
+            >
+              <BookmarkCheck className="w-5 h-5 text-orange-400 drop-shadow-lg" />
+              
+              {/* Pulsing glow for bookmarked state */}
+              <motion.div
+                className="absolute inset-0"
+                animate={{
+                  opacity: [0, 0.5, 0],
+                  scale: [1, 1.5, 1]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <BookmarkCheck className="w-5 h-5 text-orange-400/30" />
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="unbookmarked"
+              initial={{ scale: 0, opacity: 0, rotateZ: -180 }}
+              animate={{ scale: 1, opacity: 1, rotateZ: 0 }}
+              exit={{ scale: 0, opacity: 0, rotateZ: 180 }}
+              transition={{ duration: 0.5, ease: "backOut" }}
+            >
+              <motion.div
+                whileHover={{
+                  rotateZ: 12,
+                  y: -2
+                }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Bookmark className="w-5 h-5 text-white/80 group-hover/bookmark:text-orange-400 transition-colors duration-300" />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Magnetic field effect */}
+      <motion.div
+        className="absolute inset-0 rounded-full border border-orange-400/20"
+        animate={isBookmarked ? {
+          scale: [1, 1.3, 1],
+          opacity: [0, 0.3, 0]
+        } : {}}
+        transition={{ 
+          duration: 1.5, 
+          repeat: isBookmarked ? Infinity : 0, 
+          repeatDelay: 1 
+        }}
+      />
+    </motion.button>
+  );
+};
 
 // TechTag component with enhanced styling using semantic tokens
 interface TechTagProps {
@@ -376,8 +609,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     }
   }
 
-  const handleBookmarkClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleBookmarkClick = () => {
     console.log("[v0] Toggling bookmark for:", id)
     toggleBookmark(id)
   }
@@ -435,19 +667,11 @@ export const BlogCard: React.FC<BlogCardProps> = ({
               {category}
             </span>
 
-            <motion.button
-              onClick={handleBookmarkClick}
-              className="bookmark-btn p-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/20 transition-all duration-300"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
-            >
-              {bookmarked ? (
-                <BookmarkCheck className="w-5 h-5 text-orange-400" />
-              ) : (
-                <Bookmark className="w-5 h-5 text-white/80 hover:text-orange-400 transition-colors" />
-              )}
-            </motion.button>
+            <ModernBookmarkButton
+              isBookmarked={bookmarked}
+              onToggle={handleBookmarkClick}
+              className="bookmark-btn"
+            />
           </div>
 
           {/* Bottom row - stats */}
@@ -494,7 +718,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         {/* Title */}
         <h3
           className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-tight
-          group-hover:text-primary font-serif transition-colors duration-300 line-clamp-2"
+          group-hover:text-primary font-serif transition-colors duration-300 line-clamp-1"
         >
           {title}
         </h3>
