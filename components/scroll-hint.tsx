@@ -75,7 +75,7 @@ export const ScrollHint = ({
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
           <motion.span
-            className="text-sm text-muted-foreground font-light tracking-wider"
+            className="text-sm text-accent font-light tracking-wider"
             animate={{ 
               opacity: [0.5, 1, 0.5],
             }}

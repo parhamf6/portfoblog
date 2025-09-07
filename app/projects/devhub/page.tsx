@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState ,useEffect , useRef } from 'react';
 import { ExternalLink, Github, Play, Code, Users, Calendar, TrendingUp, Sparkles, ChevronRight, ArrowRight, ChevronDown, ChevronUp, Clock, Target, Zap, BookOpen, Image, ArrowLeft, ArrowRight as ArrowRightIcon, LucideIcon } from 'lucide-react';
 import { DevhubData } from '@/lib/data/projects/devhub';
 import { SummaryData ,  Metric } from '@/types/project';
@@ -7,6 +7,7 @@ import ModernImageGallery from '@/features/project/components/image-gallery';
 import ProcessFlow from '@/features/project/components/process-flow';
 import { ProjectStatus , statusConfig } from '@/features/project/components/project-status';
 import ProjectPageCta from '@/features/project/components/projects-end-cta';
+import { AnimatePresence, motion } from 'framer-motion';
 
 
 type TabId = 'summary' | 'overview' | 'process' | 'gallery' | 'technical' | 'results';
@@ -49,8 +50,11 @@ const ProjectShowcase: React.FC = () => {
     );
   };
 
-  const SummaryCard: React.FC<{ section: SummarySection; data: SummaryData }> = ({ section, data }) => {
+const SummaryCard: React.FC<{ section: SummarySection; data: SummaryData }> = ({ section, data }) => {
     const isExpanded = expandedSummary[section];
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [contentHeight, setContentHeight] = useState(0);
+    
     const icons: Record<SummarySection, LucideIcon> = {
       problem: Target,
       solution: Zap, 
@@ -58,34 +62,47 @@ const ProjectShowcase: React.FC = () => {
     };
     const IconComponent = icons[section];
 
+    useEffect(() => {
+      if (contentRef.current) {
+        setContentHeight(contentRef.current.scrollHeight);
+      }
+    }, [data.detailed]);
+    
     return (
-      <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:bg-card/70 transition-all duration-300">
+      <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:bg-card/70 transition-all duration-300 hover:shadow-md">
         <button
           onClick={() => toggleSummary(section)}
-          className="w-full p-6 text-left flex items-center justify-between hover:bg-muted/20 transition-colors"
+          className="w-full p-6 text-left flex items-center justify-between hover:bg-muted/20 transition-all duration-300 group"
         >
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/20 rounded-lg">
-              <IconComponent className="w-6 h-6 text-primary" />
+            <div className="p-3 bg-primary/20 rounded-lg transition-all duration-300 group-hover:bg-primary/30 group-hover:scale-105">
+              <IconComponent className="w-6 h-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{data.title}</h3>
+              <h3 className="text-lg font-semibold transition-colors duration-300 group-hover:text-primary">{data.title}</h3>
               <p className="text-muted-foreground text-sm">{data.short}</p>
             </div>
           </div>
-          {isExpanded ? 
-            <ChevronUp className="w-5 h-5 text-muted-foreground" /> : 
+          <div className={`transition-all duration-300 ${isExpanded ? 'rotate-180 text-primary' : 'rotate-0'}`}>
             <ChevronDown className="w-5 h-5 text-muted-foreground" />
-          }
+          </div>
         </button>
         
-        {isExpanded && (
-          <div className="px-6 pb-6 border-t border-border/50">
-            <div className="pt-4">
+        <div 
+          className="overflow-hidden transition-all duration-500 ease-out border-t border-border/50"
+          style={{
+            height: isExpanded ? `${contentHeight}px` : '0px',
+            opacity: isExpanded ? 1 : 0
+          }}
+        >
+          <div ref={contentRef} className="px-6 pb-6">
+            <div className={`pt-4 transform transition-all duration-500 delay-100 ${
+              isExpanded ? 'translate-y-0' : '-translate-y-2'
+            }`}>
               <p className="text-muted-foreground leading-relaxed">{data.detailed}</p>
             </div>
           </div>
-        )}
+        </div>
       </div>
     );
   };

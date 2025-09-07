@@ -31,8 +31,8 @@ export default function HeroSection() {
             <Introduction />
             <ScrollHint 
                 text="Explore my work"
-                hideDelay={5}
-                className="text-muted-foreground"
+                hideDelay={10}
+                className="text-accent"
                 />
         </div>
         </section>
