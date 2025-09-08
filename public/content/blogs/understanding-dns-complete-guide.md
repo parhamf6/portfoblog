@@ -1,13 +1,8 @@
-
+# DNS Security Guide: Understanding the Internet's Phone Book
 
 ```markdown
 <!-- meta: Learn how DNS really works! Complete guide to domain name resolution with visual diagrams, practical examples, and essential security basics. -->
 ```
-
-
-# DNS Security Guide: Understanding the Internet's Phone Book (OWASP Chapter 2)
-
-*Tags: DNS, OWASP, Network Security, Web Security, DNS Attacks, Cybersecurity, Domain Name System, Security Basics*
 
 ---
 

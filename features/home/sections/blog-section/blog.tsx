@@ -17,7 +17,7 @@ export default function BlogSection() {
     // console.log(`Navigate to: /blog/${slug}`);
     // router.push(`/blog/${slug}`)
     // };
-    const BlogPosts = Allposts.slice(-4,-1)
+    const BlogPosts = Allposts.slice(-3)
     return (
         <motion.section 
         ref={ref}

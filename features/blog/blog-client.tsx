@@ -13,18 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { ShareButtons } from "@/features/blog/components/share-buttons";
 import { RelatedPosts } from "@/features/blog/components/related-posts";
 import { QuoteShareProvider } from "@/components/quote-share/QuoteShareProvider";
-import {
-  ArrowLeft,
-  Clock,
-  Eye,
-  Calendar,
-  Share2,
-  Bookmark,
-  ChevronUp,
-  Menu,
-  X
-} from "lucide-react";
-import BackToTop from "@/components/global/back-to-top";
+import { ArrowLeft, Clock, Eye, Calendar, Menu, X } from "lucide-react";
 
 interface TocItem {
   id: string;
@@ -56,6 +45,54 @@ interface BlogPostClientProps {
   fileContent: string;
   readingTime: number;
   relatedPosts: BlogPost[];
+  techTags: string[]
+}
+
+
+interface TechTagProps {
+  tech: string
+  className?: string
+}
+
+const TechTag: React.FC<TechTagProps> = ({ tech, className = "" }) => {
+  const getTechStyles = (tech: string) => {
+    const techKey = tech.toLowerCase()
+    const techConfig = {
+      typescript: { bg: "bg-blue-500/20", text: "text-blue-400", border: "border-blue-500/30" },
+      javascript: { bg: "bg-yellow-500/20", text: "text-yellow-400", border: "border-yellow-500/30" },
+      react: { bg: "bg-cyan-500/20", text: "text-cyan-400", border: "border-cyan-500/30" },
+      nextjs: { bg: "bg-gray-500/20", text: "text-gray-300", border: "border-gray-500/30" },
+      tailwind: { bg: "bg-teal-500/20", text: "text-teal-400", border: "border-teal-500/30" },
+      python: { bg: "bg-blue-600/20", text: "text-blue-400", border: "border-blue-600/30" },
+      "network security": { bg: "bg-green-500/20", text: "text-green-400", border: "border-green-500/30" },
+      node: { bg: "bg-green-600/20", text: "text-green-400", border: "border-green-600/30" },
+      "dev ops": { bg: "bg-emerald-600/20", text: "text-emerald-400", border: "border-emerald-600/30" },
+      rag: { bg: "bg-indigo-600/20", text: "text-indigo-400", border: "border-indigo-600/30" },
+      dns: { bg: "bg-orange-600/20", text: "text-orange-400", border: "border-orange-600/30" },
+      owasp: { bg: "bg-red-600/20", text: "text-red-400", border: "border-red-600/30" },
+      markdown: { bg: "bg-gray-600/20", text: "text-gray-400", border: "border-gray-600/30" },
+      automation: { bg: "bg-violet-600/20", text: "text-violet-400", border: "border-violet-600/30" },
+      github: { bg: "bg-gray-800/20", text: "text-gray-300", border: "border-gray-800/30" },
+    }
+    return (
+      techConfig[techKey as keyof typeof techConfig] || {
+        bg: "bg-muted/20",
+        text: "text-muted-foreground",
+        border: "border-muted/30",
+      }
+    )
+  }
+
+  const styles = getTechStyles(tech)
+  return (
+    <span
+      className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium 
+        border transition-all duration-300 hover:scale-105
+        ${styles.bg} ${styles.text} ${styles.border} ${className}`}
+    >
+      {tech}
+    </span>
+  )
 }
 
 // Table of Contents Component
@@ -188,49 +225,12 @@ function TableOfContents({ content }: { content: string }) {
   );
 }
 
-// Back to Top Component
-// function BackToTop() {
-//   const [isVisible, setIsVisible] = useState(false);
-
-//   useEffect(() => {
-//     const toggleVisibility = () => {
-//       if (window.pageYOffset > 300) {
-//         setIsVisible(true);
-//       } else {
-//         setIsVisible(false);
-//       }
-//     };
-
-//     window.addEventListener('scroll', toggleVisibility);
-//     return () => window.removeEventListener('scroll', toggleVisibility);
-//   }, []);
-
-//   const scrollToTop = () => {
-//     window.scrollTo({
-//       top: 0,
-//       behavior: 'smooth',
-//     });
-//   };
-
-//   if (!isVisible) return null;
-
-//   return (
-//     <Button
-//       onClick={scrollToTop}
-//       size="sm"
-//       variant="secondary"
-//       className="fixed bottom-8 right-8 z-40 rounded-full shadow-lg hover:scale-105 text-primary-foreground "
-//     >
-//       <ChevronUp className="h-4 w-4" />
-//     </Button>
-//   );
-// }
-
 export default function BlogPostClient({
   post,
   fileContent,
   readingTime,
-  relatedPosts
+  relatedPosts,
+  techTags
 }: BlogPostClientProps) {
   return (
     <QuoteShareProvider
@@ -318,14 +318,8 @@ export default function BlogPostClient({
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-8">
-                {post.techTags.map(tag => (
-                  <Badge
-                    key={tag}
-                    variant="outline"
-                    className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-muted/50 transition-colors"
-                  >
-                    {tag}
-                  </Badge>
+                {post.techTags.map((tech,index) => (
+                  <TechTag key={index} tech={tech} />
                 ))}
               </div>
             </div>
