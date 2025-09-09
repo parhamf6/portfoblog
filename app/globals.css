@@ -399,3 +399,98 @@
   -moz-user-select: text;
   -ms-user-select: text;
 }
+
+
+
+
+        .share-container {
+          font-family: var(--font-sans);
+        }
+        
+        .share-title {
+          color: var(--foreground);
+          font-weight: 600;
+        }
+        
+        .share-trigger {
+          background: var(--primary);
+          color: var(--primary-foreground);
+          border: 1px solid var(--border);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(248, 223, 11, 0.2);
+        }
+        
+        .share-trigger:hover {
+          background: var(--accent);
+          transform: translateY(-1px);
+          box-shadow: 0 8px 25px rgba(248, 223, 11, 0.3);
+        }
+        
+        .share-trigger:active {
+          transform: translateY(0);
+          transition: transform 0.1s;
+        }
+        
+        .dropdown-content {
+          background: var(--popover);
+          border: 1px solid var(--border);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 
+                      0 10px 10px -5px rgba(0, 0, 0, 0.2);
+          backdrop-filter: blur(12px);
+          border-radius: var(--radius);
+          min-width: 200px;
+        }
+        
+        .dropdown-item {
+          color: var(--foreground);
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+        
+        .dropdown-item:hover {
+          background: var(--accent);
+          color: var(--accent-foreground);
+          transform: translateX(2px);
+        }
+        
+        .dropdown-item:active {
+          transform: translateX(0);
+          transition: transform 0.1s;
+        }
+        
+        .separator {
+          background: var(--border);
+        }
+        
+        @media (max-width: 640px) {
+          .dropdown-content {
+            width: 90vw;
+            max-width: 280px;
+          }
+          
+          .share-trigger {
+            padding: 0.625rem 1rem;
+            font-size: 0.875rem;
+          }
+        }
+        
+        /* Smooth animations */
+        .dropdown-item:hover .icon {
+          transform: scale(1.1);
+        }
+        
+        .icon {
+          transition: transform 0.2s ease;
+        }
+        
+        /* Mobile touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+          .dropdown-item:hover {
+            transform: none;
+          }
+          
+          .dropdown-item:active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+          }
+        }

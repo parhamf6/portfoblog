@@ -314,6 +314,10 @@ export default function BlogPostClient({
                     </div>
                   )}
                 </div>
+                <Separator orientation="vertical" className="h-12 hidden sm:block" />
+                <div>
+                  <ShareButtons title={post.title} url={`/blogs/${post.slug}`} />
+                </div>
               </div>
 
               {/* Tags */}
