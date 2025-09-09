@@ -38,25 +38,37 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
       name: 'Twitter',
       icon: Twitter,
       color: 'text-[#1DA1F2]',
-      action: () => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank')
+      action: () => {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+        setIsOpen(false);
+      }
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
       color: 'text-[#0077B5]',
-      action: () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank')
+      action: () => {
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        setIsOpen(false);
+      }
     },
     {
       name: 'Email',
       icon: Mail,
       color: 'text-[#EA4335]',
-      action: () => window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${url}`)}`)
+      action: () => {
+        window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${url}`)}`);
+        setIsOpen(false);
+      }
     },
     {
       name: 'Telegram',
       icon: Send,
       color: 'text-[#0088CC]',
-      action: () => window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank')
+      action: () => {
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+        setIsOpen(false);
+      }
     },
     {
       name: 'Instagram',
@@ -66,7 +78,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
         navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-        setTimeout(() => setIsOpen(false), 500);
+        setIsOpen(false);
       }
     },
     {
@@ -77,13 +89,14 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
         navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-        setTimeout(() => setIsOpen(false), 500);
+        setIsOpen(false);
       }
     }
   ];
   
-  const toggleShareMenu = () => {
-    setIsOpen(!isOpen);
+  const handleShareOptionClick = (action: () => void) => {
+    action();
+    setIsOpen(false);
   };
   
   return (
@@ -92,8 +105,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="gap-2 rounded-xl border-border bg-card hover:bg-muted hover:text-secondary transition-all duration-200"
-            onClick={toggleShareMenu}
+            className="gap-2 rounded-xl border-border bg-card hover:bg-muted hover:text-secondary transition-all duration-200 touch-manipulation bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50"
           >
             {isOpen ? (
               <X className="h-4 w-4" />
@@ -104,7 +116,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-80 p-0 ml-2 bg-card border-border rounded-xl shadow-lg overflow-hidden"
+          className="w-80 p-0 ml-1 bg-card border-border rounded-xl shadow-lg overflow-hidden touch-manipulation bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10"
           align="end"
           sideOffset={8}
         >
@@ -115,7 +127,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
             transition={{ duration: 0.2 }}
           >
             <div className="p-4 border-b border-border">
-              <h3 className="font-medium ">Share this article</h3>
+              <h3 className="font-medium text-foreground">Share this article</h3>
               <p className="text-sm text-muted-foreground mt-1">Choose your platform</p>
             </div>
             <div className="grid grid-cols-3 gap-2 p-4">
@@ -124,14 +136,12 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
                   key={option.name}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
+                  className="touch-manipulation"
                 >
                   <Button
                     variant="ghost"
-                    className="flex flex-col items-center justify-center gap-1 h-20 w-full rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => {
-                      option.action();
-                      setIsOpen(false);
-                    }}
+                    className="flex flex-col items-center justify-center gap-1 h-20 w-full rounded-lg hover:bg-muted transition-colors touch-manipulation"
+                    onClick={() => handleShareOptionClick(option.action)}
                   >
                     <div className={`p-2 rounded-lg bg-muted ${option.color}`}>
                       <option.icon className="h-5 w-5" />
@@ -147,7 +157,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
       
       {copied && (
         <motion.div
-          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-card border border-border rounded-lg px-3 py-2 shadow-md"
+          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-card border border-border rounded-lg px-3 py-2 shadow-md z-50"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
