@@ -316,7 +316,7 @@ export default function BlogPostClient({
                 </div>
                 <Separator orientation="vertical" className="h-12 hidden sm:block" />
                 <div>
-                  <ShareButtons title={post.title} url={`/blogs/${post.slug}`} />
+                  <ShareButtons title={post.title} url={`portfoblog-front-private.vercel.app/blogs/${post.slug}`} />
                 </div>
               </div>
 
@@ -362,7 +362,7 @@ export default function BlogPostClient({
                           Share
                         </Button>
                       </div> */}
-                      <ShareButtons title={post.title} url={`/blogs/${post.slug}`} />
+                      <ShareButtons title={post.title} url={`portfoblog-front-private.vercel.app/blogs/${post.slug}`} />
                     </div>
                   </div>
                 </CardContent>

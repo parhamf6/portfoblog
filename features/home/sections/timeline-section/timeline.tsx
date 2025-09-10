@@ -45,7 +45,14 @@ const App = () => {
   return (
     <div className="min-h-screen bg-background py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-16">My Development Journey</h1>
+        <div className='text-center mb-24'>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 ">
+            My Development Journey
+          </h1>
+          <p className="text-muted-foreground">
+            Process of creating app and give life to ideas
+          </p>
+        </div>
         <Timeline steps={timelineSteps} />
       </div>
     </div>

@@ -9,14 +9,14 @@ import { AnimatedBeamDemo } from "../../components/bream";
 
 export default function BentoSection() {
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen  bg-background p-4 md:p-8 px-1 md:px-16 lg:px-36 mx-auto ">
       <div className="mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 text-center"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 ">
             Portfolio
           </h1>
           <p className="text-muted-foreground">

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation'; // Added for navigation
+import { Button } from '@/components/ui/button';
 
 // ====================================================================
 // CONFIGURATION & DATA SECTION
@@ -164,7 +165,15 @@ const GuessGame = ({ onExit }) => {
       )}
       <div className="text-muted-foreground text-sm">
         {gameOver ? 'Press ESC to exit' : 'Press ESC to exit, Enter to submit'}
+        
       </div>
+      <Button
+        onClick={onExit}
+        className='mt-4'
+        aria-label="Go back"
+        >
+          Go Back     
+      </Button>
     </div>
   );
 };
@@ -246,9 +255,18 @@ const RockPaperScissors = ({ onExit }) => {
           </button>
         ))}
       </div>
-      <div className="text-muted-foreground text-sm">
+      <div className="text-muted-foreground text-sm flex flex-col gap-4">
         Click buttons or press 1, 2, 3 keys | ESC to exit
+        <div >
+        <Button
+        onClick={onExit}
+        aria-label="Go back"
+        >
+          Go Back     
+        </Button>
       </div>
+      </div>
+      
     </div>
   );
 };
@@ -384,6 +402,13 @@ const MatrixEffect = ({ onExit }) => {
       <div className="text-muted-foreground text-sm mt-4">
         "There is no spoon" - Press ESC to return to reality
       </div>
+      <Button
+        onClick={onExit}
+        className='mt-4'
+        aria-label="Go back"
+        >
+          Go Back     
+      </Button>
     </div>
   );
 };
