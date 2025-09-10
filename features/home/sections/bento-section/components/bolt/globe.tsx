@@ -14,24 +14,25 @@ const GLOBE_CONFIG: COBEOptions = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
-  dark: 0,
-  diffuse: 0.4,
+  dark: 1,
+  diffuse: 1,
   mapSamples: 16000,
   mapBrightness: 1.2,
-  baseColor: [1, 1, 1],
-  markerColor: [251 / 255, 100 / 255, 21 / 255],
-  glowColor: [1, 1, 1],
+  // Using --foreground (nearly white) for base color
+  baseColor: [0.95, 0.95, 0.95],
+  // Using --primary (vibrant yellow) for marker color
+  markerColor: [0.972, 0.874, 0.043],
+  // Using --secondary (vibrant red-orange) for glow color
+  glowColor: [0.972, 0.180, 0.043],
   markers: [
-    { location: [14.5995, 120.9842], size: 0.03 },
-    { location: [19.076, 72.8777], size: 0.1 },
-    { location: [23.8103, 90.4125], size: 0.05 },
-    { location: [30.0444, 31.2357], size: 0.07 },
-    { location: [39.9042, 116.4074], size: 0.08 },
-    { location: [-23.5505, -46.6333], size: 0.1 },
-    { location: [19.4326, -99.1332], size: 0.1 },
-    { location: [40.7128, -74.006], size: 0.1 },
-    { location: [34.6937, 135.5022], size: 0.05 },
-    { location: [41.0082, 28.9784], size: 0.06 },
+    // Tehran
+    { location: [35.6892, 51.3890], size: 0.1 },
+    // Damghan
+    { location: [36.0951, 54.2027], size: 0.097 },
+    // Isfahan
+    { location: [32.6546, 51.6680], size: 0.08 },
+    // Shiraz
+    { location: [29.5918, 52.5837], size: 0.08 },
   ],
 };
 
