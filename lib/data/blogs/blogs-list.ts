@@ -113,4 +113,22 @@ export const BlogPosts: BlogCardProps[] = [
     featured: false,
     primaryTech: "network",
   },
+  {
+    id: "7",
+    title: "Understanding URLs and HTTP: My Deep Dive into Web Communication",
+    description:
+      "Building on my web server knowledge, I explored the fascinating world of URLs and HTTP protocols. From URL anatomy to HTTP headers, here's everything I discovered about how browsers and servers actually communicate - including some mind-blowing security implications.",
+    coverImage: "/thumbnails/understanding-urls-and-http-my-deep-dive-into-web-communication.jpg",
+    techTags: ["Network Security", "OWASP", "HTTP", "URL", "Web Protocols", "Browser Security"],
+    meta: {
+      author: { name: "Parham Forati" },
+      publishedDate: "2025-09-14",
+      readingTime: 10,
+      views: 1290,
+    },
+    slug: "understanding-urls-and-http-my-deep-dive-into-web-communication",
+    category: "Security",
+    featured: false,
+    primaryTech: "network",
+  }
 ]
