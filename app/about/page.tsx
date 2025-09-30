@@ -115,7 +115,7 @@ const AboutPage = () => {
   const currentFocus = [
     { title: "AI Integration", desc: "Exploring LLMs" },
     { title: "Performance", desc: "Advanced optimization" },
-    { title: "Data Science", desc: "Learning data analysis" },
+    { title: "OWASP", desc: "Learning webapp secuirty" },
     { title: "Open Source", desc: "Contributing to tools" }
   ];
 
@@ -535,7 +535,7 @@ const AboutPage = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  { name: "AWS Solutions Architect", issuer: "Amazon", year: "2023" },
+                  // { name: "AWS Solutions Architect", issuer: "Amazon", year: "2023" },
                   { name: "React Developer", issuer: "Meta", year: "2022" },
                   { name: "TypeScript Fundamentals", issuer: "Microsoft", year: "2022" },
                   { name: "Next.js Certification", issuer: "Vercel", year: "2023" }
