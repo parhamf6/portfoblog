@@ -10,7 +10,7 @@ type Props = {
 // Default export: CuriousQuote
 export default function CuriousQuote({
   quote = "Be curious, not judgmental",
-  author = "— Ted Lasso",
+  author = "— Walt Whitman",
   className = "",
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);

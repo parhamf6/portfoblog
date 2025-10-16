@@ -1,24 +1,24 @@
 import type { BlogCardProps } from "@/types/blogs"
 export const BlogPosts: BlogCardProps[] = [
-  {
-    id: "1",
-    title: "Portfoblog: the story behind it",
-    description:
-      "the story behind of building a portfolio+blog web app that has every need of devlopers in it, chllenges and the idea.",
-    // coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop&q=80',
-    coverImage: "/thumbnails/portfoblog.png",
-    techTags: ["React", "TypeScript", "NextJS", "Tailwind", "MarkDown"],
-    meta: {
-      author: { name: "Parham Forati" },
-      publishedDate: "2025-08-01",
-      readingTime: 8,
-      views: 2847,
-    },
-    slug: "portfoblog-the-story-behind-it",
-    category: "Full-stack",
-    featured: false,
-    primaryTech: "react",
-  },
+  // {
+  //   id: "1",
+  //   title: "Portfoblog: the story behind it",
+  //   description:
+  //     "the story behind of building a portfolio+blog web app that has every need of devlopers in it, chllenges and the idea.",
+  //   // coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop&q=80',
+  //   coverImage: "/thumbnails/portfoblog.png",
+  //   techTags: ["React", "TypeScript", "NextJS", "Tailwind", "MarkDown"],
+  //   meta: {
+  //     author: { name: "Parham Forati" },
+  //     publishedDate: "2025-08-01",
+  //     readingTime: 8,
+  //     views: 2847,
+  //   },
+  //   slug: "portfoblog-the-story-behind-it",
+  //   category: "Full-stack",
+  //   featured: false,
+  //   primaryTech: "react",
+  // },
   {
     id: "2",
     title: "Devhub: the story behind it",
