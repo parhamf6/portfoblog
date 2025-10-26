@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic';
 // Dynamically import Mermaid component to avoid SSR issues
 const Mermaid = dynamic(() => import('./MermaidComponent'), { 
   ssr: false,
-  loading: () => <div className="flex items-center justify-center p-8 bg-card rounded-lg"><div className="text-muted-foreground">Loading diagram...</div></div>
+  loading: () => <div className="flex items-center justify-center p-8 bg-card "><div className="text-muted-foreground">Loading diagram...</div></div>
 });
 
 interface MarkdownRendererProps {
