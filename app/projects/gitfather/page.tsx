@@ -1,4 +1,5 @@
 "use client"
+import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState , useEffect , useRef } from 'react';
 import { ExternalLink, Github, Play, Code, Users, Calendar, TrendingUp, Sparkles, ChevronRight, ArrowRight, ChevronDown, ChevronUp, Clock, Target, Zap, BookOpen, Image, ArrowLeft, ArrowRight as ArrowRightIcon, LucideIcon } from 'lucide-react';
 import { GitfatherData } from '@/lib/data/projects/gitfather';
@@ -49,62 +50,96 @@ const ProjectShowcase: React.FC = () => {
     );
   };
 
-const SummaryCard: React.FC<{ section: SummarySection; data: SummaryData }> = ({ section, data }) => {
-    const isExpanded = expandedSummary[section];
-    const contentRef = useRef<HTMLDivElement>(null);
-    const [contentHeight, setContentHeight] = useState(0);
-    
-    const icons: Record<SummarySection, LucideIcon> = {
-      problem: Target,
-      solution: Zap, 
-      impact: TrendingUp
-    };
-    const IconComponent = icons[section];
+  const SummaryCard: React.FC<{ 
+  section: SummarySection; 
+  data: SummaryData;
+  index: number;
+}> = ({ section, data, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  const icons: Record<SummarySection, LucideIcon> = {
+    problem: Target,
+    solution: Zap, 
+    impact: TrendingUp
+  };
+  
+  const IconComponent = icons[section];
 
-    useEffect(() => {
-      if (contentRef.current) {
-        setContentHeight(contentRef.current.scrollHeight);
-      }
-    }, [data.detailed]);
-    
-    return (
-      <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:bg-card/70 transition-all duration-300 hover:shadow-md">
-        <button
-          onClick={() => toggleSummary(section)}
-          className="w-full p-6 text-left flex items-center justify-between hover:bg-muted/20 transition-all duration-300 group"
-        >
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/20 rounded-lg transition-all duration-300 group-hover:bg-primary/30 group-hover:scale-105">
-              <IconComponent className="w-6 h-6 text-primary transition-transform duration-300 group-hover:rotate-12" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold transition-colors duration-300 group-hover:text-primary">{data.title}</h3>
-              <p className="text-muted-foreground text-sm">{data.short}</p>
-            </div>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasAnimated(true);
+    }, index * 200);
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  const gradients: Record<SummarySection, string> = {
+    problem: 'from-red-500/10 to-orange-500/10',
+    solution: 'from-blue-500/10 to-cyan-500/10',
+    impact: 'from-green-500/10 to-emerald-500/10'
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      className={`relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden transition-all duration-500 ${
+        hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      } ${isHovered ? 'shadow-xl shadow-primary/5 scale-[1.02]' : 'shadow-lg'}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      {/* Animated background gradient */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${gradients[section]} opacity-0 transition-opacity duration-500 ${
+        isHovered ? 'opacity-100' : 'opacity-0'
+      }`} />
+      
+      {/* Sparkle effect on hover */}
+      {isHovered && (
+        <div className="absolute top-4 right-4 animate-pulse">
+          <Sparkles className="w-4 h-4 text-primary/40" />
+        </div>
+      )}
+
+      <div className="relative p-6">
+        <div className="flex items-start gap-4 mb-4">
+          <div className={`p-3 bg-primary/20 rounded-lg transition-all duration-300 ${
+            isHovered ? 'scale-110 rotate-3 bg-primary/30' : 'scale-100 rotate-0'
+          }`}>
+            <IconComponent className="w-6 h-6 text-primary transition-transform duration-300" />
           </div>
-          <div className={`transition-all duration-300 ${isExpanded ? 'rotate-180 text-primary' : 'rotate-0'}`}>
-            <ChevronDown className="w-5 h-5 text-muted-foreground" />
-          </div>
-        </button>
-        
-        <div 
-          className="overflow-hidden transition-all duration-500 ease-out border-t border-border/50"
-          style={{
-            height: isExpanded ? `${contentHeight}px` : '0px',
-            opacity: isExpanded ? 1 : 0
-          }}
-        >
-          <div ref={contentRef} className="px-6 pb-6">
-            <div className={`pt-4 transform transition-all duration-500 delay-100 ${
-              isExpanded ? 'translate-y-0' : '-translate-y-2'
+          <div className="flex-1">
+            <h3 className={`text-lg font-semibold transition-colors duration-300 ${
+              isHovered ? 'text-primary' : ''
             }`}>
-              <p className="text-muted-foreground leading-relaxed">{data.detailed}</p>
-            </div>
+              {data.title}
+            </h3>
+            <p className="text-muted-foreground text-sm mt-1 transition-all duration-300">
+              {data.short}
+            </p>
           </div>
         </div>
+        
+        <div className="relative pl-2">
+          {/* Decorative line */}
+          <div className={`absolute left-0 top-0 w-1 h-full bg-gradient-to-b ${gradients[section]} rounded-full transition-all duration-700 ${
+            hasAnimated ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'
+          }`} style={{ transformOrigin: 'top', transitionDelay: `${index * 100 + 300}ms` }} />
+          
+          <p className="text-muted-foreground leading-relaxed pl-4">
+            {data.detailed}
+          </p>
+        </div>
       </div>
-    );
-  };
+
+      {/* Bottom glow effect */}
+      <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent transition-opacity duration-500 ${
+        isHovered ? 'opacity-100' : 'opacity-0'
+      }`} />
+    </div>
+  );
+};
 
 
 
