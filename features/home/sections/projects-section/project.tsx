@@ -1,68 +1,140 @@
-// components/project-section.tsx
-"use client"
+"use client";
+
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import ProjectCard from "./components/project-card";
-import { projects as Allprojects } from "@/lib/data/projects/projects-list";
 import Link from "next/link";
-import { slideInLeft , drawPath } from "@/components/global/framer-varients";
-import { useAnimateInView } from "@/hooks/useAnimateInView";
-import { ShineBorder } from "@/components/shine-border";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { projects as allProjects } from "@/lib/data/projects/projects-list";
+import type { Project } from "@/types/project";
+import { SectionHeading } from "@/features/home/components/section-heading";
+
+function StatusBadge({ status }: { status: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 font-mono text-xs">
+      <span
+        className={`h-2 w-2 rounded-full ${status ? "animate-pulse bg-primary" : "bg-muted-foreground/50"}`}
+        aria-hidden
+      />
+      <span className={status ? "text-primary" : "text-muted-foreground"}>
+        {status ? "live" : "archived"}
+      </span>
+    </span>
+  );
+}
+
+function Row({ project, index }: { project: Project; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -16 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link
+        href={`/projects/${project.slug}`}
+        className="group grid grid-cols-[3rem_1fr_auto] items-center gap-x-4 border-t border-border py-7 transition-colors hover:bg-muted/40 sm:grid-cols-[3rem_1fr_auto] sm:px-4"
+      >
+        <span className="flex items-center gap-2 font-mono text-sm tabular-nums text-muted-foreground">
+          <span className="hidden text-primary opacity-0 transition-opacity group-hover:opacity-100 sm:inline">
+            ▍
+          </span>
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="min-w-0">
+          <h3 className="font-display text-xl font-semibold tracking-tight transition-all duration-200 group-hover:translate-x-1 group-hover:text-primary sm:text-2xl">
+            {project.title}
+          </h3>
+          <p className="mt-1 font-mono text-sm text-muted-foreground">{project.description}</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="hidden sm:inline-flex">
+            <StatusBadge status={project.status} />
+          </span>
+          <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
 
 export default function ProjectSection() {
-    const { ref, inView } = useAnimateInView();
-    const projects = Allprojects.slice(-3)
-    return (
-        <motion.section 
-        ref={ref}
-        variants={slideInLeft}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        className="py-16 md:py-24 px-1 md:px-16 lg:px-32">
-        <div className="mx-auto">
-            <motion.div 
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            >
-            <div>
-                <h2 className="text-3xl md:text-4xl font-bold font-serif mb-2">Projects</h2>
-                <p className="text-muted-foreground max-w-2xl">
-                Explore my latest work and personal projects. Each project represents a unique challenge and solution.
+  const featured = allProjects[0];
+  const rows = allProjects.slice(1, 4);
+
+  return (
+    <section id="projects" className="scroll-mt-24 py-24">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <SectionHeading
+            cmd="ls projects/"
+            title="Selected work."
+            right={
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+              >
+                view all <ArrowRight className="h-4 w-4" />
+              </Link>
+            }
+          />
+
+          {featured && (
+            <article className="group mt-14 grid gap-6 border-t border-border pt-10 lg:grid-cols-12 lg:gap-8">
+              <span className="font-mono text-sm tabular-nums text-muted-foreground">01</span>
+              <div className="lg:col-span-11">
+                <div className="flex flex-wrap items-center gap-4">
+                  <h3 className="font-display text-3xl font-bold tracking-tight transition-colors group-hover:text-primary sm:text-5xl">
+                    {featured.title}
+                  </h3>
+                  <StatusBadge status={featured.status} />
+                </div>
+                <p className="mt-4 max-w-2xl font-mono text-[15px] leading-relaxed text-muted-foreground">
+                  {featured.description}
                 </p>
-            </div>
-            
-            <Button asChild variant="outline" className="mt-4 md:mt-0">
-                <Link href="/projects">
-                View All Projects
-                </Link>
-            </Button>
-            {/* <button className="animated-button projects-button">
-            <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-            </svg>
-            <span className="text">View Projects</span>
-            <span className="circle"></span>
-            <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-            </svg>
-          </button> */}
-            </motion.div>
-            
-            <div className="flex flex-wrap items-center justify-center gap-6">
-            {projects.map((project, index) => (
-                <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                <ProjectCard project={project} />
-                </motion.div>
+                <div className="mt-6 flex flex-wrap gap-6 font-mono text-sm">
+                  <Link
+                    href={`/projects/${featured.slug}`}
+                    className="inline-flex items-center gap-1.5 transition-all hover:translate-x-0.5 hover:text-primary"
+                  >
+                    case study <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  {featured.demoUrl && (
+                    <a
+                      href={featured.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      live demo <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                  )}
+                  {featured.githubUrl && (
+                    <a
+                      href={featured.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      source <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          )}
+
+          <div className="mt-6">
+            {rows.map((project, index) => (
+              <Row key={project.id} project={project} index={index + 1} />
             ))}
-            </div>
-        </div>
-        </motion.section>
-    );
+            <div className="border-t border-border" aria-hidden />
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

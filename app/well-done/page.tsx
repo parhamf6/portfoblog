@@ -29,10 +29,8 @@ const portfolioData = {
   // App routes - modify these to match your actual routes
   routes: {
     home: { path: "/", description: "Welcome page and introduction" },
-    about: { path: "/about", description: "Learn more about me" },
     projects: { path: "/projects", description: "My work and creations" },
     blogs: { path: "/blogs", description: "Thoughts and tutorials" },
-    contact: { path: "/contact", description: "Get in touch" },
   },
   skills: [
     { name: "TypeScript", level: 95, color: "bg-[oklch(0.55_0.18_240)]", category: "Languages" },

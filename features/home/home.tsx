@@ -1,16 +1,23 @@
-import BentoSection from "./sections/bento-section/bento";
-import BlogSection from "./sections/blog-section/blog";
+import HomeBackground from "./components/home-background";
 import HeroSection from "./sections/hero-section/hero";
+import AboutSection from "./sections/about-section";
+import StackSection from "./sections/stack-section";
 import ProjectSection from "./sections/projects-section/project";
-import TimelineSectin from "./sections/timeline-section/timeline";
+import BlogSection from "./sections/blog-section/blog";
+import JourneySection from "./sections/journey-section";
+
 export default function HomePage() {
-    return(
-        <main className="mr-8 ml-8">
-            <HeroSection/>
-            <ProjectSection />
-            <BentoSection/>
-            <BlogSection />
-            <TimelineSectin />
-        </main>
-    )
+  return (
+    <div className="relative">
+      <HomeBackground />
+      <div className="relative z-10">
+        <HeroSection />
+        <AboutSection />
+        <StackSection />
+        <ProjectSection />
+        <BlogSection />
+        <JourneySection />
+      </div>
+    </div>
+  );
 }

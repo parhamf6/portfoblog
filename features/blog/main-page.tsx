@@ -1,326 +1,148 @@
-"use client"
-import { useState, useMemo } from "react"
-import { Search, Filter, Tag, Layers, X, Sparkles, Bookmark, BookmarkCheck } from "lucide-react"
-import { BlogPosts } from "@/lib/data/blogs/blogs-list"
-import { BlogCard } from "../home/sections/blog-section/components/blog-card"
-import { Badge } from "@/components/ui/badge"
-import { useBookmarks } from "@/hooks/useBookmark"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+"use client";
 
-// Main Blog Index Component
-const BlogIndex = () => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [selectedTech, setSelectedTech] = useState("All")
-  const [showBookmarksOnly, setShowBookmarksOnly] = useState(false)
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, Bookmark, BookmarkCheck, Search, X } from "lucide-react";
+import { BlogPosts } from "@/lib/data/blogs/blogs-list";
+import { useBookmarks } from "@/hooks/useBookmark";
+import BlogBackground from "./components/blog-background";
 
-  const { bookmarkedBlogs } = useBookmarks()
+const formatDate = (dateString: string) =>
+  new Date(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
-  // Extract unique categories and technologies
-  const categories = useMemo(() => {
-    const cats = ["All", ...new Set(BlogPosts.map((post) => post.category))]
-    return cats
-  }, [])
+export default function BlogIndex() {
+  const [query, setQuery] = useState("");
+  const [bookmarkedOnly, setBookmarkedOnly] = useState(false);
+  const { bookmarkedBlogs, isBookmarked, toggleBookmark } = useBookmarks();
 
-  const technologies = useMemo(() => {
-    const techs = ["All", ...new Set(BlogPosts.flatMap((post) => post.techTags))]
-    return techs
-  }, [])
-
-  // Filter blogs based on search and filters
-  const filteredBlogs = useMemo(() => {
-    return BlogPosts.filter((blog) => {
-      const matchesSearch =
-        blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.techTags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-
-      const matchesCategory = selectedCategory === "All" || blog.category === selectedCategory
-      const matchesTech = selectedTech === "All" || blog.techTags.includes(selectedTech)
-      const matchesBookmark = !showBookmarksOnly || bookmarkedBlogs.includes(blog.id)
-
-      return matchesSearch && matchesCategory && matchesTech && matchesBookmark
-    })
-  }, [searchQuery, selectedCategory, selectedTech, showBookmarksOnly, bookmarkedBlogs])
-
-  const clearCategory = () => setSelectedCategory("All")
-  const clearTech = () => setSelectedTech("All")
-  const clearAllFilters = () => {
-    setSelectedCategory("All")
-    setSelectedTech("All")
-    setSearchQuery("")
-    setShowBookmarksOnly(false)
-  }
-
-  const hasActiveFilters = selectedCategory !== "All" || selectedTech !== "All" || searchQuery || showBookmarksOnly
-  const hasFilterSelections = selectedCategory !== "All" || selectedTech !== "All" || showBookmarksOnly
+  const posts = [...BlogPosts]
+    .sort(
+      (a, b) =>
+        new Date(b.meta.publishedDate).getTime() - new Date(a.meta.publishedDate).getTime(),
+    )
+    .filter((post) => {
+      const q = query.toLowerCase();
+      const matches =
+        post.title.toLowerCase().includes(q) ||
+        post.description.toLowerCase().includes(q) ||
+        post.techTags.some((tag) => tag.toLowerCase().includes(q));
+      const matchesBookmark = !bookmarkedOnly || isBookmarked(post.id);
+      return matches && matchesBookmark;
+    });
 
   return (
-    <div className="min-h-screen bg-background text-foreground mb-32">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
-        <div className="absolute inset-0" />
-        <div className="relative max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-foreground to-accent bg-clip-text text-transparent leading-tight">
-            The Lab Notebook
-          </h1>
-          <p className="text-xl max-w-2xl mx-auto leading-relaxed text-muted-foreground">
-            A collection of my thoughts, tutorials, and project updates from my journey as a developer.
+    <div className="relative mb-32 pt-20">
+      <BlogBackground />
+      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
+        <header>
+          <p className="font-mono text-sm text-muted-foreground">
+            <span className="text-primary">$</span> cat notes.md
           </p>
-        </div>
-      </section>
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            The lab notebook
+          </h1>
+          <p className="mt-4 max-w-xl font-mono text-sm leading-relaxed text-muted-foreground">
+            Notes, tutorials and the stories behind the projects.
+          </p>
 
-      {/* Search and Filters */}
-      <section className="px-4 pb-12">
-        <div
-          id="blog-search-div"
-          className="max-w-6xl mx-auto bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-2xl"
-        >
-          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-6 mb-12">
-            {/* Header with Clear All and Bookmarks */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-primary" />
-                <h3 className="text-lg font-semibold text-foreground">Find Articles</h3>
-                <Sparkles className="w-4 h-4 text-primary/60" />
-              </div>
-
-              <div className="flex items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="relative w-full max-w-md">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search notes..."
+                aria-label="Search notes"
+                className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-9 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+              {query && (
                 <button
-                  onClick={() => setShowBookmarksOnly(!showBookmarksOnly)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    showBookmarksOnly
-                      ? "bg-primary text-primary-foreground shadow-lg"
-                      : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showBookmarksOnly ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
-                  Bookmarks ({bookmarkedBlogs.length})
+                  <X className="h-4 w-4" />
                 </button>
-
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearAllFilters}
-                    className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 px-3 py-1 rounded-lg hover:bg-muted/50 transition-colors"
-                  >
-                    <X className="w-3 h-3" />
-                    Clear all
-                  </button>
-                )}
-              </div>
+              )}
             </div>
-
-            <div className="flex flex-col gap-6">
-              {/* Search and Main Filters Row */}
-              <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
-                {/* Search Bar */}
-                <div className="relative flex-1 min-w-0">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Search articles, technologies, or topics..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-12 py-3 bg-background/80 border border-border rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 text-sm"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery("")}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Filters Container */}
-                <div className="flex flex-col sm:flex-row gap-3 lg:min-w-0">
-                  {/* Category Filter */}
-                  <div className="relative min-w-[160px]">
-                    <div className="mb-1 flex items-center gap-1">
-                      <Layers className="w-3 h-3 text-muted-foreground" />
-                      <span className="text-xs font-medium text-muted-foreground">Category</span>
-                    </div>
-                    <div className="relative">
-                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                        <SelectTrigger className="w-full bg-background/80 border-border hover:border-primary/50 focus:border-primary transition-colors text-sm">
-                          <div className="flex items-center gap-2 text-left">
-                            <SelectValue placeholder="All Categories" />
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((category) => (
-                            <SelectItem key={category} value={category}>
-                              <div className="flex items-center gap-2">
-                                <Layers className="w-3 h-3 text-muted-foreground" />
-                                {category}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {selectedCategory && selectedCategory !== "All" && (
-                        <button
-                          onClick={clearCategory}
-                          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Tech Filter */}
-                  <div className="relative min-w-[160px]">
-                    <div className="mb-1 flex items-center gap-1">
-                      <Tag className="w-3 h-3 text-muted-foreground" />
-                      <span className="text-xs font-medium text-muted-foreground">Technology</span>
-                    </div>
-                    <div className="relative">
-                      <Select value={selectedTech} onValueChange={setSelectedTech}>
-                        <SelectTrigger className="w-full bg-background/80 border-border hover:border-primary/50 focus:border-primary transition-colors text-sm">
-                          <div className="flex items-center gap-2 text-left">
-                            <SelectValue placeholder="All Technologies" />
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {technologies.map((tech) => (
-                            <SelectItem key={tech} value={tech}>
-                              <div className="flex items-center gap-2">
-                                <Tag className="w-3 h-3 text-muted-foreground" />
-                                {tech}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {selectedTech && selectedTech !== "All" && (
-                        <button
-                          onClick={clearTech}
-                          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Active Filters and Results Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-border/50">
-                {/* Active Filters */}
-                <div className="flex flex-wrap items-center gap-2">
-                  {(hasFilterSelections || searchQuery) && (
-                    <>
-                      <span className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Filter className="w-3 h-3" />
-                        Active filters:
-                      </span>
-                      {searchQuery && (
-                        <Badge
-                          variant="outline"
-                          className="flex items-center gap-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-sm"
-                        >
-                          <Search className="w-3 h-3" />"
-                          {searchQuery.length > 20 ? searchQuery.substring(0, 20) + "..." : searchQuery}"
-                          <button onClick={() => setSearchQuery("")} className="ml-1 hover:text-primary/80">
-                            <X className="w-3 h-3" />
-                          </button>
-                        </Badge>
-                      )}
-                      {showBookmarksOnly && (
-                        <Badge
-                          variant="outline"
-                          className="flex items-center gap-1 bg-accent/10 text-accent border-accent/20 hover:bg-accent/20 text-sm"
-                        >
-                          <Bookmark className="w-3 h-3" />
-                          Bookmarked
-                          <button onClick={() => setShowBookmarksOnly(false)} className="ml-1 hover:text-accent/80">
-                            <X className="w-3 h-3" />
-                          </button>
-                        </Badge>
-                      )}
-                      {selectedCategory && selectedCategory !== "All" && (
-                        <Badge
-                          variant="outline"
-                          className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 text-sm dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800"
-                        >
-                          <Layers className="w-3 h-3" />
-                          {selectedCategory}
-                          <button onClick={clearCategory} className="ml-1 hover:text-blue-900 dark:hover:text-blue-100">
-                            <X className="w-3 h-3" />
-                          </button>
-                        </Badge>
-                      )}
-                      {selectedTech && selectedTech !== "All" && (
-                        <Badge
-                          variant="outline"
-                          className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 hover:bg-green-100 text-sm dark:bg-green-950 dark:text-green-300 dark:border-green-800"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {selectedTech}
-                          <button onClick={clearTech} className="ml-1 hover:text-green-900 dark:hover:text-green-100">
-                            <X className="w-3 h-3" />
-                          </button>
-                        </Badge>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                {/* Results Count */}
-                <div className="text-sm text-muted-foreground flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <span className="font-medium text-foreground">{filteredBlogs.length}</span>
-                    <span>{filteredBlogs.length === 1 ? "article" : "articles"} found</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <button
+              onClick={() => setBookmarkedOnly((v) => !v)}
+              className={`inline-flex items-center gap-2 rounded-md border px-3 py-2 font-mono text-xs transition-colors ${
+                bookmarkedOnly
+                  ? "border-primary text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {bookmarkedOnly ? (
+                <BookmarkCheck className="h-3.5 w-3.5" />
+              ) : (
+                <Bookmark className="h-3.5 w-3.5" />
+              )}
+              bookmarks ({bookmarkedBlogs.length})
+            </button>
           </div>
-        </div>
-      </section>
+        </header>
 
-      {/* Blog Grid */}
-      <section>
-        <div className="max-w-7xl mx-auto px-4">
-          {filteredBlogs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
-              {filteredBlogs.map((blog) => (
-                <BlogCard key={blog.id} {...blog} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/30 flex items-center justify-center">
-                {showBookmarksOnly ? (
-                  <Bookmark className="w-8 h-8 text-muted-foreground" />
-                ) : (
-                  <Search className="w-8 h-8 text-muted-foreground" />
-                )}
-              </div>
-              <h3 className="text-2xl font-semibold mb-2">
-                {showBookmarksOnly ? "No bookmarked articles" : "No articles found"}
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                {showBookmarksOnly
-                  ? "Start bookmarking articles to see them here."
-                  : "Try adjusting your search terms or filters to find what you're looking for."}
-              </p>
-              <button
-                onClick={clearAllFilters}
-                className="px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-300 font-medium"
+        <div className="mt-12">
+          {posts.length > 0 ? (
+            posts.map((post, index) => (
+              <div
+                key={post.id}
+                className="group grid grid-cols-[3rem_1fr_auto] items-baseline gap-x-4 border-t border-border py-7 transition-colors hover:bg-muted/30 sm:grid-cols-[3rem_1fr_auto] sm:px-4"
               >
-                {showBookmarksOnly ? "Show All Articles" : "Clear Filters"}
-              </button>
-            </div>
+                <span className="font-mono text-sm tabular-nums text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0">
+                  <Link href={`/blogs/${post.slug}`}>
+                    <h2 className="font-display text-xl font-semibold tracking-tight transition-colors group-hover:text-primary sm:text-2xl">
+                      {post.title}
+                    </h2>
+                  </Link>
+                  <p className="mt-1 line-clamp-2 max-w-2xl font-mono text-sm text-muted-foreground">
+                    {post.description}
+                  </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-4 font-mono text-xs text-muted-foreground">
+                    <span>{post.category}</span>
+                    <time dateTime={post.meta.publishedDate}>
+                      {formatDate(post.meta.publishedDate)}
+                    </time>
+                    <span>{post.meta.readingTime} min read</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => toggleBookmark(post.id)}
+                    aria-label={isBookmarked(post.id) ? "Remove bookmark" : "Bookmark"}
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {isBookmarked(post.id) ? (
+                      <BookmarkCheck className="h-4 w-4 text-primary" />
+                    ) : (
+                      <Bookmark className="h-4 w-4" />
+                    )}
+                  </button>
+                  <Link href={`/blogs/${post.slug}`} aria-label={`Read ${post.title}`}>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                  </Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="border-t border-border py-16 text-center font-mono text-sm text-muted-foreground">
+              {bookmarkedOnly
+                ? "no bookmarked notes yet."
+                : `no notes match "${query}".`}
+            </p>
           )}
+          <div className="border-t border-border" aria-hidden />
         </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
-
-export default BlogIndex
