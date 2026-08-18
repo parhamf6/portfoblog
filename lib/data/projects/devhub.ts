@@ -5,7 +5,7 @@ export const DevhubData: ProjectData = {
   tagline: "A lightweight, developer-first toolbox and learning hub — codeable utilities, guides, and composable tools for everyday engineering workflows",
   duration: "3 months",
   role: "Full-Stack Developer",
-  status: "Live",
+  status: "Archived",
 
   // Quick Summary for fast overview
   quickSummary: {
@@ -127,7 +127,6 @@ export const DevhubData: ProjectData = {
       "Designed a modular tools architecture, advanced component composition patterns in React + TypeScript, improved large-scale Tailwind theming with OKLCH tokens, and implemented production-ready static/dynamic Next.js patterns (ISR, dynamic imports, server actions). I also improved testing strategies for UI tools and learned practical approaches to UX for developer-focused products."
   },
   links: {
-    demo: "https://devhub-taupe.vercel.app/",
     github: "https://github.com/parhamf6/devhub",
     caseStudy: "/blogs/devhub-the-story-behind-it"
   }

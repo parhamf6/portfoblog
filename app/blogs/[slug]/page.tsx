@@ -8,12 +8,12 @@ import { calculateReadingTime } from "@/lib/blog-utils";
 import BlogPostClient from "@/features/blog/blog-client";
 
 interface BlogPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // Generate metadata for the page
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const post = BlogPosts.find(post => post.slug === slug);
   
   if (!post) {
@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   };
 }
 
-export default function BlogPage({ params }: BlogPageProps) {
-  const { slug } = params;
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { slug } = await params;
   
   // Find the post in our data
   const post = BlogPosts.find(post => post.slug === slug);

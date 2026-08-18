@@ -5,7 +5,7 @@ export const GitfatherData: ProjectData = {
   tagline: "A Git automation assistant pushes and routine repo tasks from a CLI or Telegram bot",
   duration: "3 months (prototype)",
   role: "Automation / Python",
-  status: "paused",
+  status: "Archived",
 
   // Quick Summary for fast overview
   quickSummary: {

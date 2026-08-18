@@ -114,7 +114,6 @@ export const projects: Project[] = [
     image: "/thumbnails/devhub.png",
     tags: ["react", "nodedotjs", "postgresql"],
     type: "webapp",
-    demoUrl: "https://devhub-taupe.vercel.app/",
     githubUrl: "https://github.com/parhamf6/devhub",
     slug: "devhub",
     color: "rgba(236, 72, 153, 0.5)",

@@ -59,10 +59,14 @@ export const ProjectShowcase: React.FC<{ project: ProjectData }> = ({ project })
         <dl className="mt-10 divide-y divide-border border-y border-border font-mono text-sm">
           <div className="grid grid-cols-[100px_1fr] items-baseline gap-4 py-4">
             <dt className="text-muted-foreground">status</dt>
-            <dd className="flex items-center gap-2">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-primary" aria-hidden />
-              <span className="text-primary">{project.status}</span>
-            </dd>
+            {project.status.toLowerCase() === "live" ? (
+              <dd className="flex items-center gap-2">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" aria-hidden />
+                <span className="text-green-500">{project.status}</span>
+              </dd>
+            ) : (
+              <dd className="text-muted-foreground">{project.status}</dd>
+            )}
           </div>
           <div className="grid grid-cols-[100px_1fr] items-baseline gap-4 py-4">
             <dt className="text-muted-foreground">duration</dt>
