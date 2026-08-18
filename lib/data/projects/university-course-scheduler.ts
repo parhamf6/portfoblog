@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, CalendarDays, AlertTriangle } from "lucide-react";
+import { Sparkle, CalendarBlank, Warning } from "@phosphor-icons/react";
 export const UniversityCourseSchedulerData: ProjectData = {
   title: "University Course Scheduler",
   tagline:
@@ -113,9 +113,9 @@ export const UniversityCourseSchedulerData: ProjectData = {
   ],
   results: {
     metrics: [
-      { label: "Views", value: "Weekly/Daily", icon: CalendarDays },
-      { label: "Conflicts", value: "Auto", icon: AlertTriangle },
-      { label: "Stack", value: "React+TS", icon: Sparkles },
+      { label: "Views", value: "Weekly/Daily", icon: CalendarBlank },
+      { label: "Conflicts", value: "Auto", icon: Warning },
+      { label: "Stack", value: "React+TS", icon: Sparkle },
     ],
     feedback:
       "\"A much faster way to arrange sections and check conflicts than spreadsheets.\"",

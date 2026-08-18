@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Users , TrendingUp } from "lucide-react";
+import { Sparkle, Users , TrendUp } from "@phosphor-icons/react";
 
 
 export const PortfoblogData: ProjectData = {
@@ -109,8 +109,8 @@ export const PortfoblogData: ProjectData = {
     ],
     results: {
       metrics: [
-        { label: "Performance Score", value: "95/100", icon: TrendingUp },
-        { label: "Load Time", value: "1.2s", icon: Sparkles },
+        { label: "Performance Score", value: "95/100", icon: TrendUp },
+        { label: "Load Time", value: "1.2s", icon: Sparkle },
         { label: "User Satisfaction", value: "4.8/5", icon: Users }
       ],
       feedback:
@@ -224,8 +224,8 @@ export const PortfoblogData: ProjectData = {
 //     ],
 //     results: {
 //       metrics: [
-//         { label: "Performance Score", value: "95/100", icon: TrendingUp },
-//         { label: "Load Time", value: "1.2s", icon: Sparkles },
+//         { label: "Performance Score", value: "95/100", icon: TrendUp },
+//         { label: "Load Time", value: "1.2s", icon: Sparkle },
 //         { label: "User Satisfaction", value: "4.8/5", icon: Users }
 //       ],
 //       feedback: "\"This tool has significantly improved our workflow efficiency.\" - John Doe, Product Manager",

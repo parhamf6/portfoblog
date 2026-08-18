@@ -1,6 +1,6 @@
 // // components/quote-share/QuoteShareButton.tsx
 // import React from 'react';
-// import { Share2 } from 'lucide-react';
+// import { ShareNetwork } from '@phosphor-icons/react';
 // import { Button } from '@/components/ui/button';
 
 // interface QuoteShareButtonProps {
@@ -28,7 +28,7 @@
 //         onClick={onShare}
 //         className="text-white hover:border-border h-8 px-2"
 //       >
-//         <Share2 className="h-4 w-4 mr-1" />
+//         <ShareNetwork className="h-4 w-4 mr-1" />
 //         Share Quote
 //       </Button>
 //     </div>
@@ -37,7 +37,7 @@
 
 // components/quote-share/QuoteShareButton.tsx
 import React, { useEffect, useState } from 'react';
-import { Share2 } from 'lucide-react';
+import { ShareNetwork } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 
 interface QuoteShareButtonProps {
@@ -86,7 +86,7 @@ export const QuoteShareButton: React.FC<QuoteShareButtonProps> = ({ position, on
         onClick={onShare}
         className="text-white hover:border-border h-8 px-2"
       >
-        <Share2 className="h-4 w-4 mr-1" />
+        <ShareNetwork className="h-4 w-4 mr-1" />
         Share Quote
       </Button>
     </div>

@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 
 const HeroBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);

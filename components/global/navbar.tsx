@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Github, Mail } from "lucide-react";
+import { GithubLogoIcon, Envelope } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/global/theme-toggle";
 
@@ -66,14 +66,14 @@ export default function Navbar() {
             aria-label="GitHub"
             className="flex h-8 items-center justify-center px-2 text-muted-foreground transition-colors hover:text-primary"
           >
-            <Github className="h-4 w-4" />
+            <GithubLogoIcon className="h-4 w-4" />
           </a>
           <a
             href="mailto:parhamfdev@proton.me"
             aria-label="Email"
             className="flex h-8 items-center justify-center px-2 text-muted-foreground transition-colors hover:text-primary"
           >
-            <Mail className="h-4 w-4" />
+            <Envelope className="h-4 w-4" />
           </a>
           <ThemeToggle />
         </nav>

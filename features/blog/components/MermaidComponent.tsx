@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
-import { ZoomIn, ZoomOut, Maximize2, Minimize2, RotateCcw, Download, Code, Eye, HelpCircle, Copy, Check } from 'lucide-react';
+import { MagnifyingGlassPlus, MagnifyingGlassMinus, CornersOut, CornersIn, ArrowCounterClockwise, DownloadSimple, Code, Eye, Question, Copy, Check } from '@phosphor-icons/react';
 
 interface MermaidComponentProps {
   chart: string;
@@ -524,7 +524,7 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                 backgroundColor: activeTab === 'help' ? 'var(--muted)' : 'transparent'
               }}
             >
-              <HelpCircle className="w-4 h-4" />
+              <Question className="w-4 h-4" />
               <span className="hidden sm:inline">Help</span>
             </button>
           </div>
@@ -539,7 +539,7 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                 style={{ backgroundColor: 'var(--muted)' }}
                 title="Zoom Out"
               >
-                <ZoomOut className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                <MagnifyingGlassMinus className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
               </button>
               <span className="px-2 py-1 text-xs min-w-[50px] text-center font-mono" style={{ color: 'var(--foreground)' }}>
                 {Math.round(scale * 100)}%
@@ -551,7 +551,7 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                 style={{ backgroundColor: 'var(--muted)' }}
                 title="Zoom In"
               >
-                <ZoomIn className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                <MagnifyingGlassPlus className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
               </button>
               <button
                 onClick={handleReset}
@@ -559,7 +559,7 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                 style={{ backgroundColor: 'var(--muted)' }}
                 title="Reset"
               >
-                <RotateCcw className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                <ArrowCounterClockwise className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
               </button>
               <button
                 onClick={handleFitToScreen}
@@ -579,7 +579,7 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                   style={{ backgroundColor: 'var(--muted)' }}
                   title="Download"
                 >
-                  <Download className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                  <DownloadSimple className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
                 </button>
                 <button
                   onClick={toggleFullscreen}
@@ -588,9 +588,9 @@ const MermaidComponent: React.FC<MermaidComponentProps> = ({ chart }) => {
                   title="Fullscreen"
                 >
                   {isFullscreen ? (
-                    <Minimize2 className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                    <CornersIn className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
                   ) : (
-                    <Maximize2 className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
+                    <CornersOut className="w-4 h-4" style={{ color: 'var(--foreground)' }} />
                   )}
                 </button>
               </div>

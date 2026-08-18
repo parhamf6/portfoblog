@@ -1,6 +1,6 @@
 // types/project.ts
 export type ProjectType = "webapp" | "other" | "playbook" | "plugin"
-import type { LucideIcon } from "lucide-react"
+import type { Icon } from "@phosphor-icons/react"
 
 export interface Project {
   id: number
@@ -45,7 +45,7 @@ export interface Challenge {
 export interface Metric {
   label: string
   value: string
-  icon: LucideIcon
+  icon: Icon
 }
 
 export interface ProjectData {

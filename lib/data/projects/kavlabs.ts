@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Shield, Users } from "lucide-react";
+import { Sparkle, Shield, Users } from "@phosphor-icons/react";
 export const KavLabsData: ProjectData = {
   title: "KavLabs",
   tagline:
@@ -102,7 +102,7 @@ export const KavLabsData: ProjectData = {
   ],
   results: {
     metrics: [
-      { label: "Stack", value: "Next.js 16", icon: Sparkles },
+      { label: "Stack", value: "Next.js 16", icon: Sparkle },
       { label: "Focus", value: "Security", icon: Shield },
       { label: "Maintainers", value: "2", icon: Users },
     ],

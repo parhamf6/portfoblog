@@ -1,19 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { MapPin, Mail } from "lucide-react";
+import { MapPin, Envelope } from "@phosphor-icons/react";
 import { SectionHeading } from "@/features/home/components/section-heading";
+import { Reveal } from "@/features/home/components/reveal";
 
 export default function AboutSection() {
   return (
     <section id="about" className="scroll-mt-24 py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <Reveal>
           <SectionHeading cmd="whoami" title="Developer & biologist, building in the open." />
 
           <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
@@ -44,7 +39,7 @@ export default function AboutSection() {
                     href="mailto:parhamfdev@proton.me"
                     className="flex items-center gap-2 break-all transition-colors hover:text-primary"
                   >
-                    <Mail className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                    <Envelope className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                     parhamfdev@proton.me
                   </a>
                 </dd>
@@ -62,7 +57,7 @@ export default function AboutSection() {
               </div>
             </dl>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

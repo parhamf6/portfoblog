@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Search, X } from "lucide-react";
+import { ArrowUpRight, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { projects } from "@/lib/data/projects/projects-list";
 import ProjectBackground from "./components/project-background";
 
@@ -35,7 +35,7 @@ export default function ProjectIndex() {
           </p>
 
           <div className="relative mt-8 max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               value={query}

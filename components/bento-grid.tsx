@@ -1,5 +1,5 @@
 "use client"
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -79,7 +79,7 @@ const BentoCard = ({
         >
           <a href={href}>
             {cta}
-            <ArrowRightIcon className="ms-2 h-4 w-4 rtl:rotate-180" />
+            <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
           </a>
         </Button>
       </div>
@@ -98,7 +98,7 @@ const BentoCard = ({
       >
         <a href={href}>
           {cta}
-          <ArrowRightIcon className="ms-2 h-4 w-4 rtl:rotate-180" />
+          <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
         </a>
       </Button>
     </div>

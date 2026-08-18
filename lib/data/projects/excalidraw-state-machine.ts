@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Move, Layers } from "lucide-react";
+import { Sparkle, ArrowsOut, Stack } from "@phosphor-icons/react";
 export const ExcalidrawStateMachineData: ProjectData = {
   title: "Excalidraw State Machine",
   tagline:
@@ -95,9 +95,9 @@ export const ExcalidrawStateMachineData: ProjectData = {
   ],
   results: {
     metrics: [
-      { label: "Interpolates", value: "9 props", icon: Move },
-      { label: "Groups", value: "Multi", icon: Layers },
-      { label: "Rendering", value: "Immutable", icon: Sparkles },
+      { label: "Interpolates", value: "9 props", icon: ArrowsOut },
+      { label: "Groups", value: "Multi", icon: Stack },
+      { label: "Rendering", value: "Immutable", icon: Sparkle },
     ],
     feedback:
       "\"A neat way to get keyframe-style animation out of Excalidraw inside Obsidian.\"",

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Bookmark, BookmarkCheck, Search, X } from "lucide-react";
+import { ArrowUpRight, BookmarkSimple, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { BlogPosts } from "@/lib/data/blogs/blogs-list";
 import { useBookmarks } from "@/hooks/useBookmark";
 import BlogBackground from "./components/blog-background";
@@ -51,7 +51,7 @@ export default function BlogIndex() {
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <div className="relative w-full max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
                 value={query}
@@ -79,9 +79,9 @@ export default function BlogIndex() {
               }`}
             >
               {bookmarkedOnly ? (
-                <BookmarkCheck className="h-3.5 w-3.5" />
+                <BookmarkSimple weight="fill" className="h-3.5 w-3.5" />
               ) : (
-                <Bookmark className="h-3.5 w-3.5" />
+                <BookmarkSimple className="h-3.5 w-3.5" />
               )}
               bookmarks ({bookmarkedBlogs.length})
             </button>
@@ -122,9 +122,9 @@ export default function BlogIndex() {
                     className="text-muted-foreground transition-colors hover:text-primary"
                   >
                     {isBookmarked(post.id) ? (
-                      <BookmarkCheck className="h-4 w-4 text-primary" />
+                      <BookmarkSimple weight="fill" className="h-4 w-4 text-primary" />
                     ) : (
-                      <Bookmark className="h-4 w-4" />
+                      <BookmarkSimple className="h-4 w-4" />
                     )}
                   </button>
                   <Link href={`/blogs/${post.slug}`} aria-label={`Read ${post.title}`}>

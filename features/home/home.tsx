@@ -1,3 +1,6 @@
+"use client";
+
+import { LazyMotion, domAnimation, MotionConfig } from "motion/react";
 import HomeBackground from "./components/home-background";
 import HeroSection from "./sections/hero-section/hero";
 import AboutSection from "./sections/about-section";
@@ -8,16 +11,20 @@ import JourneySection from "./sections/journey-section";
 
 export default function HomePage() {
   return (
-    <div className="relative">
-      <HomeBackground />
-      <div className="relative z-10">
-        <HeroSection />
-        <AboutSection />
-        <StackSection />
-        <ProjectSection />
-        <BlogSection />
-        <JourneySection />
-      </div>
-    </div>
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <div className="relative">
+          <HomeBackground />
+          <div className="relative z-10">
+            <HeroSection />
+            <AboutSection />
+            <StackSection />
+            <ProjectSection />
+            <BlogSection />
+            <JourneySection />
+          </div>
+        </div>
+      </MotionConfig>
+    </LazyMotion>
   );
 }

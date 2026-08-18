@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { BlogPosts } from "@/lib/data/blogs/blogs-list";
 import { SectionHeading } from "@/features/home/components/section-heading";
+import { Reveal } from "@/features/home/components/reveal";
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString("en-US", {
@@ -24,12 +24,7 @@ export default function BlogSection() {
   return (
     <section id="blog" className="scroll-mt-24 py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <Reveal>
           <SectionHeading
             cmd="tail -2 notes/"
             title="Latest notes."
@@ -74,7 +69,7 @@ export default function BlogSection() {
             ))}
             <div className="border-t border-border" aria-hidden />
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 // components/quote-share/ShareDialog.tsx
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Download, Copy, Facebook, Twitter, Linkedin, Instagram, CheckCircle, Palette, Type, Layout, Image, Share2 } from 'lucide-react';
+import { X, DownloadSimple, Copy, CheckCircle, Palette, TextT, Layout, ImageSquare, ShareNetwork, TwitterLogo, FacebookLogo, LinkedinLogo, InstagramLogo } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -214,7 +214,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
           <DialogHeader>
             <div className="flex flex-row justify-between items-center">
               <DialogTitle className="flex items-center gap-2">
-                <Share2 className="h-5 w-5" />
+                <ShareNetwork className="h-5 w-5" />
                 Create & Share Quote
               </DialogTitle>
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -225,7 +225,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
           
           <DialogTabs value={activeTab} onValueChange={setActiveTab}>
             <DialogTab value="preview" className="flex items-center gap-2">
-              <Image className="h-4 w-4" />
+              <ImageSquare className="h-4 w-4" />
               Preview
             </DialogTab>
             <DialogTab value="customize" className="flex items-center gap-2">
@@ -233,7 +233,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
               Customize
             </DialogTab>
             <DialogTab value="text" className="flex items-center gap-2">
-              <Type className="h-4 w-4" />
+              <TextT className="h-4 w-4" />
               Text
             </DialogTab>
           </DialogTabs>
@@ -298,7 +298,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                     disabled={!data.text.trim()} // Only disable if there's no text at all
                     className="flex items-center gap-2"
                   >
-                    <Download className="h-4 w-4" />
+                    <DownloadSimple className="h-4 w-4" />
                     Download Image
                   </Button>
                   
@@ -323,7 +323,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                       disabled={!data.text.trim()}
                       className="flex items-center gap-2"
                     >
-                      <Twitter className="h-4 w-4" />
+                      <TwitterLogo className="h-4 w-4" />
                       Twitter
                     </Button>
                     
@@ -333,7 +333,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                       disabled={!data.text.trim()}
                       className="flex items-center gap-2"
                     >
-                      <Facebook className="h-4 w-4" />
+                      <FacebookLogo className="h-4 w-4" />
                       Facebook
                     </Button>
                     
@@ -343,7 +343,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                       disabled={!data.text.trim()}
                       className="flex items-center gap-2"
                     >
-                      <Linkedin className="h-4 w-4" />
+                      <LinkedinLogo className="h-4 w-4" />
                       LinkedIn
                     </Button>
                     
@@ -363,7 +363,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                       disabled={!data.text.trim()}
                       className="flex items-center gap-2"
                     >
-                      <Instagram className="h-4 w-4" />
+                      <InstagramLogo className="h-4 w-4" />
                       Instagram
                     </Button>
                   </div>
@@ -648,7 +648,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ open, onClose, initial
                       disabled={!data.text.trim()}
                       className="flex items-center gap-2"
                     >
-                      <Download className="h-4 w-4" />
+                      <DownloadSimple className="h-4 w-4" />
                       Download Image
                     </Button>
                     

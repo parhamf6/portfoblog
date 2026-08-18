@@ -3,11 +3,11 @@
 import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowUpRight, Github, Mail } from "lucide-react";
+import { ArrowUpRight, Envelope, GithubLogoIcon } from "@phosphor-icons/react";
 
 const socials = [
-  { name: "GitHub", href: "https://github.com/parhamf6", icon: Github },
-  { name: "Email", href: "mailto:parhamfdev@proton.me", icon: Mail },
+  { name: "GitHub", href: "https://github.com/parhamf6", icon: GithubLogoIcon },
+  { name: "Email", href: "mailto:parhamfdev@proton.me", icon: Envelope },
 ];
 
 export default function Footer() {

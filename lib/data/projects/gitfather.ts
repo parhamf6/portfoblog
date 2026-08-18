@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Users , TrendingUp } from "lucide-react";
+import { Sparkle, Users , TrendUp } from "@phosphor-icons/react";
 export const GitfatherData: ProjectData = {
   title: "The Gitfather",
   tagline: "A Git automation assistant pushes and routine repo tasks from a CLI or Telegram bot",
@@ -122,8 +122,8 @@ export const GitfatherData: ProjectData = {
   ],
   results: {
     metrics: [
-      { label: "Automated Tasks", value: "1,200+", icon: TrendingUp },
-      { label: "Avg. Time Saved", value: "4 min/task", icon: Sparkles },
+      { label: "Automated Tasks", value: "1,200+", icon: TrendUp },
+      { label: "Avg. Time Saved", value: "4 min/task", icon: Sparkle },
       { label: "Success Rate", value: "99.2%", icon: Users }
     ],
     feedback:

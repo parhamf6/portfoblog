@@ -1,11 +1,12 @@
 "use client";
 
 import FaultyTerminal from "@/components/FaultyTerminal";
+import FaultyTerminalLite from "@/components/FaultyTerminalLite";
 
 export default function HomeBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
-      <FaultyTerminal
+      <FaultyTerminalLite
         scale={1.5}
         gridMul={[2, 1]}
         digitSize={1.2}
@@ -15,9 +16,6 @@ export default function HomeBackground() {
         glitchAmount={1}
         flickerAmount={1}
         noiseAmp={1}
-        chromaticAberration={0}
-        dither={0}
-        curvature={0.1}
         tint="#f5a524"
         mouseReact
         mouseStrength={0.5}
@@ -28,3 +26,26 @@ export default function HomeBackground() {
     </div>
   );
 }
+
+// "use client";
+
+// import CRTBackground from "@/components/CRTBackground";
+
+// export default function HomeBackground() {
+//   return (
+//     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
+//       <CRTBackground
+//         tint="#f5a524"
+//         brightness={0.55}
+//         staticOpacity={0.07}
+//         glitchAmount={1.2}
+//         chromaticAberration={0.55}
+//         scanlineIntensity={0.5}
+//         vignetteIntensity={0.65}
+//         pixelSize={9}
+//         showSprite
+//       />
+//       <div className="absolute inset-0 bg-background/55" />
+//     </div>
+//   );
+// }

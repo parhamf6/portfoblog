@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Timer, BarChart3 } from "lucide-react";
+import { Sparkle, Timer, ChartBar } from "@phosphor-icons/react";
 export const TempoData: ProjectData = {
   title: "Tempo",
   tagline:
@@ -100,8 +100,8 @@ export const TempoData: ProjectData = {
   results: {
     metrics: [
       { label: "Trackers", value: "In-note", icon: Timer },
-      { label: "Stats", value: "Charts", icon: BarChart3 },
-      { label: "API", value: "Public JS", icon: Sparkles },
+      { label: "Stats", value: "Charts", icon: ChartBar },
+      { label: "API", value: "Public JS", icon: Sparkle },
     ],
     feedback:
       "\"A clean, reliable time tracker that finally survives switching notes.\"",

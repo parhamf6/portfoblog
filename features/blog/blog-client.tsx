@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 import MarkdownRenderer from "@/features/blog/components/mdrender";
 import { formatDate } from "@/lib/blog-utils";
 import { ShareButtons } from "@/features/blog/components/share-buttons";

@@ -4,18 +4,18 @@
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { 
-  Share2, 
-  Twitter, 
-  Linkedin, 
-  Mail, 
-  Instagram, 
-  Send, 
+  ShareNetwork, 
+  TwitterLogo, 
+  LinkedinLogo, 
+  Envelope, 
+  InstagramLogo, 
+  PaperPlaneTilt, 
   Link, 
   Check,
   X
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface ShareButtonsProps {
   title: string;
@@ -36,7 +36,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
   const shareOptions: ShareOption[] = [
     {
       name: 'Twitter',
-      icon: Twitter,
+      icon: TwitterLogo,
       color: 'text-[#1DA1F2]',
       action: () => {
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
@@ -45,7 +45,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
     },
     {
       name: 'LinkedIn',
-      icon: Linkedin,
+      icon: LinkedinLogo,
       color: 'text-[#0077B5]',
       action: () => {
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
@@ -54,7 +54,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
     },
     {
       name: 'Email',
-      icon: Mail,
+      icon: Envelope,
       color: 'text-[#EA4335]',
       action: () => {
         window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this article: ${url}`)}`);
@@ -63,7 +63,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
     },
     {
       name: 'Telegram',
-      icon: Send,
+      icon: PaperPlaneTilt,
       color: 'text-[#0088CC]',
       action: () => {
         window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
@@ -72,7 +72,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
     },
     {
       name: 'Instagram',
-      icon: Instagram,
+      icon: InstagramLogo,
       color: 'text-[#E1306C]',
       action: () => {
         navigator.clipboard.writeText(url);
@@ -110,7 +110,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
             {isOpen ? (
               <X className="h-4 w-4" />
             ) : (
-              <Share2 className="h-4 w-4" />
+              <ShareNetwork className="h-4 w-4" />
             )}
             Share
           </Button>

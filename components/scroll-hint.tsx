@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from "motion/react";
+import { CaretDown } from '@phosphor-icons/react';
 
 interface ScrollHintProps {
   text?: string;
@@ -101,9 +101,9 @@ export const ScrollHint = ({
                 delay: 0.5
               }}
             >
-              <ChevronDown 
+              <CaretDown 
                 className="w-5 h-5 text-primary" 
-                strokeWidth={1.5}
+                weight="light"
               />
             </motion.div>
           )}

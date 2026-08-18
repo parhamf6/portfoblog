@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Github } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, GithubLogo } from "@phosphor-icons/react";
 import type { ProjectData } from "@/types/project";
 import ProjectPageCta from "@/features/project/components/projects-end-cta";
 
@@ -97,7 +97,7 @@ export const ProjectShowcase: React.FC<{ project: ProjectData }> = ({ project })
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-border bg-background/40 px-4 py-2.5 font-mono text-sm text-foreground backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
             >
-              <Github className="h-4 w-4" />
+              <GithubLogo className="h-4 w-4" />
               source
             </a>
           )}

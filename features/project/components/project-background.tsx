@@ -1,6 +1,7 @@
 "use client";
 
 import PixelBlast from "@/components/PixelBlast";
+import PixelBlastLite from "@/components/PixelBlastLite";
 
 export default function ProjectBackground() {
   return (
@@ -24,6 +25,20 @@ export default function ProjectBackground() {
         edgeFade={0.25}
         transparent
       />
+      {/*<PixelBlastLite
+        variant="square"
+        pixelSize={5}
+        color="#f5a524"
+        patternDensity={0.5}
+        pixelSizeJitter={0}
+        enableRipples
+        rippleSpeed={0.4}
+        rippleThickness={0.12}
+        rippleIntensityScale={1.5}
+        speed={0.5}
+        edgeFade={0.25}
+        transparent
+      />*/}
       <div className="pointer-events-none absolute inset-0 bg-background/80" />
     </div>
   );

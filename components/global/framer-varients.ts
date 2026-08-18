@@ -1,5 +1,5 @@
 // motionVariants.ts
-import { Variants } from 'framer-motion';
+import { Variants } from "motion/react";
 
 // Fade in with slight upward motion
 export const fadeInUp: Variants = {

@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Shield, Brain } from "lucide-react";
+import { Sparkle, Shield, Brain } from "@phosphor-icons/react";
 export const SecurityPlaybookData: ProjectData = {
   title: "Security Playbook",
   tagline:
@@ -99,7 +99,7 @@ export const SecurityPlaybookData: ProjectData = {
     metrics: [
       { label: "Domains", value: "3", icon: Shield },
       { label: "Focus", value: "Web/API/LLM", icon: Brain },
-      { label: "Style", value: "Atomic", icon: Sparkles },
+      { label: "Style", value: "Atomic", icon: Sparkle },
     ],
     feedback:
       "\"A clean, compounding structure for turning security research into durable expertise.\"",

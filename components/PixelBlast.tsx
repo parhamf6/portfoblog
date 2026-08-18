@@ -1,8 +1,54 @@
-import { Effect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+"use client";
 
-type PixelBlastVariant = 'square' | 'circle' | 'triangle' | 'diamond';
+/**
+ * PixelBlast
+ * ------------------------------------------------------------------
+ * Suggested path: components/PixelBlast.tsx
+ *
+ * Changes vs. the original version:
+ *
+ * 1. Fixed a real bug: `autoPauseOffscreen` declared a visibility ref
+ *    but nothing ever updated it - the prop was a no-op and the
+ *    animation always ran, even scrolled off-screen or in a hidden
+ *    tab. Now backed by a real IntersectionObserver + a
+ *    `visibilitychange` listener.
+ * 2. WebGL2 is required (the shader uses `THREE.GLSL3`). On a device
+ *    without WebGL2, THREE would either fail to compile or silently
+ *    render nothing. We now check for WebGL2 support up-front and
+ *    skip mounting entirely on devices that lack it, falling back to
+ *    a static tinted background instead of a blank canvas.
+ * 3. Adaptive quality (useDeviceQuality):
+ *    - `liquid` postprocessing is disabled below "high" tier (it adds
+ *      a full second full-screen render pass via EffectComposer).
+ *    - `noiseAmount` postprocessing is disabled below "high" tier for
+ *      the same reason.
+ *    - ripples are disabled on "low" tier.
+ *    - FBM_OCTAVES is patched down (5 -> 4 -> 3) on weaker tiers.
+ *    - dpr and internal render resolution (renderScale) both scale
+ *      down on weaker tiers; the canvas is stretched back to 100%
+ *      via CSS, so `pixelSize` effectively renders chunkier (which,
+ *      for a pixel-art effect, reads as intentional rather than
+ *      broken).
+ * 4. The liquid-effect touch texture no longer uses `ctx.shadowBlur`
+ *    to fake a soft blob - shadowBlur is a software Gaussian blur and
+ *    one of the slowest Canvas2D operations, especially on iOS
+ *    Safari. Replaced with `createRadialGradient`, which produces a
+ *    visually similar soft falloff and still encodes velocity (r,g)
+ *    + intensity (b) per touch point.
+ * 5. Frame rate is capped based on quality tier.
+ * 6. Respects prefers-reduced-motion / navigator.connection.saveData:
+ *    skips mounting entirely, renders a static fallback instead.
+ * 7. Proper disposal: the touch texture is now disposed on cleanup
+ *    (it wasn't before).
+ * ------------------------------------------------------------------
+ */
+
+import { Effect, EffectComposer, EffectPass, RenderPass } from "postprocessing";
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { useDeviceQuality, QUALITY_PRESETS, type QualityLevel } from "./useDeviceQuality";
+
+type PixelBlastVariant = "square" | "circle" | "triangle" | "diamond";
 
 interface TouchPoint {
   x: number;
@@ -26,6 +72,7 @@ interface ReinitConfig {
   antialias: boolean;
   liquid: boolean;
   noiseAmount: number;
+  quality: QualityLevel;
 }
 
 type PixelBlastProps = {
@@ -51,16 +98,20 @@ type PixelBlastProps = {
   transparent?: boolean;
   edgeFade?: number;
   noiseAmount?: number;
+  /** Overrides the auto-detected quality tier ("high" | "medium" | "low"). */
+  quality?: QualityLevel;
+  /** Caps the render loop's frame rate. Defaults based on quality tier. */
+  targetFps?: number;
 };
 
 const createTouchTexture = (): TouchTexture => {
   const size = 64;
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('2D context not available');
-  ctx.fillStyle = 'black';
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("2D context not available");
+  ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   const texture = new THREE.Texture(canvas);
   texture.minFilter = THREE.LinearFilter;
@@ -72,7 +123,7 @@ const createTouchTexture = (): TouchTexture => {
   let radius = 0.1 * size;
   const speed = 1 / maxAge;
   const clear = () => {
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
   const drawPoint = (p: TouchPoint) => {
@@ -83,15 +134,23 @@ const createTouchTexture = (): TouchTexture => {
     if (p.age < maxAge * 0.3) intensity = easeOutSine(p.age / (maxAge * 0.3));
     else intensity = easeOutQuad(1 - (p.age - maxAge * 0.3) / (maxAge * 0.7)) || 0;
     intensity *= p.force;
-    const color = `${((p.vx + 1) / 2) * 255}, ${((p.vy + 1) / 2) * 255}, ${intensity * 255}`;
-    const offset = size * 5;
-    ctx.shadowOffsetX = offset;
-    ctx.shadowOffsetY = offset;
-    ctx.shadowBlur = radius;
-    ctx.shadowColor = `rgba(${color},${0.22 * intensity})`;
+
+    // Radial gradient instead of ctx.shadowBlur: same soft falloff,
+    // same per-point RGB encoding (velocity in r/g, intensity in b),
+    // much cheaper - shadowBlur is a software blur pass and one of
+    // the slowest Canvas2D calls, especially on iOS Safari.
+    const r = ((p.vx + 1) / 2) * 255;
+    const g = ((p.vy + 1) / 2) * 255;
+    const b = intensity * 255;
+    const alpha = 0.22 * intensity;
+
+    const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, radius);
+    gradient.addColorStop(0, `rgba(${r},${g},${b},${alpha})`);
+    gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+
+    ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.fillStyle = 'rgba(255,0,0,1)';
-    ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
+    ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
     ctx.fill();
   };
   const addTouch = (norm: { x: number; y: number }) => {
@@ -159,12 +218,12 @@ const createLiquidEffect = (texture: THREE.Texture, opts?: { strength?: number; 
       uv += vec2(vx, vy) * amt;
     }
     `;
-  return new Effect('LiquidEffect', fragment, {
+  return new Effect("LiquidEffect", fragment, {
     uniforms: new Map<string, THREE.Uniform>([
-      ['uTexture', new THREE.Uniform(texture)],
-      ['uStrength', new THREE.Uniform(opts?.strength ?? 0.025)],
-      ['uTime', new THREE.Uniform(0)],
-      ['uFreq', new THREE.Uniform(opts?.freq ?? 4.5)]
+      ["uTexture", new THREE.Uniform(texture)],
+      ["uStrength", new THREE.Uniform(opts?.strength ?? 0.025)],
+      ["uTime", new THREE.Uniform(0)],
+      ["uFreq", new THREE.Uniform(opts?.freq ?? 4.5)]
     ])
   });
 };
@@ -348,12 +407,17 @@ void main(){
 }
 `;
 
+/** Patches the FBM_OCTAVES #define down for weaker quality tiers. */
+function withOctaves(src: string, octaves: number): string {
+  return src.replace(/#define FBM_OCTAVES\s+\d+/, `#define FBM_OCTAVES     ${octaves}`);
+}
+
 const MAX_CLICKS = 10;
 
 const PixelBlast: React.FC<PixelBlastProps> = ({
-  variant = 'square',
+  variant = "square",
   pixelSize = 3,
-  color = '#B497CF',
+  color = "#B497CF",
   className,
   style,
   antialias = true,
@@ -372,11 +436,32 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
   speed = 0.5,
   transparent = true,
   edgeFade = 0.5,
-  noiseAmount = 0
+  noiseAmount = 0,
+  quality: qualityOverride,
+  targetFps
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const visibilityRef = useRef({ visible: true });
   const speedRef = useRef(speed);
+
+  const deviceQuality = useDeviceQuality();
+  const quality: QualityLevel = qualityOverride ?? deviceQuality.level;
+  const preset = QUALITY_PRESETS[quality];
+
+  // Postprocessing (liquid / noise) roughly doubles fill-rate cost via
+  // a second full-screen pass - only worth it on the "high" tier.
+  const effectiveLiquid = liquid && quality === "high";
+  const effectiveNoise = quality === "high" ? noiseAmount : 0;
+  const effectiveRipples = enableRipples && quality !== "low";
+  const octaves = quality === "low" ? 3 : quality === "medium" ? 4 : 5;
+
+  const frameInterval = targetFps
+    ? 1000 / targetFps
+    : quality === "high"
+      ? 0
+      : quality === "medium"
+        ? 1000 / 30
+        : 1000 / 24;
 
   const threeRef = useRef<{
     renderer: THREE.WebGLRenderer;
@@ -403,6 +488,8 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       uEdgeFade: { value: number };
     };
     resizeObserver?: ResizeObserver;
+    intersectionObserver?: IntersectionObserver;
+    onVisibilityChange?: () => void;
     raf?: number;
     quad?: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
     timeOffset?: number;
@@ -411,12 +498,22 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
     liquidEffect?: Effect;
   } | null>(null);
   const prevConfigRef = useRef<ReinitConfig | null>(null);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // Reduced motion / data-saver: skip entirely, JSX renders a
+    // static fallback below.
+    if (deviceQuality.disabled) return;
+
+    // The shader requires GLSL3 -> WebGL2. Without it THREE either
+    // fails to compile or renders nothing; bail out up-front instead.
+    if (!deviceQuality.hasWebGL2) return;
+
     speedRef.current = speed;
-    const needsReinitKeys: (keyof ReinitConfig)[] = ['antialias', 'liquid', 'noiseAmount'];
-    const cfg: ReinitConfig = { antialias, liquid, noiseAmount };
+    const needsReinitKeys: (keyof ReinitConfig)[] = ["antialias", "liquid", "noiseAmount", "quality"];
+    const cfg: ReinitConfig = { antialias, liquid: effectiveLiquid, noiseAmount: effectiveNoise, quality };
     let mustReinit = false;
     if (!threeRef.current) mustReinit = true;
     else if (prevConfigRef.current) {
@@ -430,7 +527,10 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       if (threeRef.current) {
         const t = threeRef.current;
         t.resizeObserver?.disconnect();
+        t.intersectionObserver?.disconnect();
+        if (t.onVisibilityChange) document.removeEventListener("visibilitychange", t.onVisibilityChange);
         cancelAnimationFrame(t.raf!);
+        t.touch?.texture.dispose();
         t.quad?.geometry.dispose();
         t.material.dispose();
         t.composer?.dispose();
@@ -439,16 +539,16 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         if (t.renderer.domElement.parentElement === container) container.removeChild(t.renderer.domElement);
         threeRef.current = null;
       }
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias,
         alpha: true,
-        powerPreference: 'high-performance'
+        powerPreference: "high-performance"
       });
-      renderer.domElement.style.width = '100%';
-      renderer.domElement.style.height = '100%';
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.domElement.style.width = "100%";
+      renderer.domElement.style.height = "100%";
+      renderer.setPixelRatio(deviceQuality.dpr);
       container.appendChild(renderer.domElement);
       if (transparent) renderer.setClearAlpha(0);
       else renderer.setClearColor(0x000000, 1);
@@ -465,7 +565,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         uScale: { value: patternScale },
         uDensity: { value: patternDensity },
         uPixelJitter: { value: pixelSizeJitter },
-        uEnableRipples: { value: enableRipples ? 1 : 0 },
+        uEnableRipples: { value: effectiveRipples ? 1 : 0 },
         uRippleSpeed: { value: rippleSpeed },
         uRippleThickness: { value: rippleThickness },
         uRippleIntensity: { value: rippleIntensityScale },
@@ -475,7 +575,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
       const material = new THREE.ShaderMaterial({
         vertexShader: VERTEX_SRC,
-        fragmentShader: FRAGMENT_SRC,
+        fragmentShader: withOctaves(FRAGMENT_SRC, octaves),
         uniforms,
         transparent: true,
         depthTest: false,
@@ -487,8 +587,8 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       scene.add(quad);
       const clock = new THREE.Clock();
       const setSize = () => {
-        const w = container.clientWidth || 1;
-        const h = container.clientHeight || 1;
+        const w = Math.max(1, Math.floor((container.clientWidth || 1) * preset.renderScale));
+        const h = Math.max(1, Math.floor((container.clientHeight || 1) * preset.renderScale));
         renderer.setSize(w, h, false);
         uniforms.uResolution.value.set(renderer.domElement.width, renderer.domElement.height);
         if (threeRef.current?.composer)
@@ -498,8 +598,34 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       setSize();
       const ro = new ResizeObserver(setSize);
       ro.observe(container);
+
+      // --- visibility handling (this is the fix for autoPauseOffscreen) ---
+      let io: IntersectionObserver | undefined;
+      if (autoPauseOffscreen) {
+        io = new IntersectionObserver(
+          ([entry]) => {
+            visibilityRef.current.visible = entry.isIntersecting && !document.hidden;
+          },
+          { threshold: 0 }
+        );
+        io.observe(container);
+      } else {
+        visibilityRef.current.visible = !document.hidden;
+      }
+      const onVisibilityChange = () => {
+        if (document.hidden) {
+          visibilityRef.current.visible = false;
+        } else if (!autoPauseOffscreen) {
+          visibilityRef.current.visible = true;
+        }
+        // when autoPauseOffscreen is true, the IntersectionObserver
+        // will re-confirm visibility on its next callback.
+      };
+      document.addEventListener("visibilitychange", onVisibilityChange);
+      // --------------------------------------------------------------------
+
       const randomFloat = (): number => {
-        if (typeof window !== 'undefined' && window.crypto?.getRandomValues) {
+        if (typeof window !== "undefined" && window.crypto?.getRandomValues) {
           const u32 = new Uint32Array(1);
           window.crypto.getRandomValues(u32);
           return u32[0] / 0xffffffff;
@@ -510,7 +636,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       let composer: EffectComposer | undefined;
       let touch: ReturnType<typeof createTouchTexture> | undefined;
       let liquidEffect: Effect | undefined;
-      if (liquid) {
+      if (effectiveLiquid) {
         touch = createTouchTexture();
         touch.radiusScale = liquidRadius;
         composer = new EffectComposer(renderer);
@@ -524,18 +650,18 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         composer.addPass(renderPass);
         composer.addPass(effectPass);
       }
-      if (noiseAmount > 0) {
+      if (effectiveNoise > 0) {
         if (!composer) {
           composer = new EffectComposer(renderer);
           composer.addPass(new RenderPass(scene, camera));
         }
         const noiseEffect = new Effect(
-          'NoiseEffect',
+          "NoiseEffect",
           `uniform float uTime; uniform float uAmount; float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453);} void mainUv(inout vec2 uv){} void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){ float n=hash(floor(uv*vec2(1920.0,1080.0))+floor(uTime*60.0)); float g=(n-0.5)*uAmount; outputColor=inputColor+vec4(vec3(g),0.0);} `,
           {
             uniforms: new Map<string, THREE.Uniform>([
-              ['uTime', new THREE.Uniform(0)],
-              ['uAmount', new THREE.Uniform(noiseAmount)]
+              ["uTime", new THREE.Uniform(0)],
+              ["uAmount", new THREE.Uniform(effectiveNoise)]
             ])
           }
         );
@@ -564,6 +690,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         };
       };
       const onPointerDown = (e: PointerEvent) => {
+        if (!effectiveRipples) return;
         const { fx, fy } = mapToPixels(e);
         const ix = threeRef.current?.clickIx ?? 0;
         uniforms.uClickPos.value[ix].set(fx, fy);
@@ -575,22 +702,29 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         const { fx, fy, w, h } = mapToPixels(e);
         touch.addTouch({ x: fx / w, y: fy / h });
       };
-      renderer.domElement.addEventListener('pointerdown', onPointerDown, {
+      renderer.domElement.addEventListener("pointerdown", onPointerDown, {
         passive: true
       });
-      renderer.domElement.addEventListener('pointermove', onPointerMove, {
+      renderer.domElement.addEventListener("pointermove", onPointerMove, {
         passive: true
       });
       let raf = 0;
-      const animate = () => {
-        if (autoPauseOffscreen && !visibilityRef.current.visible) {
+      let lastFrameTime = 0;
+      const animate = (t: number) => {
+        if (!visibilityRef.current.visible) {
           raf = requestAnimationFrame(animate);
           return;
         }
+        if (frameInterval > 0 && t - lastFrameTime < frameInterval) {
+          raf = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = t;
+
         uniforms.uTime.value = timeOffset + clock.getElapsedTime() * speedRef.current;
         if (liquidEffect) {
           const liqEffect = liquidEffect as Effect & { uniforms: Map<string, THREE.Uniform> };
-          const timeUniform = liqEffect.uniforms.get('uTime');
+          const timeUniform = liqEffect.uniforms.get("uTime");
           if (timeUniform) timeUniform.value = uniforms.uTime.value;
         }
         if (composer) {
@@ -599,7 +733,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
             const pass = p as { effects?: Array<Effect & { uniforms: Map<string, THREE.Uniform> }> };
             if (pass.effects) {
               pass.effects.forEach(eff => {
-                const timeUniform = eff.uniforms?.get('uTime');
+                const timeUniform = eff.uniforms?.get("uTime");
                 if (timeUniform) timeUniform.value = uniforms.uTime.value;
               });
             }
@@ -618,6 +752,8 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         clickIx: 0,
         uniforms,
         resizeObserver: ro,
+        intersectionObserver: io,
+        onVisibilityChange,
         raf,
         quad,
         timeOffset,
@@ -633,7 +769,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       t.uniforms.uScale.value = patternScale;
       t.uniforms.uDensity.value = patternDensity;
       t.uniforms.uPixelJitter.value = pixelSizeJitter;
-      t.uniforms.uEnableRipples.value = enableRipples ? 1 : 0;
+      t.uniforms.uEnableRipples.value = effectiveRipples ? 1 : 0;
       t.uniforms.uRippleIntensity.value = rippleIntensityScale;
       t.uniforms.uRippleThickness.value = rippleThickness;
       t.uniforms.uRippleSpeed.value = rippleSpeed;
@@ -642,9 +778,9 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       else t.renderer.setClearColor(0x000000, 1);
       if (t.liquidEffect) {
         const liqEffect = t.liquidEffect as Effect & { uniforms: Map<string, THREE.Uniform> };
-        const uStrength = liqEffect.uniforms.get('uStrength');
+        const uStrength = liqEffect.uniforms.get("uStrength");
         if (uStrength) uStrength.value = liquidStrength;
-        const uFreq = liqEffect.uniforms.get('uFreq');
+        const uFreq = liqEffect.uniforms.get("uFreq");
         if (uFreq) uFreq.value = liquidWobbleSpeed;
       }
       if (t.touch) t.touch.radiusScale = liquidRadius;
@@ -655,7 +791,10 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       if (!threeRef.current) return;
       const t = threeRef.current;
       t.resizeObserver?.disconnect();
+      t.intersectionObserver?.disconnect();
+      if (t.onVisibilityChange) document.removeEventListener("visibilitychange", t.onVisibilityChange);
       cancelAnimationFrame(t.raf!);
+      t.touch?.texture.dispose();
       t.quad?.geometry.dispose();
       t.material.dispose();
       t.composer?.dispose();
@@ -665,13 +804,20 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       threeRef.current = null;
     };
   }, [
+    deviceQuality.disabled,
+    deviceQuality.hasWebGL2,
+    deviceQuality.dpr,
+    quality,
+    preset.renderScale,
+    effectiveLiquid,
+    effectiveNoise,
+    effectiveRipples,
+    octaves,
+    frameInterval,
     antialias,
-    liquid,
-    noiseAmount,
     pixelSize,
     patternScale,
     patternDensity,
-    enableRipples,
     rippleIntensityScale,
     rippleThickness,
     rippleSpeed,
@@ -690,8 +836,12 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full relative overflow-hidden ${className ?? ''}`}
-      style={style}
+      className={`w-full h-full relative overflow-hidden ${className ?? ""}`}
+      style={
+        deviceQuality.disabled || !deviceQuality.hasWebGL2
+          ? { backgroundColor: color, opacity: 0.12, ...style }
+          : style
+      }
       aria-label="PixelBlast interactive background"
     />
   );

@@ -5,7 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nightOwl  } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
-import { Copy, Code2, Terminal } from 'lucide-react';
+import { Copy, CodeSimple, Terminal } from '@phosphor-icons/react';
 import dynamic from 'next/dynamic';
 
 // Dynamically import Mermaid component to avoid SSR issues
@@ -46,7 +46,7 @@ const CodeBlock = React.memo(({
       case 'shell':
         return <Terminal size={14} />;
       default:
-        return <Code2 size={14} />;
+        return <CodeSimple size={14} />;
     }
   };
 

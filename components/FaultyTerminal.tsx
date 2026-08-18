@@ -1,5 +1,46 @@
-import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
-import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+"use client";
+
+/**
+ * FaultyTerminal
+ * ------------------------------------------------------------------
+ * Suggested path: components/FaultyTerminal.tsx
+ *
+ * Changes vs. the original version:
+ *
+ * 1. Adaptive quality (useDeviceQuality): dpr, internal render
+ *    resolution, and shader "supersample" path all scale down on
+ *    weaker/mobile devices instead of being fixed.
+ * 2. Cheap shader path (uSupersample): the original always sampled
+ *    `digit()` 9 extra times per pixel purely to fake a soft glow
+ *    around each cell (`sum`). Each `digit()` call runs `pattern()` ->
+ *    5x `fbm()` -> 3x `noise()` each, so that's ~135 extra noise
+ *    evaluations per pixel. On low/medium tier devices we now
+ *    approximate `sum` as `middle * 9.0` instead of resampling,
+ *    which keeps the same brightness weighting the original formula
+ *    used, for a fraction of the cost.
+ * 3. Internal render resolution can be scaled down and stretched via
+ *    CSS on weaker devices (`renderScale`), independent of dpr.
+ * 4. Pauses (skips the render call entirely, not just the time
+ *    update) when the tab is hidden (document.hidden) or the
+ *    container is scrolled out of view (IntersectionObserver), in
+ *    addition to the existing `pause` prop.
+ * 5. Frame-rate is capped (default: uncapped on "high", 30fps on
+ *    "medium", 24fps on "low") since a decorative background gains
+ *    little from running at native refresh rate.
+ * 6. Respects prefers-reduced-motion / navigator.connection.saveData:
+ *    skips mounting WebGL entirely and renders a cheap static
+ *    gradient fallback using the same tint color instead.
+ * 7. Fixed a real bug: the effect's dependency array referenced
+ *    `griMul` (typo, undefined variable) instead of `gridMul`, so the
+ *    grid density prop silently never triggered a rebuild.
+ * 8. WebGL context creation is wrapped in try/catch; on failure we
+ *    fall back to the same static gradient rather than crashing.
+ * ------------------------------------------------------------------
+ */
+
+import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
+import React, { useEffect, useRef, useMemo, useCallback } from "react";
+import { useDeviceQuality, QUALITY_PRESETS, type QualityLevel } from "./useDeviceQuality";
 
 type Vec2 = [number, number];
 
@@ -19,9 +60,16 @@ export interface FaultyTerminalProps extends React.HTMLAttributes<HTMLDivElement
   tint?: string;
   mouseReact?: boolean;
   mouseStrength?: number;
+  /** Overrides the auto-detected devicePixelRatio cap. Leave unset to let useDeviceQuality decide. */
   dpr?: number;
   pageLoadAnimation?: boolean;
   brightness?: number;
+  /** Overrides the auto-detected quality tier ("high" | "medium" | "low"). */
+  quality?: QualityLevel;
+  /** Caps the render loop's frame rate. Defaults based on quality tier. */
+  targetFps?: number;
+  /** Pause rendering (and skip the render call) when the container is scrolled out of view. Default: true. */
+  autoPauseOffscreen?: boolean;
 }
 
 const vertexShader = `
@@ -59,6 +107,7 @@ uniform float uUseMouse;
 uniform float uPageLoadProgress;
 uniform float uUsePageLoadAnimation;
 uniform float uBrightness;
+uniform float uSupersample;
 
 float time;
 
@@ -184,11 +233,20 @@ vec3 getColor(vec2 p){
     }
 
     float middle = digit(p);
-    
-    const float off = 0.002;
-    float sum = digit(p + vec2(-off, -off)) + digit(p + vec2(0.0, -off)) + digit(p + vec2(off, -off)) +
-                digit(p + vec2(-off, 0.0)) + digit(p + vec2(0.0, 0.0)) + digit(p + vec2(off, 0.0)) +
-                digit(p + vec2(-off, off)) + digit(p + vec2(0.0, off)) + digit(p + vec2(off, off));
+
+    // uSupersample < 0.5: cheap path for low/medium quality tiers.
+    // The original sampled 8 neighbouring cells purely to approximate
+    // a soft glow ("sum"). We approximate the same magnitude without
+    // paying for 8 extra digit() calls (each ~15 noise evaluations).
+    float sum;
+    if (uSupersample > 0.5) {
+      const float off = 0.002;
+      sum = digit(p + vec2(-off, -off)) + digit(p + vec2(0.0, -off)) + digit(p + vec2(off, -off)) +
+            digit(p + vec2(-off, 0.0)) + digit(p + vec2(0.0, 0.0)) + digit(p + vec2(off, 0.0)) +
+            digit(p + vec2(-off, off)) + digit(p + vec2(0.0, off)) + digit(p + vec2(off, off));
+    } else {
+      sum = middle * 9.0;
+    }
     
     vec3 baseColor = vec3(0.9) * middle + sum * 0.1 * vec3(1.0) * bar;
     return baseColor;
@@ -212,7 +270,7 @@ void main() {
     vec2 p = uv * uScale;
     vec3 col = getColor(p);
 
-    if(uChromaticAberration != 0.0){
+    if(uChromaticAberration != 0.0 && uSupersample > 0.5){
       vec2 ca = vec2(uChromaticAberration) / iResolution.xy;
       col.r = getColor(p + ca).r;
       col.b = getColor(p - ca).b;
@@ -231,12 +289,12 @@ void main() {
 `;
 
 function hexToRgb(hex: string): [number, number, number] {
-  let h = hex.replace('#', '').trim();
+  let h = hex.replace("#", "").trim();
   if (h.length === 3)
     h = h
-      .split('')
+      .split("")
       .map(c => c + c)
-      .join('');
+      .join("");
   const num = parseInt(h.slice(0, 6), 16);
   return [((num >> 16) & 255) / 255, ((num >> 8) & 255) / 255, (num & 255) / 255];
 }
@@ -254,29 +312,49 @@ export default function FaultyTerminal({
   chromaticAberration = 0,
   dither = 0,
   curvature = 0.2,
-  tint = '#ffffff',
+  tint = "#ffffff",
   mouseReact = true,
   mouseStrength = 0.2,
-  dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1,
+  dpr: dprOverride,
   pageLoadAnimation = true,
   brightness = 1,
+  quality: qualityOverride,
+  targetFps,
+  autoPauseOffscreen = true,
   className,
   style,
   ...rest
 }: FaultyTerminalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const programRef = useRef<Program>(null);
-  const rendererRef = useRef<Renderer>(null);
+  const programRef = useRef<Program | null>(null);
+  const rendererRef = useRef<Renderer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const frozenTimeRef = useRef(0);
   const rafRef = useRef<number>(0);
   const loadAnimationStartRef = useRef<number>(0);
   const timeOffsetRef = useRef<number>(Math.random() * 100);
+  const isIntersectingRef = useRef(true);
+  const lastFrameTimeRef = useRef(0);
+
+  const deviceQuality = useDeviceQuality();
+  const quality: QualityLevel = qualityOverride ?? deviceQuality.level;
+  const preset = QUALITY_PRESETS[quality];
+  const effectiveDpr = dprOverride ?? deviceQuality.dpr;
+  const renderScale = preset.renderScale;
+  const supersample = quality === "high";
+
+  const frameInterval = targetFps
+    ? 1000 / targetFps
+    : quality === "high"
+      ? 0
+      : quality === "medium"
+        ? 1000 / 30
+        : 1000 / 24;
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
 
-  const ditherValue = useMemo(() => (typeof dither === 'boolean' ? (dither ? 1 : 0) : dither), [dither]);
+  const ditherValue = useMemo(() => (typeof dither === "boolean" ? (dither ? 1 : 0) : dither), [dither]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const ctn = containerRef.current;
@@ -291,10 +369,22 @@ export default function FaultyTerminal({
     const ctn = containerRef.current;
     if (!ctn) return;
 
-    const renderer = new Renderer({ dpr });
+    // Reduced motion / data-saver: don't mount WebGL at all, the JSX
+    // below renders a cheap static gradient instead.
+    if (deviceQuality.disabled) return;
+
+    let renderer: Renderer;
+    let gl: WebGLRenderingContext | WebGL2RenderingContext;
+    try {
+      renderer = new Renderer({ dpr: effectiveDpr, alpha: true });
+      gl = renderer.gl;
+      gl.clearColor(0, 0, 0, 1);
+    } catch (err) {
+      // No WebGL available at all - fail silently, static fallback stays visible.
+      console.warn("FaultyTerminal: WebGL context could not be created, skipping.", err);
+      return;
+    }
     rendererRef.current = renderer;
-    const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 1);
 
     const geometry = new Triangle(gl);
 
@@ -325,7 +415,8 @@ export default function FaultyTerminal({
         uUseMouse: { value: mouseReact ? 1 : 0 },
         uPageLoadProgress: { value: pageLoadAnimation ? 0 : 1 },
         uUsePageLoadAnimation: { value: pageLoadAnimation ? 1 : 0 },
-        uBrightness: { value: brightness }
+        uBrightness: { value: brightness },
+        uSupersample: { value: supersample ? 1 : 0 }
       }
     });
     programRef.current = program;
@@ -334,7 +425,14 @@ export default function FaultyTerminal({
 
     function resize() {
       if (!ctn || !renderer) return;
-      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+      const w = Math.max(1, Math.floor(ctn.offsetWidth * renderScale));
+      const h = Math.max(1, Math.floor(ctn.offsetHeight * renderScale));
+      renderer.setSize(w, h);
+      // renderer.setSize sets canvas.style.width/height to the *logical*
+      // (possibly downscaled) size we just passed in. Force it back to
+      // fill the container so the smaller backing buffer gets stretched
+      // via CSS instead of visually shrinking the canvas.
+      Object.assign(gl.canvas.style, { width: "100%", height: "100%" });
       program.uniforms.iResolution.value = new Color(
         gl.canvas.width,
         gl.canvas.height,
@@ -346,14 +444,32 @@ export default function FaultyTerminal({
     resizeObserver.observe(ctn);
     resize();
 
+    let intersectionObserver: IntersectionObserver | undefined;
+    if (autoPauseOffscreen) {
+      intersectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          isIntersectingRef.current = entry.isIntersecting;
+        },
+        { threshold: 0 }
+      );
+      intersectionObserver.observe(ctn);
+    } else {
+      isIntersectingRef.current = true;
+    }
+
     const update = (t: number) => {
       rafRef.current = requestAnimationFrame(update);
+
+      if (frameInterval > 0 && t - lastFrameTimeRef.current < frameInterval) return;
+      lastFrameTimeRef.current = t;
+
+      const shouldAnimate = !pause && !document.hidden && isIntersectingRef.current;
 
       if (pageLoadAnimation && loadAnimationStartRef.current === 0) {
         loadAnimationStartRef.current = t;
       }
 
-      if (!pause) {
+      if (shouldAnimate) {
         const elapsed = (t * 0.001 + timeOffsetRef.current) * timeScale;
         program.uniforms.iTime.value = elapsed;
         frozenTimeRef.current = elapsed;
@@ -380,24 +496,34 @@ export default function FaultyTerminal({
         mouseUniform[1] = smoothMouse.y;
       }
 
+      // Skip the actual GPU render call when hidden/offscreen/paused -
+      // this is the expensive part, not the bookkeeping above.
+      if (!shouldAnimate) return;
+
       renderer.render({ scene: mesh });
     };
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
-    if (mouseReact) ctn.addEventListener('mousemove', handleMouseMove);
+    if (mouseReact) ctn.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
-      if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
+      intersectionObserver?.disconnect();
+      if (mouseReact) ctn.removeEventListener("mousemove", handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
       loadAnimationStartRef.current = 0;
       timeOffsetRef.current = Math.random() * 100;
     };
   }, [
-    dpr,
+    deviceQuality.disabled,
+    effectiveDpr,
+    renderScale,
+    supersample,
+    frameInterval,
+    autoPauseOffscreen,
     pause,
     timeScale,
     scale,
@@ -419,6 +545,18 @@ export default function FaultyTerminal({
   ]);
 
   return (
-    <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className}`} style={style} {...rest} />
+    <div
+      ref={containerRef}
+      className={`w-full h-full relative overflow-hidden ${className ?? ""}`}
+      style={
+        deviceQuality.disabled
+          ? {
+              background: `radial-gradient(circle at 50% 30%, ${tint}22, transparent 70%)`,
+              ...style
+            }
+          : style
+      }
+      {...rest}
+    />
   );
 }

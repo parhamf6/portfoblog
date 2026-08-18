@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Users , TrendingUp } from "lucide-react";
+import { Sparkle, Users , TrendUp } from "@phosphor-icons/react";
 export const DevhubData: ProjectData = {
   title: "Devhub",
   tagline: "A lightweight, developer-first toolbox and learning hub — codeable utilities, guides, and composable tools for everyday engineering workflows",
@@ -117,8 +117,8 @@ export const DevhubData: ProjectData = {
   ],
   results: {
     metrics: [
-      { label: "Tools Built", value: "25+", icon: TrendingUp },
-      { label: "Avg. Load Time", value: "1.1s", icon: Sparkles },
+      { label: "Tools Built", value: "25+", icon: TrendUp },
+      { label: "Avg. Load Time", value: "1.1s", icon: Sparkle },
       { label: "Developer Satisfaction", value: "4.7/5", icon: Users }
     ],
     feedback:

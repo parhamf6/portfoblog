@@ -1,23 +1,28 @@
 "use client";
 
-import PixelSnow from "@/components/PixelSnow";
+import PixelBlast from "@/components/PixelBlast";
 
 export default function BlogBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0" aria-label="Blog background">
-      <PixelSnow
-        color="#f5a524"
-        flakeSize={0.01}
-        minFlakeSize={1.25}
-        pixelResolution={200}
-        speed={1.25}
-        density={0.3}
-        direction={125}
-        brightness={1}
-        depthFade={8}
-        farPlane={20}
-        gamma={0.4545}
+      <PixelBlast
         variant="square"
+        pixelSize={5}
+        color="#f5a524"
+        patternScale={2}
+        patternDensity={0.5}
+        pixelSizeJitter={0}
+        enableRipples
+        rippleSpeed={0.4}
+        rippleThickness={0.12}
+        rippleIntensityScale={1.5}
+        liquid={false}
+        liquidStrength={0.12}
+        liquidRadius={1.2}
+        liquidWobbleSpeed={5}
+        speed={0.5}
+        edgeFade={0.25}
+        transparent
       />
       <div className="absolute inset-0 bg-background/80" />
     </div>

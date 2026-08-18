@@ -1,11 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
 import { projects as allProjects } from "@/lib/data/projects/projects-list";
 import type { Project } from "@/types/project";
 import { SectionHeading } from "@/features/home/components/section-heading";
+import { Reveal } from "@/features/home/components/reveal";
 
 function StatusBadge({ status }: { status: boolean }) {
   return (
@@ -23,7 +24,7 @@ function StatusBadge({ status }: { status: boolean }) {
 
 function Row({ project, index }: { project: Project; index: number }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -52,7 +53,7 @@ function Row({ project, index }: { project: Project; index: number }) {
           <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
         </div>
       </Link>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -63,12 +64,7 @@ export default function ProjectSection() {
   return (
     <section id="projects" className="scroll-mt-24 py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <Reveal>
           <SectionHeading
             cmd="ls projects/"
             title="Selected work."
@@ -133,7 +129,7 @@ export default function ProjectSection() {
             ))}
             <div className="border-t border-border" aria-hidden />
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

@@ -2,10 +2,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Home, ArrowLeft, Search, RefreshCw } from 'lucide-react';
+import { House, ArrowLeft, MagnifyingGlass, ArrowClockwise } from '@phosphor-icons/react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { ShaderAnimation } from '@/components/backgrounds/shader-animation';
 import { ShaderLines } from '@/components/backgrounds/shader-lines';
 
@@ -79,7 +79,7 @@ export default function NotFound() {
           >
             <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link href="/">
-                <Home className="mr-2 h-5 w-5" />
+                <House className="mr-2 h-5 w-5" />
                 Go Home
               </Link>
             </Button>
@@ -90,7 +90,7 @@ export default function NotFound() {
               className="border-primary/50 text-foreground hover:bg-primary/10 bg-transparent"
             >
               <Link href="/blogs">
-                <Search className="mr-2 h-5 w-5" />
+                <MagnifyingGlass className="mr-2 h-5 w-5" />
                 Browse Blog
               </Link>
             </Button>

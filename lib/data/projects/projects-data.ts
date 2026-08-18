@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Users , TrendingUp } from "lucide-react";
+import { Sparkle, Users , TrendUp } from "@phosphor-icons/react";
 export const DevhubData: ProjectData = {
     title: "Devhub",
     tagline: "A brief, compelling description of what your project accomplishes",
@@ -96,8 +96,8 @@ export const DevhubData: ProjectData = {
     ],
     results: {
       metrics: [
-        { label: "Performance Score", value: "95/100", icon: TrendingUp },
-        { label: "Load Time", value: "1.2s", icon: Sparkles },
+        { label: "Performance Score", value: "95/100", icon: TrendUp },
+        { label: "Load Time", value: "1.2s", icon: Sparkle },
         { label: "User Satisfaction", value: "4.8/5", icon: Users }
       ],
       feedback: "\"This tool has significantly improved our workflow efficiency.\" - John Doe, Product Manager",
@@ -210,8 +210,8 @@ export const GitfatherData: ProjectData = {
     ],
     results: {
       metrics: [
-        { label: "Performance Score", value: "95/100", icon: TrendingUp },
-        { label: "Load Time", value: "1.2s", icon: Sparkles },
+        { label: "Performance Score", value: "95/100", icon: TrendUp },
+        { label: "Load Time", value: "1.2s", icon: Sparkle },
         { label: "User Satisfaction", value: "4.8/5", icon: Users }
       ],
       feedback: "\"This tool has significantly improved our workflow efficiency.\" - John Doe, Product Manager",
@@ -323,8 +323,8 @@ export const PortfoblogData: ProjectData = {
     ],
     results: {
       metrics: [
-        { label: "Performance Score", value: "95/100", icon: TrendingUp },
-        { label: "Load Time", value: "1.2s", icon: Sparkles },
+        { label: "Performance Score", value: "95/100", icon: TrendUp },
+        { label: "Load Time", value: "1.2s", icon: Sparkle },
         { label: "User Satisfaction", value: "4.8/5", icon: Users }
       ],
       feedback: "\"This tool has significantly improved our workflow efficiency.\" - John Doe, Product Manager",
@@ -436,8 +436,8 @@ export const PortfoblogData: ProjectData = {
 //     ],
 //     results: {
 //       metrics: [
-//         { label: "Performance Score", value: "95/100", icon: TrendingUp },
-//         { label: "Load Time", value: "1.2s", icon: Sparkles },
+//         { label: "Performance Score", value: "95/100", icon: TrendUp },
+//         { label: "Load Time", value: "1.2s", icon: Sparkle },
 //         { label: "User Satisfaction", value: "4.8/5", icon: Users }
 //       ],
 //       feedback: "\"This tool has significantly improved our workflow efficiency.\" - John Doe, Product Manager",

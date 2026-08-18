@@ -1,5 +1,5 @@
 import { ProjectData } from "@/types/project";
-import { Sparkles, Target, Code2 } from "lucide-react";
+import { Sparkle, Target, CodeSimple } from "@phosphor-icons/react";
 export const PythonExercisesData: ProjectData = {
   title: "Python Exercises",
   tagline:
@@ -90,8 +90,8 @@ export const PythonExercisesData: ProjectData = {
   results: {
     metrics: [
       { label: "Sources", value: "3+", icon: Target },
-      { label: "Mini Projects", value: "6+", icon: Code2 },
-      { label: "Tools", value: "1", icon: Sparkles },
+      { label: "Mini Projects", value: "6+", icon: CodeSimple },
+      { label: "Tools", value: "1", icon: Sparkle },
     ],
     feedback:
       "\"A great resource for anyone looking to practice Python and explore different coding challenges.\"",
