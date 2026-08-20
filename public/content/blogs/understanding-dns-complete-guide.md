@@ -1,9 +1,4 @@
 # DNS Security Guide: Understanding the Internet's Phone Book
-
-```markdown
-<!-- meta: Learn how DNS really works! Complete guide to domain name resolution with visual diagrams, practical examples, and essential security basics. -->
-```
-
 ---
 
 ## What is DNS anyway?

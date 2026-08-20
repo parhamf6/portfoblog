@@ -1,10 +1,5 @@
 
 # Understanding Web Servers: My Apache Learning Journey
-
-```markdown
-<!-- meta: Learn how Web Servers really works! web server security owasp , beginner apache configuration -->
-```
-
 ---
 
 

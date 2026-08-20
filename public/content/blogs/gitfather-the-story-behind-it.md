@@ -1,7 +1,3 @@
-```markdown
-<!-- meta: Gitfather: the story behind it -->
-```
-
 # What if I could make my GitHub graph green without trying?
 
 One day I wondered: could I keep my GitHub contribution graph green automatically? At first I treated it like a neat trick — “cool, I can make this” — but I soon realized there’s more to it. The graph is ideally a reflection of productivity, not just a vanity metric. Still, my journey started with the question: how would I actually build something to do this?

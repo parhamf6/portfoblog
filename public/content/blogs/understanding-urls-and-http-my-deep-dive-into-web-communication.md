@@ -1,8 +1,4 @@
 # Understanding URLs and HTTP: My Deep Dive into Web Communication
-```markdown
-<!-- meta: Learn how url and http really work! web server security owasp , beginner apache configuration -->
-```
-
 In my previous blog posts, we've been exploring the fundamentals of web security and networking. Today, I'm excited to share what I discovered about URLs and HTTP - the building blocks that make the web work. This stuff absolutely blew my mind when I realized how much depth there is behind every simple web request we make!
 
 Let me walk you through what I learned, and trust me, by the end of this you'll see URLs and HTTP requests in a completely different light.

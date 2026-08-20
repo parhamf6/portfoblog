@@ -1,6 +1,3 @@
-```markdown
-<!-- meta: Devhub: the story behind it -->
-```
 # What if I could have all the tools I need every day to develop in one place?
 
 The idea started from that point — I decided it would be good to bring together all the useful tools that developers need into one place. That’s how the idea of **DevHub** was born.  
