@@ -39,10 +39,14 @@ export default function SiteLoader() {
       aria-hidden
     >
       <div className="flex w-56 flex-col gap-3">
-        <p className="font-mono text-sm text-muted-foreground">
-          <span className="text-primary">portfoblog@dev</span>:~$
-          <span className="cursor-blink ml-1 inline-block h-[1.1em] w-[0.6ch] translate-y-[0.15em] bg-primary align-baseline" />
-        </p>
+        <video
+          src="/logo-loading.webm"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="mx-auto"
+        />
 
         <div className="h-2 w-full overflow-hidden rounded-sm border border-border bg-muted/40">
           <div
@@ -50,6 +54,10 @@ export default function SiteLoader() {
             style={{ animation: "loader-fill 0.8s cubic-bezier(0.22,1,0.36,1) forwards" }}
           />
         </div>
+        <p className="font-mono text-sm text-muted-foreground">
+              <span className="text-primary">portfoblog@dev Loading</span>:~$
+              <span className="cursor-blink ml-1 inline-block h-[1.1em] w-[0.6ch] translate-y-[0.15em] bg-primary align-baseline" />
+            </p>
         <style>{`
           @keyframes loader-fill {
             from { width: 4%; }

@@ -23,16 +23,13 @@ export default function Navbar() {
         <Link
           href="/"
           aria-label="Home"
-          className="group flex items-baseline gap-1 font-mono text-sm"
+          className="group flex items-center"
         >
-          <span className="text-muted-foreground transition-colors group-hover:text-primary">
-            ~/
-          </span>
-          <span className="font-bold text-foreground">PF</span>
-          {/*<span className="hidden text-muted-foreground sm:inline">
-            <span className="text-primary">@</span>dev
-          </span>*/}
-          {/*<span className="ml-1 inline-block h-[1em] w-[0.5ch] bg-primary align-middle cursor-blink" />*/}
+          <img
+            src="/logo-transparent.png"
+            alt="Parham Forati"
+            className="h-8 w-auto transition-transform group-hover:scale-105"
+          />
         </Link>
 
         <nav className="flex items-center gap-0.5 font-mono text-sm">
