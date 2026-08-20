@@ -38,7 +38,7 @@ export default function HeroSection() {
           </m.span>
         </h1>
 
-        <m.p variants={fadeUp} className="mt-6 font-mono text-base text-muted-foreground sm:text-lg">
+        <m.p variants={fadeUp} className="mt-6 font-pixel text-xl text-muted-foreground sm:text-2xl">
           Developer · Molecular Biologist · Tech Enthusiast
         </m.p>
 
@@ -54,21 +54,21 @@ export default function HeroSection() {
           <a
             href="/resume.pdf"
             download
-            className="inline-flex items-center gap-2 rounded-md border-2 border-primary bg-primary/10 px-4 py-2.5 font-mono text-sm font-bold text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[0_0_22px_-6px_var(--primary)]"
+            className="inline-flex items-center gap-2 rounded-md border-2 border-primary bg-primary/10 px-4 py-2.5 font-pixel text-xl font-bold text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-[0_0_22px_-6px_var(--primary)]"
           >
             <DownloadSimple className="h-4 w-4" />
             resume.pdf
           </a>
           <a
             href="mailto:parhamfdev@proton.me"
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-background/40 px-4 py-2.5 font-mono text-sm text-foreground backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background/40 px-4 py-2.5 font-pixel text-xl text-foreground backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
           >
             <Envelope className="h-4 w-4" />
             say hi
           </a>
-          <span className="ml-auto hidden items-center gap-2 font-mono text-xs text-muted-foreground sm:inline-flex">
+          <span className="ml-auto hidden items-center gap-2 font-pixel text-xl text-muted-foreground sm:inline-flex">
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary" aria-hidden />
-            open to work
+            busy at the moment
           </span>
         </m.div>
       </div>

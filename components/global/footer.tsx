@@ -102,7 +102,7 @@ export default function Footer() {
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 font-mono text-xs text-muted-foreground sm:flex-row">
           <span>© {currentYear} Parham Forati</span>
           <div className="flex items-center gap-5">
-            <span>built with next.js</span>
+            <span>built with love, coffee and help of AI</span>
             <button
               onClick={triggerEasterEgg}
               className="cursor-pointer opacity-40 transition-opacity hover:opacity-100"

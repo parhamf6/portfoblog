@@ -31,7 +31,7 @@ export default function BlogSection() {
             right={
               <Link
                 href="/blogs"
-                className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+                className="inline-flex items-center gap-2 font-pixel text-xl text-muted-foreground transition-colors hover:text-primary"
               >
                 all notes <ArrowRight className="h-4 w-4" />
               </Link>

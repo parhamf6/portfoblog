@@ -50,7 +50,7 @@ function Row({ project, index }: { project: Project; index: number }) {
           <span className="hidden sm:inline-flex">
             <StatusBadge status={project.status} />
           </span>
-          <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+          <ArrowUpRight className="h-4 w-4 shrink-0 font-pixel text-xl text-muted-foreground transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
         </div>
       </Link>
     </m.div>
@@ -71,7 +71,7 @@ export default function ProjectSection() {
             right={
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+                className="inline-flex items-center gap-2 font-pixel text-xl text-muted-foreground transition-colors hover:text-primary"
               >
                 view all <ArrowRight className="h-4 w-4" />
               </Link>
@@ -91,7 +91,7 @@ export default function ProjectSection() {
                 <p className="mt-4 max-w-2xl font-mono text-[15px] leading-relaxed text-muted-foreground">
                   {featured.description}
                 </p>
-                <div className="mt-6 flex flex-wrap gap-6 font-mono text-sm">
+                <div className="mt-6 flex flex-wrap gap-6 font-pixel text-xl">
                   <Link
                     href={`/projects/${featured.slug}`}
                     className="inline-flex items-center gap-1.5 transition-all hover:translate-x-0.5 hover:text-primary"

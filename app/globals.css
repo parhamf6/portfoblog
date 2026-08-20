@@ -39,10 +39,10 @@
   --sidebar-border: #e0d9c2;
   --sidebar-ring: #a35f12;
 
-  --font-display: var(--font-archivo), "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-space-mono), "Space Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-mono: var(--font-space-mono), "Space Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-pixel: var(--font-press-start), "Press Start 2P", monospace;
+  --font-display: var(--font-zilla_Slab), "instrument_Serif", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jetBrains_Mono), "Space Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-mono: var(--font-ibm), "Space Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-pixel: var(--font-vt323), "Press Start 2P", monospace;
   --font-serif: var(--font-press-start), "Press Start 2P", monospace;
   --radius: 0.375rem;
 }
